@@ -35,7 +35,6 @@ class User extends Model{
         type: DataType.BOOLEAN
     })
     declare confirmed:boolean
-
     
 }
 

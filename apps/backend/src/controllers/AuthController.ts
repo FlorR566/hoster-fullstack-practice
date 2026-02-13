@@ -30,6 +30,7 @@ export class AuthController {
 
             res.json('Cuenta creada Correctamente')
         } catch (error) {
+            //console.log(error)
             res.status(500).json({error: 'Hubo un Error'})
         }
 

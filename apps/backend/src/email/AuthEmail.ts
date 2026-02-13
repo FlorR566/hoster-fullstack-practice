@@ -9,11 +9,11 @@ type EmailType ={
 export class AuthEmail{
     static sendConfirmationEmail = async (user: EmailType) => {
         const email = await transport.sendMail({
-            from: 'CashTracker <admin@cashtracker.com',
+            from: 'Hoster <admin@hoster.com',
             to: user.email,
-            subject: 'CashTracker - confirma tu email',
+            subject: 'Hoster - confirma tu email',
             html:`
-                <p>Hola: ${user.name}, has creado tu cuenta en CashTracker </p>
+                <p>Hola: ${user.name}, has creado tu cuenta en Hoster </p>
                 <p> Visista el siguiente enlace:</p>
                 <a href="#"> Confirmar cuenta</a>
                 <p> e ingresa el codigo <b>${user.token}</b></p>
@@ -25,9 +25,9 @@ export class AuthEmail{
 
     static sendPasswordResetToken = async (user: EmailType) => {
         const email = await transport.sendMail({
-            from: 'CashTracker <admin@cashtracker.com',
+            from: 'Hoster <admin@hoster.com',
             to: user.email,
-            subject: 'CashTracker - Restablece tu Password',
+            subject: 'Hoster - Restablece tu Password',
             html:`
                 <p>Hola: ${user.name}, Has solicitado restablecer tu Password </p>
                 <p> Visista el siguiente enlace:</p>
