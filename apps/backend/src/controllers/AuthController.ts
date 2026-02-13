@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
-import { AuthEmail } from "../emails/AuthEmail"
+import { AuthEmail } from "../email/AuthEmail"
 import { generateJWT } from "../utils/jwt"
 
 export class AuthController {
