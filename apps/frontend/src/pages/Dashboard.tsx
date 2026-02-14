@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
             </svg>
           </div>
           <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-            NEXUS
+            Ceci - Flor - Ale
           </span>
         </div>
 
