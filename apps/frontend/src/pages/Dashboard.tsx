@@ -19,29 +19,30 @@ const Dashboard: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 grid-rows-2 gap-6 p-6">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-[3fr_2fr] grid-rows-2 gap-6 p-6">
 
-      {/* Bloque 1 */}
+      {/* Bloque 1 (60%) */}
       <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5] shadow-sm">
         <ActividadDiaria />
       </div>
 
-      {/* Bloque 2 */}
+      {/* Bloque 2 (40%) */}
       <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
         <h2 className="text-lg font-semibold mb-2">Mantenimiento</h2>
       </div>
 
-      {/* Bloque 3 */}
+      {/* Bloque 3 (60%) */}
       <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
-        <h2 className="text-lg font-semibold mb-2">Ultima actividad</h2>
+        <h2 className="text-lg font-semibold mb-2">Última actividad</h2>
       </div>
 
-      {/* Bloque 4 */}
+      {/* Bloque 4 (40%) */}
       <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
-        <h2 className="text-lg font-semibold mb-2"> Ocupacion</h2>
+        <h2 className="text-lg font-semibold mb-2">Ocupación</h2>
       </div>
 
     </div>
+
   );
 };
 

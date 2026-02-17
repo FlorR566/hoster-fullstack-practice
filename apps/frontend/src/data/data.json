@@ -2,8 +2,8 @@
     "actividadDiaria": [
         {
             "reservaId": 9203,
-            "estado": "Checkout",
-            "estadoDetalle": "completado",
+            "estado": "Check-out",
+            "estadoDetalle": "Completado",
             "cliente": {
                 "nombre": "Laura Perez"
             },
@@ -25,7 +25,7 @@
         {
             "reservaId": 8976,
             "estado": "Check-in",
-            "estadoDetalle": "pendiente",
+            "estadoDetalle": "Pendiente",
             "cliente": {
                 "nombre": "Martín García"
             },
@@ -47,7 +47,7 @@
         {
             "reservaId": 9312,
             "estado": "Check-in",
-            "estadoDetalle": "confirmado",
+            "estadoDetalle": "Confirmado",
             "cliente": {
                 "nombre": "Sofía Rodríguez"
             },
@@ -68,7 +68,7 @@
         },
         {
             "reservaId": 9458,
-            "estado": "Checkout",
+            "estado": "Check-out",
             "estadoDetalle": "pendiente",
             "cliente": {
                 "nombre": "Diego Fernández"
