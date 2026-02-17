@@ -3,6 +3,7 @@ import colors from 'colors'
 import morgan from 'morgan'
 import { db } from './config/db'
 import authRouter from './routes/authRouter'
+import currencyRouter from './routes/currencyRouter'
 
 async function connectDB() {
     try {
@@ -22,9 +23,9 @@ app.use(morgan('dev'))
 
 app.use(express.json())
 
-
 app.use('/api/auth', authRouter)
 
+app.use('/api/currency', currencyRouter)
 
 
 export default app
