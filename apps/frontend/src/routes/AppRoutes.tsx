@@ -28,9 +28,9 @@ export const AppRoutes: React.FC = () => {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
+          //        <ProtectedRoute>
+          <Dashboard />
+          //   </ProtectedRoute>
         }
       />
       <Route path="/" element={<Navigate to="/login" replace />} />
