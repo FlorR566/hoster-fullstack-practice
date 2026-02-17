@@ -25,32 +25,34 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 	};
 
 	return (
-		<div
-			className={`
-      relative bg-[#F8F9FA] rounded-2xl p-4 shadow-sm border-2 border-dashed border-gray-300
+		<div>
+			<div
+				className={`
+      relative bg-[#F8F9FA] rounded-2xl p-4 shadow-sm border-2 border-dashed border-gray-600
       border-l-8 ${typeBorder[type]} 
       flex flex-col justify-between h-48 w-full
     `}
-		>
-			{/* Capacidad y Badge de Estado */}
-			<div className="flex justify-between items-start">
-				<div className="flex gap-0.5">
-					{/* Renderiza iconos según capacidad */}
-					{[...Array(capacity)].map((_, i) => (
-						<User key={i} size={16} className="text-gray-600" />
-					))}
+			>
+				{/* Capacidad y Badge de Estado */}
+				<div className="flex justify-between items-start">
+					<div className="flex gap-0.5">
+						{/* Renderiza iconos según capacidad */}
+						{[...Array(capacity)].map((_, i) => (
+							<User key={i} size={20} className="text-gray-600" />
+						))}
+					</div>
+
+					<span
+						className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${statusStyles[status]}`}
+					>
+						{status === "limpieza" ? "En limpieza" : status}
+					</span>
 				</div>
 
-				<span
-					className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${statusStyles[status]}`}
-				>
-					{status === "limpieza" ? "En limpieza" : status}
-				</span>
-			</div>
-
-			{/* ID de Habitación */}
-			<div className="flex justify-center items-center flex-grow">
-				<h3 className="text-4xl font-bold text-[#050534]">{id}</h3>
+				{/* ID de Habitación */}
+				<div className="flex justify-center items-center flex-grow">
+					<h3 className="text-4xl font-bold text-[#050534]">{id}</h3>
+				</div>
 			</div>
 		</div>
 	);
