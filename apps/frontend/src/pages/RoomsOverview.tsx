@@ -23,8 +23,34 @@ const roomsData: RoomProps[] = [
 	{ id: "H18", type: "estandar", status: "disponible", capacity: 4 },
 ];
 
+const ROOM_TYPES_LEGEND = [
+	{ label: "Estándar", color: "bg-[#A5A6F6]" },
+	{ label: "Deluxe", color: "bg-[#3D3BF3]" },
+	{ label: "Presidencial", color: "bg-[#050534]" },
+];
+
+const STATUS_LEGEND = [
+	{ label: "Ocupado", color: "bg-[#FF4D4D]" },
+	{ label: "En limpieza", color: "bg-[#FFB347]" },
+	{ label: "Disponible", color: "bg-[#4CAF50]" },
+];
+
+const LegendItem = ({ color, label }: { color: string; label: string }) => (
+	<div className="flex items-center gap-2">
+		<span className={`w-4 h-4 rounded ${color}`}></span>
+		<span className="text-xs text-gray-600 font-medium">{label}</span>
+	</div>
+);
+
 const RoomsOverview: React.FC = () => {
 	const [activeTab, setActiveTab] = useState("habitaciones");
+
+	const LegendItem = ({ color, label }: { color: string; label: string }) => (
+		<div className="flex items-center gap-2 w-[180px]  ">
+			<span className={`w-8 h-8 rounded ${color}`}></span>
+			<span className="text-[23px] text-[#050534]">{label}</span>
+		</div>
+	);
 
 	return (
 		<div className="bg-[#F8F9FA] min-h-screen font-['Poppins']">
@@ -34,7 +60,7 @@ const RoomsOverview: React.FC = () => {
 					Unidades de Alojamiento
 				</h1>
 				{/* BOTON SWITCH */}
-				<div className="flex bg-[#E5E7EB] rounded-full  w-fit  overflow-hidden font-['Poppins'] text-[30px] ">
+				<div className="flex bg-[#E5E7EB] rounded-full  w-fit shadow-md  overflow-hidden font-['Poppins'] text-[30px] ">
 					<button
 						onClick={() => setActiveTab("habitaciones")}
 						className={`px-8 py-0.5 rounded-bl font-extralight transition-all uppercase ${
@@ -47,7 +73,7 @@ const RoomsOverview: React.FC = () => {
 					</button>
 					<button
 						onClick={() => setActiveTab("cabañas")}
-						className={`px-8 py-0.5 rounded-br  font-extralight transition-all uppercase ${
+						className={`px-8 py-0.5 rounded-br font-extralight transition-all uppercase ${
 							activeTab === "cabañas"
 								? "bg-[#050534] text-white "
 								: "text-[#050534]"
@@ -55,6 +81,23 @@ const RoomsOverview: React.FC = () => {
 					>
 						Cabañas
 					</button>
+				</div>
+
+				{/* LEYENDA */}
+				<div className="flex flex-col gap-y-4 pt-4 items-center ">
+					{/* Fila 1: Habitaciones */}
+					<div className="flex flex-wrap self-start gap-x-10 ">
+						{ROOM_TYPES_LEGEND.map((item) => (
+							<LegendItem key={item.label} {...item} />
+						))}
+					</div>
+
+					{/* Fila 2: Estados */}
+					<div className="flex flex-wrap self-start gap-x-10">
+						{STATUS_LEGEND.map((item) => (
+							<LegendItem key={item.label} {...item} />
+						))}
+					</div>
 				</div>
 			</div>
 
