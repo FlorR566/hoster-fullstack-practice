@@ -5,6 +5,7 @@ import PublicRoute from "./PublicRoute";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
+import NuevaReserva from "../components/reservas/NuevaReserva";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -31,6 +32,14 @@ export const AppRoutes: React.FC = () => {
           //        <ProtectedRoute>
           <Dashboard />
           //   </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reservas/nueva"
+        element={
+          // <ProtectedRoute>
+          <NuevaReserva />
+          // </ProtectedRoute>
         }
       />
       <Route path="/" element={<Navigate to="/login" replace />} />
