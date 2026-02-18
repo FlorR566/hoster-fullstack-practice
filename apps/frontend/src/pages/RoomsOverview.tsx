@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import RoomCard from "../components/roomsOverview/RoomCard";
-import { User } from "../types";
-import { useAuth } from "../hooks/useAuth";
 
 // Dentro de RoomsOverview.tsx
 const roomsData: RoomProps[] = [
@@ -26,21 +24,45 @@ const roomsData: RoomProps[] = [
 ];
 
 const RoomsOverview: React.FC = () => {
-	const { user, logout } = useAuth();
-
-	const demoUser: User = {
-		id: "demo-001",
-		name: "Invitado",
-		username: "demo",
-		avatar: "https://i.pravatar.cc/150?img=12",
-		email: "demo@gmail.com",
-	};
+	const [activeTab, setActiveTab] = useState("habitaciones");
 
 	return (
-		<div className="mx-auto max-w-[1400px] min-h-[900px] grid grid-cols-[repeat(auto-fill,250px)] gap-6 p-6 justify-center">
-			{roomsData.map((room) => (
-				<RoomCard key={room.id} {...room} />
-			))}
+		<div className="bg-[#F8F9FA] min-h-screen font-['Poppins']">
+			{/* HEADER: Título + Switch */}
+			<div className="flex flex-col items-center mx-auto max-w-[1400px] mb-10 space-y-6">
+				<h1 className="font-['Poppins'] font-medium text-[#050534] text-[35px] self-start pt-6 pl-6">
+					Unidades de Alojamiento
+				</h1>
+				{/* BOTON SWITCH */}
+				<div className="flex bg-[#E5E7EB] rounded-full  w-fit  overflow-hidden font-['Poppins'] text-[30px] ">
+					<button
+						onClick={() => setActiveTab("habitaciones")}
+						className={`px-8 py-0.5 rounded-bl font-extralight transition-all uppercase ${
+							activeTab === "habitaciones"
+								? "bg-[#050534] text-white "
+								: "text-[#050534]"
+						}`}
+					>
+						Habitaciones
+					</button>
+					<button
+						onClick={() => setActiveTab("cabañas")}
+						className={`px-8 py-0.5 rounded-br  font-extralight transition-all uppercase ${
+							activeTab === "cabañas"
+								? "bg-[#050534] text-white "
+								: "text-[#050534]"
+						}`}
+					>
+						Cabañas
+					</button>
+				</div>
+			</div>
+
+			<div className="mx-auto max-w-[1400px] min-h-[900px] grid grid-cols-[repeat(auto-fill,250px)] gap-6  justify-center">
+				{roomsData.map((room) => (
+					<RoomCard key={room.id} {...room} />
+				))}
+			</div>
 		</div>
 	);
 };
