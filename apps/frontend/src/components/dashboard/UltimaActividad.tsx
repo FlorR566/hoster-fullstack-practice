@@ -19,7 +19,12 @@ const UltimaActividad: React.FC = () => {
         if (activeTab === "Reservas") return items.filter((x) => x.tipo === "Nueva reserva");
         if (activeTab === "Check-In") return items.filter((x) => x.tipo === "Check-in");
         if (activeTab === "Check-Out") return items.filter((x) => x.tipo === "Check-out");
-        if (activeTab === "Servicios asignados") return items.filter((x) => (x.serviciosAdicionales ?? 0) > 0);
+        if (activeTab === "Servicios asignados")
+            return items.filter((x: any) =>
+                typeof x.serviciosAdicionales === "number"
+                    ? x.serviciosAdicionales > 0
+                    : x.serviciosAdicionales && Object.keys(x.serviciosAdicionales).length > 0
+            );
         return items;
     }, [items, activeTab]);
 

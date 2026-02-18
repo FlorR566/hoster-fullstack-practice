@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import ActividadDiaria from "../components/dashboard/ActividadDiaria";
 import UltimaActividad from "../components/dashboard/UltimaActividad";
 import DashboardActions from "../components/dashboard/DashboardActions";
+import Mantenimiento from "../components/dashboard/Mantenimiento";
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -40,7 +41,7 @@ const Dashboard: React.FC = () => {
 
         {/* Bloque 2 (40%) */}
         <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
-          <h2 className="text-lg font-semibold mb-2">Mantenimiento</h2>
+          <Mantenimiento />
         </div>
 
         {/* Bloque 3 (60%) */}

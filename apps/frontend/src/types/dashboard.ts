@@ -51,3 +51,12 @@ export interface DashboardData {
     items: any[];
   };
 }
+
+export type MaintenanceItem = {
+  id: string;
+  lugar: string;
+  tipo: "Limpieza" | "Mantenimiento" | string;
+  estado: string;
+  duracionEstimada: string;
+  responsable: string;
+};
