@@ -5,6 +5,7 @@ import { getAIGreeting } from "../services/service";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import ActividadDiaria from "../components/dashboard/ActividadDiaria";
+import UltimaActividad from "../components/dashboard/UltimaActividad";
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -32,8 +33,8 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Bloque 3 (60%) */}
-      <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
-        <h2 className="text-lg font-semibold mb-2">Última actividad</h2>
+      <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5] shadow-sm">
+        <UltimaActividad />
       </div>
 
       {/* Bloque 4 (40%) */}
