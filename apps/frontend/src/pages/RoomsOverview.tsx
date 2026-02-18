@@ -5,8 +5,8 @@ import { useAuth } from "../hooks/useAuth";
 
 // Dentro de RoomsOverview.tsx
 const roomsData: RoomProps[] = [
-	{ id: "H1", type: "presidencial", status: "ocupado", capacity: 4 },
-	{ id: "H2", type: "deluxe", status: "ocupado", capacity: 2 },
+	{ id: "H1", type: "presidencial", status: "ocupada", capacity: 4 },
+	{ id: "H2", type: "deluxe", status: "ocupada", capacity: 2 },
 	{ id: "H3", type: "deluxe", status: "limpieza", capacity: 4 },
 	{ id: "H4", type: "deluxe", status: "disponible", capacity: 4 },
 	{ id: "H5", type: "deluxe", status: "disponible", capacity: 4 },
@@ -37,7 +37,7 @@ const RoomsOverview: React.FC = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+		<div className="mx-auto max-w-[1400px] min-h-[900px] grid grid-cols-[repeat(auto-fill,250px)] gap-6 p-6 justify-center">
 			{roomsData.map((room) => (
 				<RoomCard key={room.id} {...room} />
 			))}

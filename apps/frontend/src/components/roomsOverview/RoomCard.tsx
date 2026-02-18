@@ -1,57 +1,74 @@
 import React from "react";
 import { User } from "lucide-react";
 
-// definiciones de las entradas para cada tarjeta
+const STATUS_STYLES = {
+	ocupada: "bg-red-300 text-gray-950 border-red-700",
+	limpieza: "bg-orange-200 text-gray-950 border-orange-400",
+	disponible: "bg-green-200 text-gray-950 border-green-700",
+};
+
+const TYPE_BORDER = {
+	estandar: "border-l-[#A5A6F6]",
+	deluxe: "border-l-[#3D3BF3]",
+	presidencial: "border-l-[#050534]",
+};
+
 interface RoomCardProps {
 	id: string;
-	type: "estandar" | "deluxe" | "presidencial";
-	status: "disponible" | "ocupado" | "limpieza";
+	type: keyof typeof TYPE_BORDER;
+	status: keyof typeof STATUS_STYLES;
 	capacity: number;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
-	// colores dinámicos según estado
-	const statusStyles = {
-		ocupado: "bg-red-200 text-red-700",
-		limpieza: "bg-orange-200 text-orange-700",
-		disponible: "bg-green-200 text-green-700",
-	};
-
-	// color borde lateral según tipo
-	const typeBorder = {
-		estandar: "border-l-[#A5A6F6]",
-		deluxe: "border-l-[#3D3BF3]",
-		presidencial: "border-l-[#050534]",
-	};
-
 	return (
-		<div>
+		<div className="group">
+			{" "}
+			{/* Contenedor padre opcional para efectos */}
 			<div
-				className={`
-      relative bg-[#F8F9FA] rounded-2xl p-4 shadow-sm border-2 border-dashed border-gray-600
-      border-l-8 ${typeBorder[type]} 
-      flex flex-col justify-between h-48 w-full
-    `}
+				className={`relative bg-[#F5F5F5] rounded-2xl p-4 h-48 w-full  min-h-[250px] flex flex-col justify-between border-l-[6px] ${TYPE_BORDER[type]}`}
 			>
-				{/* Capacidad y Badge de Estado */}
-				<div className="flex justify-between items-start">
-					<div className="flex gap-0.5">
-						{/* Renderiza iconos según capacidad */}
-						{[...Array(capacity)].map((_, i) => (
-							<User key={i} size={20} className="text-gray-600" />
-						))}
+				{/* SVG de Borde Punteado */}
+				<svg
+					className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+					preserveAspectRatio="none"
+				>
+					<rect
+						x="-6"
+						y="1"
+						width="calc(100% + 5px)"
+						height="calc(100% - 2px)"
+						rx="16"
+						fill="none"
+						stroke="#374151"
+						strokeWidth="2"
+						strokeDasharray="10, 10"
+						className="shape-rendering-crispEdges"
+					/>
+				</svg>
+
+				<div className="relative z-10 h-full flex flex-col justify-between">
+					{/* Header: Iconos y Badge */}
+					<div className="flex flex-col justify-between items-start gap-2">
+						<div className="flex gap-0.5">
+							{Array.from({ length: capacity }).map((_, i) => (
+								<User key={i} size={23} className="text-gray-900" />
+							))}
+						</div>
+
+						<span
+							className={`font-['Poppins'] text-[14px] px-2 py-0.5 rounded-full uppercase border ${STATUS_STYLES[status]}`}
+						>
+							{status === "limpieza" ? "En limpieza" : status}
+						</span>
 					</div>
 
-					<span
-						className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${statusStyles[status]}`}
-					>
-						{status === "limpieza" ? "En limpieza" : status}
-					</span>
-				</div>
-
-				{/* ID de Habitación */}
-				<div className="flex justify-center items-center flex-grow">
-					<h3 className="text-4xl font-bold text-[#050534]">{id}</h3>
+					{/* Body: ID de Habitación */}
+					<div className="flex justify-center items-center flex-grow">
+						<h3 className="font-['Poppins'] font-bold text-[#050534] text-[40px]">
+							{id}
+						</h3>
+					</div>
 				</div>
 			</div>
 		</div>
