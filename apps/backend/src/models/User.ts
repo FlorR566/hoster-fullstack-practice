@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey} from 'sequelize-typescript'
+import Reserve from './Reserve'
 
 @Table({
     tableName: 'users'
@@ -35,6 +36,11 @@ class User extends Model{
     })
     declare confirmed:boolean
     
+    @ForeignKey(() => Reserve)
+    declare reserveId: number;
+
+    @BelongsTo(() => Reserve)
+    declare reserve: Reserve;
 }
 
 export default User

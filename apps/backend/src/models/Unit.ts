@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, ForeignKey} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo} from 'sequelize-typescript'
 import Reserve from './Reserve'
 
 @Table({
@@ -17,12 +17,6 @@ class Unit extends Model{
     @Column({
         type: DataType.INTEGER
     })
-    declare amount:number
-
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER
-    })
     declare capacity:number
 
     @AllowNull(false)
@@ -33,12 +27,15 @@ class Unit extends Model{
 
     @AllowNull(false)
     @Column({
-        type: DataType.FLOAT
+        type: DataType.DECIMAL(10, 2)
     })
     declare price:number
 
     @ForeignKey(() => Reserve)
     declare reserveId: number;
+
+    @BelongsTo(() => Reserve)
+    declare reserve: Reserve;
 }
 
 export default Unit

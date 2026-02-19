@@ -1,4 +1,5 @@
 import { Table, Column, Model, DataType, AllowNull, ForeignKey,BelongsTo } from 'sequelize-typescript'
+import Reserve from './Reserve';
 
 @Table({ 
     tableName: 'guests' 
@@ -37,6 +38,13 @@ declare email: string;
 @Column({
     type: DataType.STRING(30)
 }) 
-declare phone: string; }
+declare phone: string; 
+
+    @ForeignKey(() => Reserve)
+    declare reserveId: number;
+
+    @BelongsTo(() => Reserve)
+    declare reserve: Reserve;
+}
 
 export default Guest;

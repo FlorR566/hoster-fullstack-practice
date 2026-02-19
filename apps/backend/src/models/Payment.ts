@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo,ForeignKey} from 'sequelize-typescript'
 import Method from './Method'
+import Currency from './Currency'
 
 @Table({
   tableName: "payments"
@@ -13,18 +14,18 @@ class Payment extends Model {
   declare date: Date
 
   @Column({
-    type: DataType.DECIMAL
+    type: DataType.DECIMAL(10, 2)
   })
   declare partialAmount: number
 
   @AllowNull(false)
   @Column({
-    type: DataType.DECIMAL
+    type: DataType.DECIMAL(10, 2)
   })
   declare totalAmount: number
 
   @Column({
-    type: DataType.DECIMAL
+    type: DataType.DECIMAL(10, 2)
   })
   declare outstandingAmount: number
 
@@ -33,7 +34,13 @@ class Payment extends Model {
     onUpdate: 'CASCADE'
   })
   methods: Method[]
-  
+
+  @HasMany(() => Currency, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  currencies: Currency[]
+
 }
 
 export default Payment;

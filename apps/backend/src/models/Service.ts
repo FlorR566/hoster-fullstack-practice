@@ -1,4 +1,5 @@
 import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import Currency from './Currency'
 
 
 @Table({
@@ -26,13 +27,13 @@ class Service extends Model{
 
     @AllowNull(false)
     @Column({
-        type: DataType.FLOAT
+        type: DataType.DECIMAL(10, 2)
     })
     declare price:number
 
     @AllowNull(false)
     @Column({
-        type: DataType.FLOAT
+        type: DataType.DECIMAL(10, 2)
     })
     declare total:number
 
@@ -47,7 +48,13 @@ class Service extends Model{
         type: DataType.STRING(60)
     })
     declare observations:string
-    
+
+    @HasMany(() => Currency, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    currencies: Currency[]
+
 }
 
 export default Service

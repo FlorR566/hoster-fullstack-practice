@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, AllowNull } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, BelongsTo, ForeignKey } from 'sequelize-typescript'
+import Reserve from './Reserve';
 
 @Table({ 
     tableName: 'origins'
@@ -10,6 +11,12 @@ class Origin extends Model {
     type: DataType.STRING(50)
 })
 declare description:string; 
+
+@ForeignKey(() => Reserve)
+declare reserveId: number;
+
+@BelongsTo(() => Reserve)
+declare reserve: Reserve;
 }
 
 export default Origin;
