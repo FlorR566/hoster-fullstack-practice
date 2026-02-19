@@ -1,6 +1,5 @@
 import React from "react";
 import { UserCheck, UserMinus, User, Users, Banknote, ClockArrowUp, MoreVertical, BedDouble, HandPlatter, CalendarArrowDown, CalendarArrowUp, Car } from "lucide-react";
-import type { ActividadDiariaItem } from "../../types/dashboard";
 
 const CardActividadDiaria: React.FC<{ item: any }> = ({ item }) => {
 
@@ -13,7 +12,7 @@ const CardActividadDiaria: React.FC<{ item: any }> = ({ item }) => {
 
     return (
         <div className="border-b border-[#D4D4D4] py-3">
-            <div className="grid grid-cols-[38px_1.2fr_1.4fr_1.3fr_32px] gap-3 font-poppins">
+            <div className="grid grid-cols-[38px_1.2fr_1.4fr_1.4fr_32px] gap-3 font-poppins">
                 <div className="flex justify-start items-start pt-1">
                     <div className="w-10 h-10 rounded-full bg-[#E5E5E5] flex items-center justify-center">
                         {isCheckIn ? (

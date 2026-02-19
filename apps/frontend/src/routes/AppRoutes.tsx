@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import RoomsOverview from "../pages/RoomsOverview";
+import AppLayout from "../components/layout/AppLayout";
 
 export const AppRoutes: React.FC = () => {
 	return (
@@ -26,23 +27,11 @@ export const AppRoutes: React.FC = () => {
 					</PublicRoute>
 				}
 			/>
-			<Route
-				path="/dashboard"
-				element={
-					//        <ProtectedRoute>
-					<Dashboard />
-					//   </ProtectedRoute>
-				}
-			/>
-			<Route
-				path="/roomsOverview"
-				element={
-					//        <ProtectedRoute>
-					<RoomsOverview />
-					//   </ProtectedRoute>
-				}
-			/>
 
+			<Route element={<AppLayout />}>
+				<Route path="/dashboard" element={<Dashboard />} />
+				<Route path="/roomsOverview" element={<RoomsOverview />} />
+			</Route>
 			<Route path="/" element={<Navigate to="/login" replace />} />
 		</Routes>
 	);

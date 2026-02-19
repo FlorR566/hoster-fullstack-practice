@@ -134,6 +134,34 @@
                 "llegada": "27/01/2026",
                 "salida": "02/02/2026"
             }
+        },
+        {
+            "reservaId": 8476,
+            "tipo": "Cancelación",
+            "cliente": "Laura García",
+            "personas": 2,
+            "pago": "Devuelto",
+            "hora": "13.00",
+            "cabana": "01",
+            "serviciosAdicionales": 0,
+            "parking": false,
+            "fechas": {
+                "llegada": "27/02/2026",
+                "salida": "02/03/2026"
+            }
+        },
+        {
+            "reservaId": 8544,
+            "tipo": "Servicio asignado",
+            "cliente": "Laura García",
+            "personas": 2,
+            "hora": "10.00",
+            "cabana": "02",
+            "serviciosAdicionales": {
+                "desayuno": true
+            },
+            "parking": false,
+            "fecha": "02/02/2026"
         }
     ],
     "mantenimiento": {
