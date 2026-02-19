@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, AllowNull } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, BelongsTo, ForeignKey } from 'sequelize-typescript'
+import Payment from './Payment';
 
 @Table({ 
     tableName: 'methods'
@@ -15,6 +16,14 @@ declare name: string;
 @Column({
     type: DataType.STRING(100)
 }) 
-declare description: string; }
+declare description: string; 
+
+@ForeignKey(() => Payment)
+declare paymentId: number;
+
+@BelongsTo(() => Payment)
+declare payment: Payment;
+
+}
 
 export default Method;
