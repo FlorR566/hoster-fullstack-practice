@@ -6,9 +6,9 @@ import type { DashboardData, ActividadDiariaItem } from "../../types/dashboard";
 
 const ActividadDiaria: React.FC = () => {
   const tabs = ["Vista global", "Check-In", "Check-Out"] as const
-   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Vista global")
+  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Vista global")
 
-   const data = dataJson as unknown as DashboardData;
+  const data = dataJson as unknown as DashboardData;
   const items: ActividadDiariaItem[] = data?.actividadDiaria ?? [];
 
   const filtered = useMemo(() => {
@@ -19,7 +19,7 @@ const ActividadDiaria: React.FC = () => {
   }, [activeTab, items]);
 
   return (
-    <div className="bg-[#F5F5F5] rounded-xl p-1 h-full">
+    <div className="bg-[var(--card)] rounded-xl p-1 h-full">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-2">

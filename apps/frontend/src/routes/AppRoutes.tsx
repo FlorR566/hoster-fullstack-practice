@@ -6,10 +6,13 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import NuevaReserva from "../components/reservas/NuevaReserva";
+import RoomsOverview from "../pages/RoomsOverview"; // Asegúrate que el archivo existe en src/pages/
+import AppLayout from "../components/layout/AppLayout"; // Asegúrate que el archivo existe en src/components/layout/
 
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      {/* Rutas Públicas */}
       <Route
         path="/login"
         element={
@@ -26,22 +29,15 @@ export const AppRoutes: React.FC = () => {
           </PublicRoute>
         }
       />
-      <Route
-        path="/dashboard"
-        element={
-          //        <ProtectedRoute>
-          <Dashboard />
-          //   </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/reservas/nueva"
-        element={
-          // <ProtectedRoute>
-          <NuevaReserva />
-          // </ProtectedRoute>
-        }
-      />
+
+      {/* Rutas con Layout (Protegidas o con barra lateral/header) */}
+      <Route element={<AppLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/reservas/nueva" element={<NuevaReserva />} />
+        <Route path="/roomsOverview" element={<RoomsOverview />} />
+      </Route>
+
+      {/* Redirección por defecto */}
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
   );
