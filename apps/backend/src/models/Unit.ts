@@ -1,5 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from "sequelize-typescript";
-
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
 
 @Table({
     tableName: 'units'
@@ -36,13 +35,6 @@ class Unit extends Model{
         type: DataType.FLOAT
     })
     declare price:number
-
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER
-    })
-    declare currencyId:number
-    
 }
 
 export default Unit

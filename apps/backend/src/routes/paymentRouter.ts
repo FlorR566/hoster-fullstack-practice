@@ -5,6 +5,9 @@ import { handleInputErrors } from "../middleware/validation";
 
 const router = Router()
 
+
+// Rutas para Currency
+
 router.get('/getAll-currency',
     CurrencyController.getAllCurrency
 )
@@ -37,6 +40,33 @@ router.delete('/delete-currency/:id',
         .isInt().withMessage('ID debe ser un numero entero'),
     handleInputErrors,
     CurrencyController.deleteCurrencyById
+)
+
+// Rutas para Payment
+
+router.post('/create-payment',
+)
+router.get('/get-payment',
+)
+
+router.get('/get-payment/:id',
+)
+
+router.put('/update-payment/:id',
+)
+router.delete('/delete-payment/:id',
+)
+
+// Rutas para Method
+router.post('/create-method',
+)
+router.get('/get-method',
+)
+router.get('/get-method/:id',
+)
+router.put('/update-method/:id',
+)
+router.delete('/delete-method/:id',
 )
 
 export default router

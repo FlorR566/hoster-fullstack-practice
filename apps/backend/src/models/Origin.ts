@@ -6,7 +6,9 @@ import { Table, Column, Model, DataType, AllowNull } from 'sequelize-typescript'
 class Origin extends Model {
 
 @AllowNull(false) 
-@Column(DataType.STRING(50)) 
+@Column({
+    type: DataType.STRING(50)
+})
 declare description:string; 
 }
 

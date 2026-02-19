@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from "sequelize-typescript";
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
 
 
 @Table({
@@ -47,12 +47,6 @@ class Service extends Model{
         type: DataType.STRING(60)
     })
     declare observations:string
-
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER
-    })
-    declare currencyId:number
     
 }
 

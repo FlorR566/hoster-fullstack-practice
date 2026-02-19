@@ -1,7 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo,ForeignKey} from "sequelize-typescript";
-
-// import MedioPago from "./MedioPago";
-// import Moneda from "./Moneda";
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo,ForeignKey} from 'sequelize-typescript'
 
 @Table({
   tableName: "payments"
@@ -9,32 +6,26 @@ import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, Be
 class Payment extends Model {
 
   @AllowNull(false)
-  @Column(DataType.DATE)
-  declare date: Date;
+  @Column({
+    type: DataType.DATE
+  })
+  declare date: Date
 
-  @Column(DataType.FLOAT)
-  declare partialAmount: number;
+  @Column({
+    type: DataType.DECIMAL
+  })
+  declare partialAmount: number
 
   @AllowNull(false)
-  @Column(DataType.FLOAT)
-  declare totalAmount: number;
+  @Column({
+    type: DataType.DECIMAL
+  })
+  declare totalAmount: number
 
-  @Column(DataType.FLOAT)
-  declare outstandingAmount: number;
-
-  // @ForeignKey(() => MedioPago)
-  // @Column(DataType.INTEGER)
-  // declare medioPagoId: number;
-
-  // @BelongsTo(() => MedioPago)
-  // medioPago!: MedioPago;
-
-  // @ForeignKey(() => Moneda)
-  // @Column(DataType.INTEGER)
-  // declare monedaId: number;
-
-  // @BelongsTo(() => Moneda)
-  // moneda!: Moneda;
+  @Column({
+    type: DataType.DECIMAL
+  })
+  declare outstandingAmount: number
 }
 
 export default Payment;
