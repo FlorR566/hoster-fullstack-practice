@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, ForeignKey} from 'sequelize-typescript'
+import Reserve from './Reserve'
 
 @Table({
     tableName: 'units'
@@ -35,6 +36,9 @@ class Unit extends Model{
         type: DataType.FLOAT
     })
     declare price:number
+
+    @ForeignKey(() => Reserve)
+    declare reserveId: number;
 }
 
 export default Unit

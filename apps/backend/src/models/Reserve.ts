@@ -1,4 +1,5 @@
 import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import Unit from './Unit'
 
 @Table({
     tableName: 'reserves'
@@ -6,7 +7,7 @@ import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} fr
 class Reserve extends Model{
 
     @Column({
-        type: DataType.DECIMAL(10, 2)
+        type: DataType.INTEGER
     })
     declare night: number
 
@@ -48,7 +49,9 @@ class Reserve extends Model{
     @Column({
         type: DataType.STRING(20)
     })
-    declare observation: string
-
+    declare observation: string  
+  
+//    @HasMany(() => Unit)
+//   declare units: Unit[];
 }
 export default Reserve
