@@ -20,7 +20,7 @@ const Mantenimiento: React.FC = () => {
   }, [items, activeTab]);
 
     return (
-        <div className="bg-[#F5F5F5] rounded-xl p-1 h-full">
+        <div className="bg-[var(--card)] rounded-xl p-1 h-full">
 
             {/* Header */}
             <div className="flex items-center justify-between mb-2">

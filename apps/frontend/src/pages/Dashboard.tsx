@@ -35,22 +35,22 @@ const Dashboard: React.FC = () => {
 
       <div className="min-h-screen grid grid-cols-1 md:grid-cols-[3fr_2fr] grid-rows-2 gap-6 p-6">
         {/* Bloque 1 (60%) */}
-        <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5] shadow-sm">
+        <div className="border border-slate-200 rounded-xl p-4 bg-[var(--card)] shadow-sm">
           <ActividadDiaria />
         </div>
 
         {/* Bloque 2 (40%) */}
-        <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
+        <div className="border border-slate-200 rounded-xl p-4 bg-[var(--card)] shadow-sm">
           <Mantenimiento />
         </div>
 
         {/* Bloque 3 (60%) */}
-        <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5] shadow-sm">
+        <div className="border border-slate-200 rounded-xl p-4 bg-[var(--card)] shadow-sm">
           <UltimaActividad />
         </div>
 
         {/* Bloque 4 (40%) */}
-        <div className="border border-slate-200 rounded-xl p-4 bg-[#F5F5F5]">
+        <div className="border border-slate-200 rounded-xl p-4 bg-[var(--card)] shadow-sm">
           <h2 className="text-lg font-semibold mb-2">Ocupación</h2>
         </div>
       </div>
