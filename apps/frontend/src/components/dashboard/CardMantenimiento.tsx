@@ -8,7 +8,6 @@ const CardMantenimiento: React.FC<Props> = ({ item }) => {
   const isHabitacion = item.lugar.toLowerCase().includes("habitación");
   const isLimpieza = item.tipo === "Limpieza";
 
-  console.log(item)
   return (
     <div className="border-b border-[#D4D4D4] py-3">
       <div className="grid grid-cols-[48px_2.1fr_2.1fr_28px] gap-3 font-poppins items-start">

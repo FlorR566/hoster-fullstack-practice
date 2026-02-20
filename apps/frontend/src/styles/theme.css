@@ -27,7 +27,7 @@
 /* Tema DARK */
 .dark {
     --light-text: #F7F7FF;
-    --light-bg: #020617;
+    --light-bg: #020617; 
     --light-card: #0F172A;
     /*utilizada para los botones*/
     --light-main: #2D2B9A;

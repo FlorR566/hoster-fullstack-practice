@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
   return (
 
     <div className="min-h-screen p-6">
-      <h1 className="font-poppins font-medium text-[35px] text-[#050534] px-6 pb-2">
+      <h1 className="font-poppins font-medium text-[35px] text-[var(--light-text)] px-6 pb-2">
         Hotel Los Álamos
       </h1>
 
