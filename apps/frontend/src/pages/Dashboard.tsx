@@ -6,8 +6,8 @@ import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import ActividadDiaria from "../components/dashboard/ActividadDiaria";
 import UltimaActividad from "../components/dashboard/UltimaActividad";
-import DashboardActions from "../components/dashboard/DashboardActions";
 import Mantenimiento from "../components/dashboard/Mantenimiento";
+import AccionesRapidas from "../components/dashboard/AccionesRapidas";
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -29,8 +29,8 @@ const Dashboard: React.FC = () => {
       </h1>
 
       {/* Botones */}
-      <div className="mb-4">
-        <DashboardActions />
+      <div className="p-6">
+        <AccionesRapidas/>
       </div>
 
       <div className="min-h-screen grid grid-cols-1 md:grid-cols-[3fr_2fr] grid-rows-2 gap-6 p-6">
