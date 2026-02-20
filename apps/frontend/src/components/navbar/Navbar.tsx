@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { House, Hotel, FileText, LogOut, ChevronLeft } from "lucide-react";
+import { House, Hotel, FileText, LogOut, ChevronLeft, Sun, Moon } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const baseBtn = "flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
@@ -96,8 +96,26 @@ const Navbar: React.FC = () => {
                 </NavLink>
             </nav>
 
+            {/* Tema (Sol / Luna) */}
+            <div className="mt-auto px-3">
+                <button
+                    className={`${baseBtn} text-[var(--light-text)] hover:bg-black/5`}
+                    title="Cambiar tema"
+                >
+                    <div className={iconWrapper}>
+                        <Sun size={22} />
+                    </div>
+
+                    {isOpen && (
+                        <div className="ml-auto mr-2">
+                            <Moon size={20} />
+                        </div>
+                    )}
+                </button>
+            </div>
+
             {/* Logout */}
-            <div className="mt-auto px-3 mb-3">
+            <div className="px-3 mb-3">
                 <button
                     onClick={handleLogout}
                     className={`${baseBtn} text-[var(--light-text)] hover:text-red-600 hover:bg-red-500/10`}
