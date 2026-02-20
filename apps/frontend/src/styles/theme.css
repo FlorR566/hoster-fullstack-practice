@@ -21,6 +21,7 @@
     --light-status-completed: #16BC00;
     /*utilizado para status ocupado y no disponible*/
     --light-status-ocupied: #AC0C0C;
+    --icono-navbar-selected: #F7F7FF;
 }
 
 /* Tema DARK */
