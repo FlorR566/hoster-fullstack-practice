@@ -11,11 +11,12 @@ type Props = {
 };
 
 const base =
-    "inline-flex items-center gap-2 px-4 py-2 font-poppins text-sm font-medium transition " +
-    "h-[50px] px-4 font-poppins text-[16px] font-normal " +
-    "rounded-full bg-[#D4D4D4] text-[#050534] " +
-    "hover:bg-[#cfcfcf] " +
-    "focus:outline-none focus:ring-2 focus:ring-[#050534]/30";
+  "inline-flex items-center gap-2 px-4 py-2 " +
+  "h-[50px] font-poppins text-[16px] font-normal " +
+  "rounded-full bg-[var(--light-main)] text-[var(--light-text)] " +
+  "transition " +
+  "hover:brightness-95 " +
+  "focus:outline-none focus:ring-2 focus:ring-[var(--light-text)]/30";
 
 const NavActionButton: React.FC<Props> = ({
     to,

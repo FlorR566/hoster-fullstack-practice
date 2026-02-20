@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, ArrowUpRight } from "lucide-react";
 import CardActividadDiaria from "./CardActividadDiaria";
 import dataJson from "../../data/data.json"
 import type { DashboardData, ActividadDiariaItem } from "../../types/dashboard";
@@ -19,24 +19,31 @@ const ActividadDiaria: React.FC = () => {
   }, [activeTab, items]);
 
   return (
-    <div className="bg-[var(--card)] rounded-xl p-1 h-full">
+    <div className="bg-[var(--light-card)] rounded-xl p-1 h-full">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <h2
-          className="font-poppins font-medium text-[20px]"
-          style={{ color: "#050534" }}
+          className="font-poppins font-medium text-[20px] text-[var(--light-text)]"
         >
           Actividad diaria
+
+          <button
+            type="button"
+            title="Actualizar"
+            className="ml-3 p-1 bg-[var(--light-main)] rounded-md"
+            onClick={() => { console.log("refresh actividad diaria") }}
+          >
+            <RefreshCcw size={16} />
+          </button>
         </h2>
 
         <button
           type="button"
-          className="flex items-center gap-2 font-poppins font-medium text-[16px]"
-          style={{ color: "#050534" }}
+          className="flex items-center gap-2 font-poppins font-medium text-[16px] text-[var(--light-text)]"
         >
-          <RefreshCcw size={16} />
-          Actualizar
+          <ArrowUpRight size={16} />
+          Ver más
         </button>
       </div>
 
