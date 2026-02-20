@@ -20,23 +20,24 @@ class Currency extends Model{
     })
     declare symbol:string
 
-    @ForeignKey(() => Payment)
-    declare paymentId: number;
-
-    @BelongsTo(() => Payment)
-    declare payment: Payment;
-
-    @ForeignKey(() => Service)
-    declare serviceId: number;
-
-    @BelongsTo(() => Service)
-    declare service: Service;
-
-    @ForeignKey(() => Reserve)
-    declare reserveId: number;
-
-    @BelongsTo(() => Reserve)
-    declare reserve: Reserve;
+    @HasMany(() => Payment, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+    })
+    payments: Payment[]
+    
+    @HasMany(() => Service, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    services: Service[]
+    
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    reserves: Reserve[]
+    
 }
 
 export default Currency

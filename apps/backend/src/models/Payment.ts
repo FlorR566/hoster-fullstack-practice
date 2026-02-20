@@ -29,18 +29,17 @@ class Payment extends Model {
   })
   declare outstandingAmount: number
 
-  @HasMany(() => Method, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  methods: Method[]
+  @ForeignKey(() => Method)
+  declare methodId: number;
 
-  @HasMany(() => Currency, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  currencies: Currency[]
+  @BelongsTo(() => Method)
+  declare method: Method;
 
+  @ForeignKey(() => Currency)
+  declare currencyId: number;
+
+  @BelongsTo(() => Currency)
+  declare currency: Currency;
 }
 
 export default Payment;

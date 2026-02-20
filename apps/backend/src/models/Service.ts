@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey} from 'sequelize-typescript'
 import Currency from './Currency'
 
 
@@ -49,12 +49,11 @@ class Service extends Model{
     })
     declare observations:string
 
-    @HasMany(() => Currency, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    currencies: Currency[]
+    @ForeignKey(() => Currency)
+    declare currencyId: number;
 
+    @BelongsTo(() => Currency)
+    declare currency: Currency;
 }
 
 export default Service

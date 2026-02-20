@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey} from 'sequelize-typescript'
 import Unit from './Unit'
 import Currency from './Currency'
 import Guest from './Guest'
@@ -55,35 +55,40 @@ class Reserve extends Model{
     })
     declare observation: string  
   
-    @HasMany(() => Currency, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    currencies: Currency[]
+    @ForeignKey(() => Currency)
+    declare currencyId: number;
 
-    @HasMany(() => Guest, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    guests: Guest[]
+    @BelongsTo(() => Currency)
+    declare currency: Currency;
+    
+    @ForeignKey(() => Guest)
+    declare guestId: number;
 
-    @HasMany(() => Origin, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    origins: Origin[]
+    @BelongsTo(() => Guest)
+    declare guest: Guest;
 
-    @HasMany(() => User, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    users: User[]
+    @ForeignKey(() => Origin)
+    declare originId: number;
 
-    @HasMany(() => Unit, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
-    units: Unit[]
+    @BelongsTo(() => Origin)
+    declare origin: Origin;
 
+    @ForeignKey(() => Reserve)
+    declare reserveId: number;
+
+    @BelongsTo(() => Reserve)
+    declare reserve: Reserve;
+
+    @ForeignKey(() => User)
+    declare userId: number;
+
+    @BelongsTo(() => User)
+    declare user: User;
+
+    @ForeignKey(() => Unit)
+    declare unitId: number;
+
+    @BelongsTo(() => Unit)
+    declare unit: Unit;
 }
 export default Reserve

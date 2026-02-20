@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, BelongsTo, ForeignKey } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript'
 import Reserve from './Reserve';
 
 @Table({ 
@@ -6,17 +6,17 @@ import Reserve from './Reserve';
 }) 
 class Origin extends Model {
 
-@AllowNull(false) 
-@Column({
-    type: DataType.STRING(50)
-})
-declare description:string; 
+    @AllowNull(false) 
+    @Column({
+        type: DataType.STRING(50)
+    })
+    declare description:string; 
 
-@ForeignKey(() => Reserve)
-declare reserveId: number;
-
-@BelongsTo(() => Reserve)
-declare reserve: Reserve;
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    reserves: Reserve[]
 }
 
 export default Origin;

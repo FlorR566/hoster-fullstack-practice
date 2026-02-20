@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo, HasMany} from 'sequelize-typescript'
 import Reserve from './Reserve'
 
 @Table({
@@ -31,11 +31,11 @@ class Unit extends Model{
     })
     declare price:number
 
-    @ForeignKey(() => Reserve)
-    declare reserveId: number;
-
-    @BelongsTo(() => Reserve)
-    declare reserve: Reserve;
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    reserves: Reserve[]
 }
 
 export default Unit

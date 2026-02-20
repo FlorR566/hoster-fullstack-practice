@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, ForeignKey,BelongsTo } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AllowNull, ForeignKey,BelongsTo, HasMany } from 'sequelize-typescript'
 import Reserve from './Reserve';
 
 @Table({ 
@@ -6,45 +6,46 @@ import Reserve from './Reserve';
 }) 
 class Guest extends Model {
 
-@AllowNull(false) 
-@Column({
-   type: DataType.STRING(80)
-})
-declare name: string;
-
-@AllowNull(false) 
-@Column({
-    type: DataType.STRING(30)
-}) 
-declare numberDocument: string;
-
-@AllowNull(false) 
-@Column({
-    type: DataType.STRING(30)
-}) 
-declare typeDocument: string;
-
-@AllowNull(false) 
-@Column({
-    type: DataType.STRING(30)
-}) 
-declare country: string;
-
-@Column({
+    @AllowNull(false) 
+    @Column({
     type: DataType.STRING(80)
-}) 
-declare email: string;
+    })
+    declare name: string;
 
-@Column({
-    type: DataType.STRING(30)
-}) 
-declare phone: string; 
+    @AllowNull(false) 
+    @Column({
+        type: DataType.STRING(30)
+    }) 
+    declare numberDocument: string;
 
-    @ForeignKey(() => Reserve)
-    declare reserveId: number;
+    @AllowNull(false) 
+    @Column({
+        type: DataType.STRING(30)
+    }) 
+    declare typeDocument: string;
 
-    @BelongsTo(() => Reserve)
-    declare reserve: Reserve;
+    @AllowNull(false) 
+    @Column({
+        type: DataType.STRING(30)
+    }) 
+    declare country: string;
+
+    @Column({
+        type: DataType.STRING(80)
+    }) 
+    declare email: string;
+
+    @Column({
+        type: DataType.STRING(30)
+    }) 
+    declare phone: string; 
+
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    reserves: Reserve[]
+    
 }
 
 export default Guest;

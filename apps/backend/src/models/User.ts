@@ -36,11 +36,11 @@ class User extends Model{
     })
     declare confirmed:boolean
     
-    @ForeignKey(() => Reserve)
-    declare reserveId: number;
-
-    @BelongsTo(() => Reserve)
-    declare reserve: Reserve;
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    reserves: Reserve[]
 }
 
 export default User
