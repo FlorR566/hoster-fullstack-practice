@@ -8,7 +8,7 @@ const DashboardActions: React.FC = () => {
             {/* Fila 1 */}
             <div className="flex flex-wrap gap-2">
                 <NavActionButton
-                    to="/"
+                    to="/reservas/nueva"
                     label="Nueva reserva"
                     icon={<Plus size={16} />}
                 />
