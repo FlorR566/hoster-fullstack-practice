@@ -39,7 +39,7 @@ button {
 /* Scroll sutil estilo dashboard */
 .scroll-sutil {
   scrollbar-width: thin;
-  scrollbar-color: #d4d4d4 transparent;
+  scrollbar-color: #050534 transparent;
 }
 
 .scroll-sutil::-webkit-scrollbar {

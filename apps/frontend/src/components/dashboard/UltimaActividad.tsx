@@ -51,7 +51,7 @@ const UltimaActividad: React.FC = () => {
             </div>
 
             {/* Mini barra */}
-            <div className="flex bg-[#D4D4D4] rounded-lg mb-2">
+            <div className="flex bg-[var(--light-main2)] mb-2">
                 {tabs.map((label) => (
                     <button
                         key={label}

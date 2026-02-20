@@ -69,7 +69,7 @@
         {
             "reservaId": 9458,
             "estado": "Check-out",
-            "estadoDetalle": "pendiente",
+            "estadoDetalle": "Pendiente",
             "cliente": {
                 "nombre": "Diego Fernández"
             },
