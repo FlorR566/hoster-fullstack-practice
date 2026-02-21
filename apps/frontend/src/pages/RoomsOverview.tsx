@@ -32,76 +32,73 @@ const roomsData: RoomProps[] = [
 ];
 
 const ROOM_TYPES_LEGEND = [
-	{ label: "Estándar", color: "bg-[#A5A6F6]" },
-	{ label: "Deluxe", color: "bg-[#3D3BF3]" },
-	{ label: "Presidencial", color: "bg-[#050534]" },
+	{ label: "Estándar", color: "bg-[var(--light-chart1)]" },
+	{ label: "Deluxe", color: "bg-[var(--light-chart2)]" },
+	{ label: "Presidencial", color: "bg-[var(--light-chart3)]" },
 ];
 
 const STATUS_LEGEND = [
-	{ label: "Ocupado", color: "bg-[#FF4D4D]" },
-	{ label: "En limpieza", color: "bg-[#FFB347]" },
-	{ label: "Disponible", color: "bg-[#4CAF50]" },
+	{ label: "Ocupado", color: "bg-[var(--light-status-ocupied)]" },
+	{ label: "En limpieza", color: "bg-[var(--light-status-pending)]" },
+	{ label: "Disponible", color: "bg-[var(--light-status-completed)]" },
 ];
 
 const LegendItem = ({ color, label }: { color: string; label: string }) => (
-	<div className="flex items-center gap-2 w-[180px]  ">
+	<div className="flex items-center gap-2 w-[180px] text-[var(--light-text)]">
 		<span className={`w-8 h-8 rounded ${color}`}></span>
-		<span className="text-[23px] text-[#050534]">{label}</span>
+		<span>{label}</span>
 	</div>
 );
 
 const RoomsOverview: React.FC = () => {
-	const [activeTab, setActiveTab] = useState("habitaciones");
+	const tabs = ["Habitaciones", "Cabañas", "Servicios Adicionales"] as const;
+	const [activeTab, setActiveTab] =
+		useState<(typeof tabs)[number]>("Habitaciones");
 
 	const filteredRooms = roomsData.filter((room) => {
-		if (activeTab === "habitaciones") return room.id.startsWith("H");
+		if (activeTab === "Habitaciones") return room.id.startsWith("H");
 		return room.id.startsWith("C");
 	});
 
 	return (
-		<div className="bg-[#F8F9FA] min-h-screen font-['Poppins']">
-			{/* HEADER: */}
-			<div className="flex flex-col items-center mx-auto max-w-[1400px] mb-10 space-y-6">
-				<h1 className="font-['Poppins'] font-medium text-[#050534] text-[35px] self-start pt-6 pl-6">
-					Unidades de Alojamiento
-				</h1>
+		<div className="min-h-screen p-6 font-['Poppins']">
+			<h1 className="font-medium text-[var(--light-text)] text-[35px] px-6">
+				Unidades de Alojamiento
+			</h1>
 
-				{/* BUTTON SWITCH */}
-				<div className="flex bg-[#E5E7EB] rounded-full w-fit max-w-[480px] shadow-md overflow-hidden font-['Poppins'] text-[30px] ">
-					<button
-						onClick={() => setActiveTab("habitaciones")}
-						className={`px-8 py-0.5 rounded-bl font-extralight transition-colors  uppercase ${
-							activeTab === "habitaciones"
-								? "bg-[#050534] text-white "
-								: "text-[#050534]"
-						}`}
-					>
-						Habitaciones
-					</button>
-					<button
-						onClick={() => setActiveTab("cabañas")}
-						className={`px-8 py-0.5 rounded-br font-extralight transition-colors uppercase ${
-							activeTab === "cabañas"
-								? "bg-[#050534] text-white "
-								: "text-[#050534]"
-						}`}
-					>
-						Cabañas
-					</button>
-				</div>
+			{/* BUTTONS */}
+			<div className="flex gap-3 bg-[var(--light-main2)] max-w-[515px] rounded-lg p-1 m-6">
+				{tabs.map((label) => {
+					const isActive = activeTab === label;
 
-				{/* LEYENDA */}
-				<div className="flex flex-col gap-y-4 pt-4 items-center ">
-					{/* Habitaciones */}
-					{activeTab === "habitaciones" && (
-						<div className="flex flex-wrap self-start gap-x-10 ">
+					return (
+						<button
+							key={label}
+							onClick={() => setActiveTab(label)}
+							className={`px-2 whitespace-nowrap text-[20px] h-[42px] font-normal rounded-md transition ${isActive ? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm" : "text-[var(--light-text)] hover:bg-white/10"}`}
+						>
+							{label}
+						</button>
+					);
+				})}
+			</div>
+
+			{/* LEYENDA */}
+			<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
+				{activeTab === "Habitaciones" && (
+					<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
+						<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
+						<div className="flex flex-wrap  gap-x-5 pt-5">
 							{ROOM_TYPES_LEGEND.map((item) => (
 								<LegendItem key={item.label} {...item} />
 							))}
 						</div>
-					)}
-					{/* Estados */}
-					<div className="flex flex-wrap self-start gap-x-10">
+					</div>
+				)}
+
+				<div className="flex-col">
+					<h2 className="font-semibold text-[20px]">Estado</h2>
+					<div className="flex flex-wrap  gap-x-5 pt-5">
 						{STATUS_LEGEND.map((item) => (
 							<LegendItem key={item.label} {...item} />
 						))}
@@ -110,7 +107,7 @@ const RoomsOverview: React.FC = () => {
 			</div>
 
 			<div
-				className={`mx-auto grid grid-cols-[repeat(auto-fill,250px)] gap-6  justify-center pb-[20dvh] ${activeTab === "habitaciones" ? "max-w-[1400px]" : "max-w-[850px]"}`}
+				className={`grid grid-cols-[repeat(auto-fill,250px)] gap-6 justify-center pt-4 pb-[20dvh] text-[var(--light-text)] ${activeTab === "Habitaciones" ? "max-w-[1400px]" : "max-w-[850px]"}`}
 			>
 				{filteredRooms.map((room) => (
 					<RoomCard key={room.id} {...room} />
