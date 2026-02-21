@@ -5,7 +5,7 @@ import dataJson from "../../data/data.json"
 import type { DashboardData, ActividadDiariaItem } from "../../types/dashboard";
 
 const ActividadDiaria: React.FC = () => {
-  const tabs = ["Vista global", "Check-In", "Check-Out"] as const
+  const tabs = ["Vista global", "Check-In", "Check-Out", "Servicios asignados"] as const
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Vista global")
 
   const data = dataJson as unknown as DashboardData;
@@ -13,8 +13,16 @@ const ActividadDiaria: React.FC = () => {
 
   const filtered = useMemo(() => {
     if (activeTab === "Vista global") return items;
-    if (activeTab === "Check-In") return items.filter((x) => x.estado === "Check-in");
-    if (activeTab === "Check-Out") return items.filter((x) => x.estado === "Check-out");
+
+    if (activeTab === "Check-In")
+      return items.filter((x) => x.estado === "Check-in");
+
+    if (activeTab === "Check-Out")
+      return items.filter((x) => x.estado === "Check-out");
+
+    if (activeTab === "Servicios asignados")
+      return items.filter((x) => (x.serviciosAdicionales.cantidad ?? 0) >= 1);
+
     return items;
   }, [activeTab, items]);
 
@@ -48,15 +56,19 @@ const ActividadDiaria: React.FC = () => {
       </div>
 
       {/* Mini barra */}
-      <div className="flex bg-[#D4D4D4] rounded-lg mb-2">
-        {tabs.map((label) => (
-          <button
-            key={label}
-            onClick={() => setActiveTab(label)}
-            className={`flex-1 py-2 font-poppins text-sm font-medium text-[#050534] border-b-2 ${activeTab === label ? "border-[#050534]" : "border-transparent hover:border-[#050534]"}`} >
-            {label}
-          </button>
-        ))}
+      <div className="flex bg-[var(--light-main2)] rounded-lg p-1 mb-2">
+        {tabs.map((label) => {
+          const isActive = activeTab === label;
+
+          return (
+            <button
+              key={label}
+              onClick={() => setActiveTab(label)}
+              className={`flex-1 py-2 font-poppins text-sm font-medium rounded-md transition  ${isActive ? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm" : "text-[var(--light-text)] hover:bg-white/10"}`}>
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Contenido */}

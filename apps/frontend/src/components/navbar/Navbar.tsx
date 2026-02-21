@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { House, Hotel, FileText, LogOut, ChevronLeft, Sun, Moon } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
+// modo
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../../store/themeSlice";
+import type { RootState, AppDispatch } from "../../store/store";
+
 const baseBtn = "flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
 const iconWrapper = "w-[40px] h-[40px] flex items-center justify-center rounded-lg";
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const dispatch = useDispatch<AppDispatch>();
+    const mode = useSelector((s: RootState) => s.theme.mode);
 
     const handleLogout = () => {
         console.log("logout");
@@ -99,17 +107,34 @@ const Navbar: React.FC = () => {
             {/* Tema (Sol / Luna) */}
             <div className="mt-auto px-3">
                 <button
-                    className={`${baseBtn} text-[var(--light-text)] hover:bg-black/5`}
+                    type="button"
+                    onClick={() => dispatch(toggleTheme())}
+                    className={`
+      w-full flex items-center gap-3 rounded-lg px-2 py-2 transition
+      text-[var(--light-text)] hover:bg-black/5
+    `}
                     title="Cambiar tema"
                 >
-                    <div className={iconWrapper}>
-                        <Sun size={22} />
+                    {/* Toggle visual */}
+                    <div className="w-[52px] h-[28px] rounded-full bg-[var(--light-main)] relative flex items-center px-1">
+                        {/* “bolita” */}
+                        <div
+                            className={`
+          w-[22px] h-[22px] rounded-full bg-[var(--light-main2)]
+          flex items-center justify-center
+          transition-transform duration-300
+          ${mode === "dark" ? "translate-x-[22px]" : "translate-x-0"}
+        `}
+                        >
+                            {mode === "dark" ? <Moon size={14} /> : <Sun size={14} />}
+                        </div>
                     </div>
 
+                    {/* Texto SOLO cuando está desplegado */}
                     {isOpen && (
-                        <div className="ml-auto mr-2">
-                            <Moon size={20} />
-                        </div>
+                        <span className="font-poppins text-[14px] font-medium">
+                            {mode === "dark" ? "Modo oscuro" : "Modo claro"}
+                        </span>
                     )}
                 </button>
             </div>

@@ -8,6 +8,7 @@ import ActividadDiaria from "../components/dashboard/ActividadDiaria";
 import UltimaActividad from "../components/dashboard/UltimaActividad";
 import Mantenimiento from "../components/dashboard/Mantenimiento";
 import AccionesRapidas from "../components/dashboard/AccionesRapidas";
+import Ocupacion from "../components/dashboard/Ocupacion";
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -24,7 +25,7 @@ const Dashboard: React.FC = () => {
   return (
 
     <div className="min-h-screen p-6">
-      <h1 className="font-poppins font-medium text-[35px] text-[#050534] px-6 pb-2">
+      <h1 className="font-poppins font-medium text-[35px] text-[var(--light-text)] px-6 pb-2">
         Hotel Los Álamos
       </h1>
 
@@ -51,7 +52,7 @@ const Dashboard: React.FC = () => {
 
         {/* Bloque 4 (40%) */}
         <div className="border border-[var(--light-card)] rounded-xl p-4 bg-[var(--light-card)] shadow-sm">
-          <h2 className="text-lg font-semibold mb-2">Ocupación</h2>
+          <Ocupacion />
         </div>
       </div>
     </div>

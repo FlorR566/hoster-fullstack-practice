@@ -1,12 +1,11 @@
 import React from "react";
-import { ClipboardList, UserX, ClipboardPlus, UserCheck, UserMinus, User, Users, Banknote, Clock, MoreVertical, BedDouble, HandPlatter, CalendarArrowDown, CalendarArrowUp, Car, Store } from "lucide-react";
+import { UserPen, ClipboardList, UserX, ClipboardPlus, UserCheck, UserMinus, User, Users, Banknote, Clock, MoreVertical, BedDouble, HandPlatter, CalendarArrowDown, CalendarArrowUp, Car, Store } from "lucide-react";
 
 const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
 
     const tipo = String(item?.tipo ?? "");
 
-    const isCheckIn = tipo === "Check-in";
-    const isCheckOut = tipo === "Check-out";
+  const isModificacion = tipo === "Modificación";
     const isNuevaReserva = tipo === "Nueva reserva";
     const isCancelacion = tipo === "Cancelación";
     const isServicioAsignado = tipo === "Servicio asignado";
@@ -35,42 +34,41 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
     const serviciosIsNumber = typeof item?.serviciosAdicionales === "number";
 
     const Icon = () => {
-        if (isNuevaReserva) return <ClipboardPlus size={18} className="text-blue-600" />;
-        if (isServicioAsignado) return <HandPlatter size={18} className="text-[#050534]" />;
-        if (isCancelacion) return <UserX size={18} className="text-red-600" />;
-        if (isCheckIn) return <UserCheck size={18} className="text-green-600" />;
-        if (isCheckOut) return <UserMinus size={18} className="text-red-600" />;
-        return <ClipboardList size={18} className="text-[#050534]" />;
-    };
+  if (isNuevaReserva) return <ClipboardPlus size={18} className="text-[var(--light-text)]" />;
+  if (isServicioAsignado) return <HandPlatter size={18} className="text-[var(--light-text)]" />;
+  if (isCancelacion) return <UserX size={18} className="text-[var(--light-text)]" />;
+  if (isModificacion) return <UserPen size={18} className="text-[var(--light-text)]" />;
+  return <ClipboardList size={18} className="text-[var(--light-text)]" />;
+};
 
     return (
         <div className="border-b border-[#D4D4D4] py-3">
             <div className="grid grid-cols-[38px_1.2fr_1.4fr_1.4fr_32px] gap-3 font-poppins">
                 <div className="flex justify-start items-start pt-1">
-                    <div className="w-10 h-10 rounded-full bg-[#E5E5E5] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--light-main2)] flex items-center justify-center">
                         <Icon />
                     </div>
                 </div>
 
                 {/* Col 2 */}
                 <div className="text-start">
-                    <p className="text-[16px] text-gray-500 font-bold">Reserva # {item.reservaId}</p>
+                    <p className="text-[16px] text-[var(--light-text)] font-bold">Reserva # {item.reservaId}</p>
 
                     <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 bg-[#D4D4D4] rounded-lg text-[10px] font-light text-[#050534]">
+                        <span className="px-3 py-1 bg-[var(--light-main)] rounded-xl text-[10px] font-light text-[var(--light-text)]">
                             {tipo}
                         </span>
                     </div>
 
                     <div className="flex items-center gap-2 mt-1">
-                        <User size={14} className="text-[#050534]" />
-                        <p className="text-[14px] text-[#050534] font-light">{item?.cliente ?? "—"}</p>
+                        <User size={14} className="text-[var(--light-text)]" />
+                        <p className="text-[14px] text-[var(--light-text)] font-light">{item?.cliente ?? "—"}</p>
                     </div>
 
                     {/* En servicio asignado capaz personas viene, lo dejamos con fallback */}
                     <div className="flex items-center gap-2 mt-1">
-                        <Users size={14} className="text-[#050534]" />
-                        <p className="text-[14px] text-[#050534] font-light">
+                        <Users size={14} className="text-[var(--light-text)]" />
+                        <p className="text-[14px] text-[var(--light-text)] font-light">
                             {item?.personas ?? "—"}{" "}
                             {item?.personas === 1 ? "persona" : "personas"}
                         </p>
@@ -79,8 +77,8 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
                     {/* Pago NO existe en servicio asignado: lo ocultamos */}
                     {!isServicioAsignado && (
                         <div className="flex items-center gap-2 mt-1">
-                            <Banknote size={14} className="text-[#050534]" />
-                            <p className="text-[14px] text-[#050534] font-light">
+                            <Banknote size={14} className="text-[var(--light-text)]" />
+                            <p className="text-[14px] text-[var(--light-text)] font-light">
                                 Pago: {item?.pago ?? "—"}
                             </p>
                         </div>
@@ -91,25 +89,25 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
                 <div className="text-start">
                     <div className="h-[50px]" />
                     <div className="flex items-center gap-2 mt-1">
-                        <Clock size={14} className="text-[#050534]" />
-                        <p className="text-[14px] font-light text-[#050534]">Hora: {item?.hora ?? "—"}</p>
+                        <Clock size={14} className="text-[var(--light-text)]" />
+                        <p className="text-[14px] font-light text-[var(--light-text)]">Hora: {item?.hora ?? "—"}</p>
                     </div>
 
                     <div className="flex items-center gap-2 mt-1">
                         {item?.habitacion ? (
-                            <BedDouble size={14} className="text-[#050534]" />
+                            <BedDouble size={14} className="text-[var(--light-text)]" />
                         ) : (
-                            <Store size={14} className="text-[#050534]" />
+                            <Store size={14} className="text-[var(--light-text)]" />
                         )}
-                        <p className="text-[14px] font-light text-[#050534]">
+                        <p className="text-[14px] font-light text-[var(--light-text)]">
                             {lugarLabel}: {lugarValue}
                         </p>
                     </div>
 
                     {serviciosIsNumber && (
                         <div className="flex items-center gap-2 mt-1">
-                            <HandPlatter size={14} className="text-[#050534]" />
-                            <p className="text-[14px] font-light text-[#050534]">
+                            <HandPlatter size={14} className="text-[var(--light-text)]" />
+                            <p className="text-[14px] font-light text-[var(--light-text)]">
                                 Servicios adicionales: {serviciosText}
                             </p>
                         </div>
@@ -121,16 +119,16 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
                     <div className="h-[50px]" />
 
                     <div className="flex items-center gap-2 mt-1">
-                        <CalendarArrowDown size={14} className="text-[#050534]" />
-                        <p className="text-[14px] font-light text-[#050534]">
+                        <CalendarArrowDown size={14} className="text-[var(--light-text)]" />
+                        <p className="text-[14px] font-light text-[var(--light-text)]">
                             {isServicioAsignado ? "Fecha:" : "Fecha llegada:"} {llegada}
                         </p>
                     </div>
 
                     {isServicioAsignado && !serviciosIsNumber && serviciosText !== "—" && (
                         <div className="flex items-center gap-2 mt-1">
-                            <HandPlatter size={14} className="text-[#050534]" />
-                            <p className="text-[14px] font-light text-[#050534] text-start">
+                            <HandPlatter size={14} className="text-[var(--light-text)]" />
+                            <p className="text-[14px] font-light text-[var(--light-text)] text-start">
                                 Servicio adicional: {serviciosText}
                             </p>
                         </div>
@@ -140,8 +138,8 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
                     {/* En servicio asignado no hay salida: lo ocultamos */}
                     {!isServicioAsignado && (
                         <div className="flex items-center gap-2 mt-1">
-                            <CalendarArrowUp size={14} className="text-[#050534]" />
-                            <p className="text-[14px] font-light text-[#050534]">
+                            <CalendarArrowUp size={14} className="text-[var(--light-text)]" />
+                            <p className="text-[14px] font-light text-[var(--light-text)]">
                                 Fecha salida: {salida}
                             </p>
                         </div>
@@ -149,8 +147,8 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
 
                     {!isServicioAsignado && (
                         <div className="flex items-center gap-2 mt-1">
-                            <Car size={14} className="text-[#050534]" />
-                            <p className="text-[14px] font-light text-[#050534]">
+                            <Car size={14} className="text-[var(--light-text)]" />
+                            <p className="text-[14px] font-light text-[var(--light-text)]">
                                 Parking: {parkingLabel}
                             </p>
                         </div>
@@ -158,7 +156,7 @@ const CardUltimasActividades: React.FC<{ item: any }> = ({ item }) => {
                 </div>
 
                 <div className="flex justify-center items-start pt-1">
-                    <MoreVertical size={18} className="text-[#050534] cursor-pointer" />
+                    <MoreVertical size={18} className="text-[var(--light-text)] cursor-pointer" />
                 </div>
             </div>
         </div>
