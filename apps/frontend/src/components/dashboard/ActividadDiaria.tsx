@@ -64,7 +64,7 @@ const ActividadDiaria: React.FC = () => {
             <button
               key={label}
               onClick={() => setActiveTab(label)}
-              className={`flex-1 py-2 font-poppins text-sm font-medium rounded-md transition  ${isActive ? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm" : "text-[var(--light-text)] hover:bg-white/40"}`}>
+              className={`flex-1 py-2 font-poppins text-sm font-medium rounded-md transition  ${isActive ? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm" : "text-[var(--light-text)] hover:bg-white/10"}`}>
               {label}
             </button>
           );
