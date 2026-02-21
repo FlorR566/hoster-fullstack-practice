@@ -4,6 +4,7 @@ import Currency from './Currency'
 import Guest from './Guest'
 import Origin from './Origin'
 import User from './User'
+import Service from './Service'
 
 @Table({
     tableName: 'reserves'
@@ -73,11 +74,11 @@ class Reserve extends Model{
     @BelongsTo(() => Origin)
     declare origin: Origin;
 
-    @ForeignKey(() => Reserve)
-    declare reserveId: number;
+    @ForeignKey(() => Service)
+    declare serviceId: number;
 
-    @BelongsTo(() => Reserve)
-    declare reserve: Reserve;
+    @BelongsTo(() => Service)
+    declare service: Service;
 
     @ForeignKey(() => User)
     declare userId: number;
