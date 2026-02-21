@@ -2,15 +2,18 @@ import React from "react";
 import { User } from "lucide-react";
 
 const STATUS_STYLES = {
-	ocupada: "bg-red-300 text-gray-950 border-red-700",
-	limpieza: "bg-orange-200 text-gray-950 border-orange-400",
-	disponible: "bg-green-200 text-gray-950 border-green-700",
+	ocupada:
+		"border-[var(--light-status-ocupied)] bg-[color-mix(in_srgb,var(--light-status-ocupied),transparent_80%)]",
+	limpieza:
+		"border-[var(--light-status-pending)] bg-[color-mix(in_srgb,var(--light-status-pending),transparent_80%)] ",
+	disponible:
+		"border-[var(--light-status-completed)] bg-[color-mix(in_srgb,var(--light-status-completed),transparent_80%)] ",
 };
 
 const TYPE_BORDER = {
-	estandar: "border-l-[#A5A6F6]",
-	deluxe: "border-l-[#3D3BF3]",
-	presidencial: "border-l-[#050534]",
+	estandar: "border-l-[var(--light-chart1)]",
+	deluxe: "border-l-[var(--light-chart2)]",
+	presidencial: "border-l-[var(--light-chart3)]",
 };
 
 interface RoomCardProps {
@@ -26,7 +29,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 			{" "}
 			{/* Contenedor padre opcional para efectos */}
 			<div
-				className={`relative bg-[#F5F5F5] rounded-2xl p-4 h-48 w-full  min-h-[250px] flex flex-col justify-between border-l-[6px] ${TYPE_BORDER[type]}`}
+				className={`relative bg-[var(--light-card)] text-[var(--light-text)] rounded-2xl p-4 h-48 w-full  min-h-[250px] flex flex-col justify-between border-l-[6px] ${TYPE_BORDER[type]}`}
 			>
 				{/* SVG de Borde Punteado */}
 				<svg
@@ -40,10 +43,10 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 						height="calc(100% - 2px)"
 						rx="16"
 						fill="none"
-						stroke="#374151"
-						strokeWidth="2"
+						stroke="currentColor"
+						strokeWidth="1.5"
 						strokeDasharray="10, 10"
-						className="shape-rendering-crispEdges"
+						className="shape-rendering-crispEdges text-[var(--light-text)]"
 					/>
 				</svg>
 
@@ -52,7 +55,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 					<div className="flex flex-col justify-between items-start gap-2">
 						<div className="flex gap-0.5">
 							{Array.from({ length: capacity }).map((_, i) => (
-								<User key={i} size={23} className="text-gray-900" />
+								<User key={i} size={23} className="text-[var(--light-text)]" />
 							))}
 						</div>
 
@@ -64,8 +67,8 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 					</div>
 
 					{/* Body: ID de Habitación */}
-					<div className="flex justify-center items-center flex-grow">
-						<h3 className="font-['Poppins'] font-bold text-[#050534] text-[40px]">
+					<div className="absolute inset-0 flex justify-center items-center pointer-events-none ">
+						<h3 className="font-['Poppins'] font-bold text-[40px] pointer-events-auto">
 							{id}
 						</h3>
 					</div>
