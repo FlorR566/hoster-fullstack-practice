@@ -107,7 +107,7 @@
         },
         {
             "reservaId": 8976,
-            "tipo": "Check-in",
+            "tipo": "Modificación",
             "cliente": "Martín García",
             "personas": 4,
             "pago": "Parcial",
@@ -122,7 +122,7 @@
         },
         {
             "reservaId": 8456,
-            "tipo": "Check-out",
+            "tipo": "Modificación",
             "cliente": "Gonzalo Gómez",
             "personas": 2,
             "pago": "Total",

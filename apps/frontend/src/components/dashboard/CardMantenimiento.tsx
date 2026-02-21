@@ -16,9 +16,9 @@ const CardMantenimiento: React.FC<Props> = ({ item }) => {
         <div className="flex justify-start items-start pt-1">
           <div className="w-10 h-10 rounded-full bg-[#E5E5E5] flex items-center justify-center">
             {isHabitacion ? (
-              <BedDouble size={18} className="text-[#050534]" />
+              <BedDouble size={18} className="text-[var(--light-text)]" />
             ) : (
-              <Store size={18} className="text-[#050534]" />
+              <Store size={18} className="text-[var(--light-text)]" />
             )}
           </div>
         </div>
@@ -28,16 +28,16 @@ const CardMantenimiento: React.FC<Props> = ({ item }) => {
           {/* Tipo + icono */}
           <div className="flex items-center gap-2 py-1">
             {isLimpieza ? (
-              <BrushCleaning size={14} className="text-[#050534]" />
+              <BrushCleaning size={14} className="text-[var(--light-text)]" />
             ) : (
-              <Wrench size={14} className="text-[#050534]" />
+              <Wrench size={14} className="text-[var(--light-text)]" />
             )}
-            <span className="text-[14px] font-light text-[#050534]">
+            <span className="text-[14px] font-light text-[var(--light-text)]">
               Tipo: {item.tipo}
             </span>
           </div>
-          <p className="text-[14px] font-light text-[#050534]">Estatus: {" "}
-            <span className="px-3 py-1 bg-[#D4D4D4] rounded-lg text-[10px] font-light text-[#050534]">
+          <p className="text-[14px] font-light text-[var(--light-text)]">Estatus: {" "}
+            <span className="px-3 py-1 bg-[#D4D4D4] rounded-lg text-[10px] font-light text-[var(--light-text)]">
               {item.estado}
             </span>
           </p>
@@ -46,18 +46,18 @@ const CardMantenimiento: React.FC<Props> = ({ item }) => {
         <div className="text-start">
           <div className="h-[25px]" />   {/* Spacer para alinear con "Tipo" */}
           <div className="flex items-center gap-2 mt-1">
-            <ClockArrowDown size={14} className="text-[#050534]" />
-            <p className="text-[14px] font-light text-[#050534]">Duración estimada: {item.duracionEstimada}</p>
+            <ClockArrowDown size={14} className="text-[var(--light-text)]" />
+            <p className="text-[14px] font-light text-[var(--light-text)]">Duración estimada: {item.duracionEstimada}</p>
           </div>
 
           <div className="flex items-center gap-2 mt-1">
-            <UserX size={14} className="text-[#050534]" />
-            <p className="text-[14px] font-light text-[#050534]">Responsable: {item.responsable}</p>
+            <UserX size={14} className="text-[var(--light-text)]" />
+            <p className="text-[14px] font-light text-[var(--light-text)]">Responsable: {item.responsable}</p>
           </div>
         </div>
 
         <div className="flex justify-center items-start pt-1">
-          <MoreVertical size={18} className="text-[#050534] cursor-pointer" />
+          <MoreVertical size={18} className="text-[var(--light-text)] cursor-pointer" />
         </div>
       </div>
     </div>

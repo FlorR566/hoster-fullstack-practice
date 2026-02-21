@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from "react";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, ArrowUpRight } from "lucide-react";
 
 import dataJson from "../../data/data.json";
 import type { DashboardData, UltimaActividadItem } from "../../types/dashboard";
 import CardUltimasActividades from "./CardUltimasActividades";
 
 const UltimaActividad: React.FC = () => {
-    const tabs = ["Vista global", "Reservas", "Check-In", "Check-Out", "Servicios asignados"] as const;
+    const tabs = ["Vista global", "Nuevas reservas", "Cancelación", "Modificación"] as const;
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Vista global");
 
     const data = dataJson as unknown as DashboardData;
@@ -16,15 +16,15 @@ const UltimaActividad: React.FC = () => {
     const filtered = useMemo(() => {
         if (activeTab === "Vista global") return items;
 
-        if (activeTab === "Reservas") return items.filter((x) => x.tipo === "Nueva reserva");
-        if (activeTab === "Check-In") return items.filter((x) => x.tipo === "Check-in");
-        if (activeTab === "Check-Out") return items.filter((x) => x.tipo === "Check-out");
-        if (activeTab === "Servicios asignados")
-            return items.filter((x: any) =>
-                typeof x.serviciosAdicionales === "number"
-                    ? x.serviciosAdicionales > 0
-                    : x.serviciosAdicionales && Object.keys(x.serviciosAdicionales).length > 0
-            );
+        if (activeTab === "Nuevas reservas")
+            return items.filter((x) => x.tipo === "Nueva reserva");
+
+        if (activeTab === "Cancelación")
+            return items.filter((x) => x.tipo === "Cancelación");
+
+        if (activeTab === "Modificación")
+            return items.filter((x) => x.tipo === "Modificación");
+
         return items;
     }, [items, activeTab]);
 
@@ -33,33 +33,42 @@ const UltimaActividad: React.FC = () => {
 
             {/* Header */}
             <div className="flex items-center justify-between mb-2">
-                <h2
-                    className="font-poppins font-medium text-[20px]"
-                    style={{ color: "#050534" }}
-                >
-                    Última actividad
+                <h2 className="font-poppins font-medium text-[20px] text-[var(--light-text)]">
+                    Gestión de reservas
+
+                    <button
+                        type="button"
+                        title="Actualizar"
+                        className="ml-3 p-1 bg-[var(--light-main)] rounded-md"
+                        onClick={() => { console.log("refresh actividad diaria") }}
+                    >
+                        <RefreshCcw size={16} />
+                    </button>
                 </h2>
 
                 <button
                     type="button"
-                    className="flex items-center gap-2 font-poppins font-medium text-[16px]"
-                    style={{ color: "#050534" }}
+                    className="flex items-center gap-2 font-poppins font-medium text-[16px] text-[var(--light-text)]"
                 >
-                    <RefreshCcw size={16} />
-                    Actualizar
+                    <ArrowUpRight size={16} />
+                    Ver más
                 </button>
             </div>
 
             {/* Mini barra */}
-            <div className="flex bg-[var(--light-main2)] mb-2">
-                {tabs.map((label) => (
-                    <button
-                        key={label}
-                        onClick={() => setActiveTab(label)}
-                        className={`flex-1 py-2 font-poppins text-sm font-medium text-[#050534] border-b-2 ${activeTab === label ? "border-[#050534]" : "border-transparent hover:border-[#050534]"}`} >
-                        {label}
-                    </button>
-                ))}
+            <div className="flex bg-[var(--light-main2)] rounded-lg p-1 mb-2">
+                {tabs.map((label) => {
+                    const isActive = activeTab === label;
+
+                    return (
+                        <button
+                            key={label}
+                            onClick={() => setActiveTab(label)}
+                            className={`flex-1 py-2 font-poppins text-sm font-medium rounded-md transition ${isActive ? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm" : "text-[var(--light-text)] hover:bg-white/40"}`}>
+                            {label}
+                        </button>
+                    );
+                })}
             </div>
 
             {/* Contenido */}
