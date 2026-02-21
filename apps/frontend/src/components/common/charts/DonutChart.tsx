@@ -19,9 +19,9 @@ const DonutChart: React.FC<Props> = ({ value, data }) => {
           <Pie
             data={data}
             dataKey="value"
-              innerRadius={50}
-  outerRadius={85}
-  paddingAngle={2}
+            innerRadius={50}
+            outerRadius={85}
+            paddingAngle={2}
           >
             {data.map((entry, index) => (
               <Cell key={index} fill={entry.color} />
