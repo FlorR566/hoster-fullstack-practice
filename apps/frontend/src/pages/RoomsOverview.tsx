@@ -4,31 +4,31 @@ import RoomCard from "../components/roomsOverview/RoomCard";
 // Dentro de RoomsOverview.tsx
 const roomsData: RoomProps[] = [
 	// Habitaciones
-	{ id: "H1", type: "presidencial", status: "ocupada", capacity: 4 },
-	{ id: "H2", type: "deluxe", status: "ocupada", capacity: 2 },
-	{ id: "H3", type: "deluxe", status: "limpieza", capacity: 4 },
-	{ id: "H4", type: "deluxe", status: "disponible", capacity: 4 },
-	{ id: "H5", type: "deluxe", status: "disponible", capacity: 4 },
-	{ id: "H6", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H7", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H8", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H9", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H10", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H11", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H12", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H13", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H14", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H15", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H16", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H17", type: "estandar", status: "disponible", capacity: 4 },
-	{ id: "H18", type: "estandar", status: "disponible", capacity: 4 },
+	{ id: "H1", type: "Presidencial", status: "Ocupada", capacity: 4 },
+	{ id: "H2", type: "Deluxe", status: "Ocupada", capacity: 2 },
+	{ id: "H3", type: "Deluxe", status: "Limpieza", capacity: 4 },
+	{ id: "H4", type: "Deluxe", status: "Disponible", capacity: 4 },
+	{ id: "H5", type: "Deluxe", status: "Disponible", capacity: 4 },
+	{ id: "H6", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H7", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H8", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H9", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H10", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H11", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H12", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H13", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H14", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H15", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H16", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H17", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H18", type: "Estandar", status: "Disponible", capacity: 4 },
 	// Cabañas
-	{ id: "C1", type: "estandar", status: "ocupada", capacity: 2 },
-	{ id: "C2", type: "estandar", status: "disponible", capacity: 2 },
-	{ id: "C3", type: "estandar", status: "disponible", capacity: 2 },
-	{ id: "C4", type: "estandar", status: "disponible", capacity: 2 },
-	{ id: "C5", type: "estandar", status: "disponible", capacity: 2 },
-	{ id: "C6", type: "estandar", status: "disponible", capacity: 2 },
+	{ id: "C1", type: "Presidencial", status: "Ocupada", capacity: 2 },
+	{ id: "C2", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C3", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C4", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C5", type: "Deluxe", status: "Disponible", capacity: 2 },
+	{ id: "C6", type: "Deluxe", status: "Disponible", capacity: 2 },
 ];
 
 const ROOM_TYPES_LEGEND = [
@@ -85,16 +85,14 @@ const RoomsOverview: React.FC = () => {
 
 			{/* LEYENDA */}
 			<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
-				{activeTab === "Habitaciones" && (
-					<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
-						<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
-						<div className="flex flex-wrap  gap-x-5 pt-5">
-							{ROOM_TYPES_LEGEND.map((item) => (
-								<LegendItem key={item.label} {...item} />
-							))}
-						</div>
+				<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
+					<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
+					<div className="flex flex-wrap  gap-x-5 pt-5">
+						{ROOM_TYPES_LEGEND.map((item) => (
+							<LegendItem key={item.label} {...item} />
+						))}
 					</div>
-				)}
+				</div>
 
 				<div className="flex-col">
 					<h2 className="font-semibold text-[20px]">Estado</h2>
