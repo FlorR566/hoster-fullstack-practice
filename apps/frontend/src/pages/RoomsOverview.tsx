@@ -23,12 +23,12 @@ const roomsData: RoomProps[] = [
 	{ id: "H17", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H18", type: "Estandar", status: "Disponible", capacity: 4 },
 	// Cabañas
-	{ id: "C1", type: "Estandar", status: "Ocupada", capacity: 2 },
+	{ id: "C1", type: "Presidencial", status: "Ocupada", capacity: 2 },
 	{ id: "C2", type: "Estandar", status: "Disponible", capacity: 2 },
 	{ id: "C3", type: "Estandar", status: "Disponible", capacity: 2 },
 	{ id: "C4", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C5", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C6", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C5", type: "Deluxe", status: "Disponible", capacity: 2 },
+	{ id: "C6", type: "Deluxe", status: "Disponible", capacity: 2 },
 ];
 
 const ROOM_TYPES_LEGEND = [
@@ -85,16 +85,14 @@ const RoomsOverview: React.FC = () => {
 
 			{/* LEYENDA */}
 			<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
-				{activeTab === "Habitaciones" && (
-					<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
-						<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
-						<div className="flex flex-wrap  gap-x-5 pt-5">
-							{ROOM_TYPES_LEGEND.map((item) => (
-								<LegendItem key={item.label} {...item} />
-							))}
-						</div>
+				<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
+					<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
+					<div className="flex flex-wrap  gap-x-5 pt-5">
+						{ROOM_TYPES_LEGEND.map((item) => (
+							<LegendItem key={item.label} {...item} />
+						))}
 					</div>
-				)}
+				</div>
 
 				<div className="flex-col">
 					<h2 className="font-semibold text-[20px]">Estado</h2>
