@@ -5,6 +5,7 @@ import { db } from './config/db'
 import authRouter from './routes/authRouter'
 import paymentRouter from './routes/paymentRouter'
 import reserveRouter from './routes/reserveRouter'
+import serviceRouter from './routes/serviceRouter'
 
 async function connectDB() {
     try {
@@ -31,5 +32,6 @@ app.use('/api/payment', paymentRouter)
 
 app.use('/api/reserve', reserveRouter)
 
+app.use('/api/service', serviceRouter)
 
 export default app
