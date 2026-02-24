@@ -4,11 +4,11 @@ import { Button } from "../components/common/Button";
 import { getAIGreeting } from "../services/service";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
-import ActividadDiaria from "../components/dashboard/ActividadDiaria";
-import UltimaActividad from "../components/dashboard/UltimaActividad";
-import Mantenimiento from "../components/dashboard/Mantenimiento";
+import ActividadDiaria from "../components/dashboard/ActividadDiaria/ActividadDiaria";
+import UltimaActividad from "../components/dashboard/GestionReservas/UltimaActividad"
+import Mantenimiento from "../components/dashboard/Mantenimiento/Mantenimiento";
 import AccionesRapidas from "../components/dashboard/AccionesRapidas";
-import Ocupacion from "../components/dashboard/Ocupacion";
+import Ocupacion from "../components/dashboard/Ocupacion/Ocupacion";
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
