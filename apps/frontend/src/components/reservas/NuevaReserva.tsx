@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-// ─── Tipos ──────────────────────────────────────────────────────────────────
 interface FormData {
   recepcionista: string;
   canalReserva: string;
@@ -26,6 +26,16 @@ interface FormData {
   serviciosAgregados: { nombre: string; precio: string }[];
   estacionamiento: "Si" | "No";
   patente: string;
+  precioPorNoche: string;
+}
+
+interface EconData {
+  medioPago: string;
+  estadoPago: "Parcial" | "Total";
+  montoAbona: string;
+  saldoPendiente: string;
+  nroRecibo: string;
+  nota: string;
 }
 
 const initialForm: FormData = {
@@ -50,14 +60,24 @@ const initialForm: FormData = {
   ninos: 0,
   habitaciones: 1,
   serviciosAgregados: [
-    { nombre: "Servicio 1", precio: "20 USD" },
-    { nombre: "Servicio 2", precio: "30 USD" },
+    { nombre: "Servicio 1", precio: "20" },
+    { nombre: "Servicio 2", precio: "30" },
   ],
   estacionamiento: "No",
   patente: "",
+  precioPorNoche: "",
 };
 
-// ─── Helpers para calcular noches ────────────────────────────────────────────
+const initialEcon: EconData = {
+  medioPago: "",
+  estadoPago: "Total",
+  montoAbona: "",
+  saldoPendiente: "",
+  nroRecibo: "",
+  nota: "",
+};
+
+// ─── Helpers ──────────
 function calcNights(checkin: string, checkout: string): string {
   if (!checkin || !checkout) return "";
   const a = new Date(checkin);
@@ -72,9 +92,9 @@ function formatDate(iso: string): string {
   return `${d}/${m}/${y}`;
 }
 
-// ─── Componentes base ────────────────────────────────────────────────────────
+// ─── Componentes base ────────
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <label className="block text-[14px] font-medium text-(--light-text)] mb-1 ml-1 font-poppins">
+  <label className="block text-[14px] font-medium text-(--light-text)]1 ml-1 font-poppins">
     {children}
   </label>
 );
@@ -85,7 +105,6 @@ const inputBase =
 const InputField = ({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input {...props} className={`${inputBase} ${props.className || ""}`} />
 );
-
 
 const SelectField = ({
   options,
@@ -104,11 +123,10 @@ const SelectField = ({
     </select>
     <ChevronDown
       size={16}
-      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--light-text)] opacity-60 pointer-events-none"
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--light-text) opacity-60 pointer-events-none"
     />
   </div>
 );
-
 
 const DateInput = ({
   value,
@@ -131,7 +149,6 @@ const DateInput = ({
   </div>
 );
 
-
 const TimeInput = ({
   value,
   onChange,
@@ -153,40 +170,6 @@ const TimeInput = ({
   </div>
 );
 
-
-const Counter = ({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  onChange: (v: number) => void;
-}) => (
-  <div className="flex items-center justify-between w-full">
-    <span className="text-[13px] text-(--light-text)] font-light w-24">{label}</span>
-    <div className="flex items-center gap-3">
-      <button
-        type="button"
-        onClick={() => onChange(Math.max(0, value - 1))}
-        className="text-(--light-text)] w-5 h-5 flex items-center justify-center hover:opacity-70"
-      >
-        +
-      </button>
-      <span className="text-[14px] font-medium w-5 text-center text-(--light-text)]">
-        {value.toString().padStart(2, "0")}
-      </span>
-      <button
-        type="button"
-        onClick={() => onChange(Math.max(0, value - 1))}
-        className="text-(--light-text)] w-5 h-5 flex items-center justify-center hover:opacity-70"
-      >
-        −
-      </button>
-    </div>
-  </div>
-);
-
 const CounterField = ({
   label,
   value,
@@ -197,22 +180,22 @@ const CounterField = ({
   onChange: (v: number) => void;
 }) => (
   <div className="flex items-center justify-between w-full">
-    <span className="text-[13px] text-(--light-text)] font-light w-24">{label}</span>
+    <span className="text-[13px] text-(--light-text) font-light w-24">{label}</span>
     <div className="flex items-center gap-3">
       <button
         type="button"
         onClick={() => onChange(value + 1)}
-        className="text-(--light-text)] text-[16px] leading-none hover:opacity-70 select-none"
+        className="text-(--light-text) text-[16px] leading-none hover:opacity-70 select-none"
       >
         +
       </button>
-      <span className="text-[14px] font-medium w-5 text-center text-(--light-text)]">
+      <span className="text-[14px] font-medium w-5 text-center text-(--light-text)">
         {value.toString().padStart(2, "0")}
       </span>
       <button
         type="button"
         onClick={() => onChange(Math.max(0, value - 1))}
-        className="text-(--light-text)] text-[16px] leading-none hover:opacity-70 select-none"
+        className="text-(--light-text) text-[16px] leading-none hover:opacity-70 select-none"
       >
         −
       </button>
@@ -220,19 +203,17 @@ const CounterField = ({
   </div>
 );
 
-// ─── TAB 1: Datos de la reserva ─────────────────────────────────────────────
+// ─── TAB 1: Datos de la reserva ─────────────
 const DatosReservaTab: React.FC<{
   form: FormData;
   set: (k: keyof FormData, v: any) => void;
 }> = ({ form, set }) => {
-  // Calcular noches automáticamente cuando cambian las fechas
   useEffect(() => {
-    const n = calcNights(form.fechaCheckin, form.fechaCheckout);
-    set("cantidadNoches", n);
+    set("cantidadNoches", calcNights(form.fechaCheckin, form.fechaCheckout));
   }, [form.fechaCheckin, form.fechaCheckout]);
 
   return (
-    <form className="space-y-8 text-(--light-text)]">
+    <form className="space-y-8 text-(--light-text)">
 
       {/* SECCIÓN 1: DATOS GENERALES */}
       <div className="grid grid-cols-3 gap-x-8 gap-y-6">
@@ -320,7 +301,6 @@ const DatosReservaTab: React.FC<{
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos de la estadía</h2>
         <div className="grid grid-cols-4 gap-x-8 gap-y-6">
 
-          {/* Fila 1 */}
           <div>
             <Label>Fecha estimada de check-in</Label>
             <DateInput
@@ -369,29 +349,16 @@ const DatosReservaTab: React.FC<{
             </div>
           </div>
 
-          {/* Cantidad de personas — row-span-2 */}
+          {/* Cantidad de personas  */}
           <div className="row-span-2">
             <Label>Cantidad de personas</Label>
             <div className="space-y-2 mt-1">
-              <CounterField
-                label="Adultos"
-                value={form.adultos}
-                onChange={(v) => set("adultos", v)}
-              />
-              <CounterField
-                label="Niños"
-                value={form.ninos}
-                onChange={(v) => set("ninos", v)}
-              />
-              <CounterField
-                label="Habitaciones"
-                value={form.habitaciones}
-                onChange={(v) => set("habitaciones", v)}
-              />
+              <CounterField label="Adultos" value={form.adultos} onChange={(v) => set("adultos", v)} />
+              <CounterField label="Niños" value={form.ninos} onChange={(v) => set("ninos", v)} />
+              <CounterField label="Habitaciones" value={form.habitaciones} onChange={(v) => set("habitaciones", v)} />
             </div>
           </div>
 
-          {/* Fila 2 */}
           <div>
             <Label>Hora estimada de llegada</Label>
             <TimeInput
@@ -410,7 +377,6 @@ const DatosReservaTab: React.FC<{
           </div>
           <div />
 
-          {/* Fila 3 */}
           <div>
             <Label>Tipo de alojamiento</Label>
             <SelectField
@@ -435,10 +401,12 @@ const DatosReservaTab: React.FC<{
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Servicios adicionales</h2>
         <div className="grid grid-cols-3 gap-x-8 items-start">
 
-          {/* Col 1: Buscar servicios */}
-          <div>
-            <Label>Buscar servicios</Label>
-            <InputField placeholder="Buscar" />
+          {/* Col 1: Buscar + Precio por noche */}
+          <div className="flex flex-col gap-4">
+            <div>
+              <Label>Buscar servicios</Label>
+              <InputField placeholder="Buscar" />
+            </div>
           </div>
 
           {/* Col 2: Servicios agregados */}
@@ -448,21 +416,18 @@ const DatosReservaTab: React.FC<{
               {form.serviciosAgregados.map((s, i) => (
                 <div
                   key={i}
-                  className="bg-(--light-main2)] rounded-lg px-4 py-3 flex justify-between items-center"
+                  className="bg-[varlight-main2) rounded-lg px-4 py-3 flex justify-between items-center"
                 >
                   <div>
                     <p className="text-[13px] font-medium">{s.nombre}</p>
-                    <p className="text-[11px] text-(--light-placeholder)]">{s.precio}</p>
+                    <p className="text-[11px] text-(--light-placeholder)">{s.precio} USD</p>
                   </div>
                   <button
                     type="button"
                     onClick={() =>
-                      set(
-                        "serviciosAgregados",
-                        form.serviciosAgregados.filter((_, j) => j !== i)
-                      )
+                      set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))
                     }
-                    className="text-(--light-text)] hover:opacity-70 shrink-0 text-[18px] leading-none"
+                    className="text-(--light-text) hover:opacity-70 shrink-0 text-[18px] leading-none"
                   >
                     −
                   </button>
@@ -496,8 +461,6 @@ const DatosReservaTab: React.FC<{
                 </label>
               </div>
             </div>
-
-            {/* Patente — solo si estacionamiento = Si */}
             {form.estacionamiento === "Si" && (
               <div>
                 <Label>Patente</Label>
@@ -523,254 +486,263 @@ const DatosEconomicosTab: React.FC<{
   set: (k: keyof FormData, v: any) => void;
   econ: EconData;
   setEcon: (k: keyof EconData, v: any) => void;
-}> = ({ form, set, econ, setEcon }) => (
-  <div className="space-y-10 text-(--light-text)]">
+}> = ({ form, set, econ, setEcon }) => {
 
-    <div>
-      <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos económicos</h2>
-      <div className="grid grid-cols-3 gap-x-8 gap-y-6">
-        <div>
-          <Label>Precio por noche</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.precioPorNoche}
-            onChange={(e) => setEcon("precioPorNoche", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Precio total de noches</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.precioTotalNoches}
-            onChange={(e) => setEcon("precioTotalNoches", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Total estimado de la estadía</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.totalEstadia}
-            onChange={(e) => setEcon("totalEstadia", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Precio total de servicios</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.precioServicios}
-            onChange={(e) => setEcon("precioServicios", e.target.value)}
-          />
-        </div>
-        <div className="col-span-2">
-          <Label>Servicios agregados</Label>
-          <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
-            {form.serviciosAgregados.map((s, i) => (
-              <div
-                key={i}
-                className="bg-(--light-main2)] rounded-lg px-4 py-3 flex justify-between items-center"
-              >
-                <div>
-                  <p className="text-[13px] font-medium">{s.nombre}</p>
-                  <p className="text-[11px] text-(--light-placeholder)]">{s.precio}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() =>
-                    set(
-                      "serviciosAgregados",
-                      form.serviciosAgregados.filter((_, j) => j !== i)
-                    )
-                  }
-                  className="text-(--light-text)] hover:opacity-70 text-[18px] leading-none"
-                >
-                  −
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+  // ── Cálculos automáticos ─────────────────────────────────────────────────
+  const precioPorNoche = parseFloat(form.precioPorNoche) || 0;
+  const noches = parseInt(form.cantidadNoches) || 0;
+  const totalNoches = precioPorNoche * noches;
 
-    <div>
-      <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Forma de pago</h2>
-      <div className="grid grid-cols-3 gap-x-8 gap-y-6">
-        <div>
-          <Label>Medio de pago</Label>
-          <SelectField
-            options={["Seleccionar", "Efectivo", "Tarjeta de crédito", "Transferencia"]}
-            value={econ.medioPago}
-            onChange={(e) => setEcon("medioPago", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Estado de pago</Label>
-          <div className="flex flex-col gap-1 mt-2">
-            <label className="flex items-center gap-2 text-[14px] cursor-pointer">
-              <input
-                type="radio"
-                name="estadoPago"
-                checked={econ.estadoPago === "Parcial"}
-                onChange={() => setEcon("estadoPago", "Parcial")}
-              />{" "}
-              Parcial
-            </label>
-            <label className="flex items-center gap-2 text-[14px] cursor-pointer">
-              <input
-                type="radio"
-                name="estadoPago"
-                checked={econ.estadoPago === "Total"}
-                onChange={() => setEcon("estadoPago", "Total")}
-              />{" "}
-              Total
-            </label>
-          </div>
-        </div>
-        <div />
-        <div>
-          <Label>Monto que abona ahora</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.montoAbona}
-            onChange={(e) => setEcon("montoAbona", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Saldo pendiente</Label>
-          <InputField
-            placeholder="00 USD"
-            value={econ.saldoPendiente}
-            onChange={(e) => setEcon("saldoPendiente", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Número de recibo/transacción</Label>
-          <InputField
-            placeholder="1487"
-            value={econ.nroRecibo}
-            onChange={(e) => setEcon("nroRecibo", e.target.value)}
-          />
-        </div>
-      </div>
-    </div>
+  const totalServicios = form.serviciosAgregados.reduce(
+    (acc, s) => acc + (parseFloat(s.precio) || 0),
+    0
+  );
 
-    <div>
-      <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Observaciones</h2>
+  const totalEstadia = totalNoches + totalServicios;
+  const montoAbona = parseFloat(econ.montoAbona) || 0;
+  const saldoPendiente = econ.estadoPago === "Total" ? 0 : Math.max(0, totalEstadia - montoAbona);
+
+  useEffect(() => {
+    setEcon(
+      "saldoPendiente",
+      econ.estadoPago === "Total" ? "0" : String(Math.max(0, totalEstadia - montoAbona))
+    );
+  }, [econ.estadoPago, econ.montoAbona, totalEstadia]);
+
+  return (
+    <div className="space-y-10 text-(--light-text)">
+
       <div>
-        <Label>Nota del recepcionista</Label>
-        <textarea
-          placeholder="Escribe aquí"
-          rows={4}
-          value={econ.nota}
-          onChange={(e) => setEcon("nota", e.target.value)}
-          className="w-full max-w-[340px] bg-(--light-main2)] border border-transparent rounded-lg px-3 py-2 text-[14px] text-(--light-text)] focus:border-(--light-accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none resize-none placeholder:text-(--light-placeholder)] transition"
-        />
+        <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos económicos</h2>
+        <div className="grid grid-cols-3 gap-x-8 gap-y-6">
+          <div>
+            <Label>Precio por noche</Label>
+            <InputField
+              placeholder="00 USD"
+              value={form.precioPorNoche}
+              onChange={(e) => set("precioPorNoche", e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>Precio total de noches</Label>
+            <InputField
+              placeholder="00 USD"
+              value={totalNoches > 0 ? `${totalNoches} USD` : ""}
+              readOnly
+            />
+          </div>
+          <div>
+            <Label>Total estimado de la estadía</Label>
+            <InputField
+              placeholder="00 USD"
+              value={totalEstadia > 0 ? `${totalEstadia} USD` : ""}
+              readOnly
+            />
+          </div>
+          <div>
+            <Label>Precio total de servicios</Label>
+            <InputField
+              placeholder="00 USD"
+              value={totalServicios > 0 ? `${totalServicios} USD` : ""}
+              readOnly
+            />
+          </div>
+          <div className="col-span-2">
+            <Label>Servicios agregados</Label>
+            <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
+              {form.serviciosAgregados.map((s, i) => (
+                <div
+                  key={i}
+                  className="bg-(--light-main2) rounded-lg px-4 py-3 flex justify-between items-center"
+                >
+                  <div>
+                    <p className="text-[13px] font-medium">{s.nombre}</p>
+                    <p className="text-[11px] text-(--light-placeholder)">{s.precio} USD</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))
+                    }
+                    className="text-(--light-text) hover:opacity-70 text-[18px] leading-none"
+                  >
+                    −
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div>
+        <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Forma de pago</h2>
+        <div className="grid grid-cols-3 gap-x-8 gap-y-6">
+          <div>
+            <Label>Medio de pago</Label>
+            <SelectField
+              options={["Seleccionar", "Efectivo", "Tarjeta de crédito", "Transferencia"]}
+              value={econ.medioPago}
+              onChange={(e) => setEcon("medioPago", e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>Estado de pago</Label>
+            <div className="flex flex-col gap-1 mt-2">
+              <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                <input
+                  type="radio"
+                  name="estadoPago"
+                  checked={econ.estadoPago === "Parcial"}
+                  onChange={() => setEcon("estadoPago", "Parcial")}
+                />{" "}
+                Parcial
+              </label>
+              <label className="flex items-center gap-2 text-[14px] cursor-pointer">
+                <input
+                  type="radio"
+                  name="estadoPago"
+                  checked={econ.estadoPago === "Total"}
+                  onChange={() => setEcon("estadoPago", "Total")}
+                />{" "}
+                Total
+              </label>
+            </div>
+          </div>
+          <div />
+          <div>
+            <Label>Monto que abona ahora</Label>
+            <InputField
+              placeholder="00 USD"
+              value={econ.estadoPago === "Total" ? `${totalEstadia} USD` : econ.montoAbona}
+              onChange={(e) => setEcon("montoAbona", e.target.value)}
+              readOnly={econ.estadoPago === "Total"}
+            />
+          </div>
+          <div>
+            <Label>Saldo pendiente</Label>
+            <InputField
+              placeholder="00 USD"
+              value={
+                econ.estadoPago === "Total"
+                  ? "0 USD"
+                  : saldoPendiente > 0
+                  ? `${saldoPendiente} USD`
+                  : "0 USD"
+              }
+              readOnly
+            />
+          </div>
+          <div>
+            <Label>Número de recibo/transacción</Label>
+            <InputField
+              placeholder="1487"
+              value={econ.nroRecibo}
+              onChange={(e) => setEcon("nroRecibo", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Observaciones</h2>
+        <div>
+          <Label>Nota del recepcionista</Label>
+          <textarea
+            placeholder="Escribe aquí"
+            rows={4}
+            value={econ.nota}
+            onChange={(e) => setEcon("nota", e.target.value)}
+            className="w-full max-w-[340px] bg-(--light-main2) border border-transparent rounded-lg px-3 py-2 text-[14px] text-(--light-text) focus:border-(--light-accent) focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none resize-none placeholder:text-(--light-placeholder) transition"
+          />
+        </div>
+      </div>
+
     </div>
-  </div>
-);
+  );
+};
 
 // ─── TAB 3: Confirmación ─────────────────────────────────────────────────────
 const Row = ({ label, value }: { label: string; value: string }) => (
-  <p className="text-[13px] text-(--light-text)]">
+  <p className="text-[13px] text-(--light-text)">
     <span className="font-semibold">{label}:</span>{"  "}{value || "—"}
   </p>
 );
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-[15px] font-bold uppercase tracking-wide mt-6 mb-3 text-(--light-text)]">
+  <h2 className="text-[15px] font-bold uppercase tracking-wide mt-6 mb-3 text-(--light-text)">
     {children}
   </h2>
 );
 
-const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, econ }) => (
-  <div className="text-(--light-text)] space-y-1 max-w-2xl">
-    <h2 className="text-[18px] font-bold mb-4">Confirmación</h2>
+const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, econ }) => {
+  const precioPorNoche = parseFloat(form.precioPorNoche) || 0;
+  const noches = parseInt(form.cantidadNoches) || 0;
+  const totalNoches = precioPorNoche * noches;
+  const totalServicios = form.serviciosAgregados.reduce((a, s) => a + (parseFloat(s.precio) || 0), 0);
+  const totalEstadia = totalNoches + totalServicios;
+  const montoAbona = parseFloat(econ.montoAbona) || 0;
+  const saldoPendiente = econ.estadoPago === "Total" ? 0 : Math.max(0, totalEstadia - montoAbona);
 
-    <Row label="Recepcionista" value={form.recepcionista} />
-    <Row label="Canal de reserva" value={form.canalReserva} />
-    <Row label="ID de la reserva" value={form.idReserva} />
+  return (
+    <div className="text-(--light-text) space-y-1 max-w-2xl">
+      <h2 className="text-[18px] font-bold mb-4">Confirmación</h2>
 
-    <SectionTitle>Datos del huésped</SectionTitle>
-    <Row label="Nombre completo" value={form.nombreCompleto} />
-    <Row label="País" value={form.pais} />
-    <Row label="Tipo de documento" value={form.tipoDocumento} />
-    <Row label="Número de identidad" value={form.documentoIdentidad} />
-    <Row label="Email" value={form.email} />
-    <Row label="Teléfono de contacto" value={form.telefono} />
+      <Row label="Recepcionista" value={form.recepcionista} />
+      <Row label="Canal de reserva" value={form.canalReserva} />
+      <Row label="ID de la reserva" value={form.idReserva} />
 
-    <SectionTitle>Datos de la estadía</SectionTitle>
-    <Row label="Fecha estimada de check-in" value={formatDate(form.fechaCheckin)} />
-    <Row label="Fecha estimada de check-out" value={formatDate(form.fechaCheckout)} />
-    <Row label="Cantidad de noches" value={form.cantidadNoches} />
-    <Row label="Cantidad de adultos" value={form.adultos.toString().padStart(2, "0")} />
-    <Row label="Cantidad de niños" value={form.ninos.toString().padStart(2, "0")} />
-    <Row label="Cantidad de habitaciones" value={form.habitaciones.toString().padStart(2, "0")} />
-    <Row label="Hora estimada de llegada" value={form.horaLlegada} />
-    <Row label="Hora estimada de salida" value={form.horaCheckout} />
-    <Row label="Ingresa con vehículo" value={form.ingresaVehiculo} />
-    <Row label="Tipo de alojamiento" value={form.tipoAlojamiento} />
-    <Row label="Número de alojamiento" value={form.numeroAlojamiento} />
+      <SectionTitle>Datos del huésped</SectionTitle>
+      <Row label="Nombre completo" value={form.nombreCompleto} />
+      <Row label="País" value={form.pais} />
+      <Row label="Tipo de documento" value={form.tipoDocumento} />
+      <Row label="Número de identidad" value={form.documentoIdentidad} />
+      <Row label="Email" value={form.email} />
+      <Row label="Teléfono de contacto" value={form.telefono} />
 
-    <SectionTitle>Servicios adicionales</SectionTitle>
-    <Row
-      label="Servicios adicionales seleccionados"
-      value={form.serviciosAgregados.length.toString().padStart(2, "0")}
-    />
-    {form.serviciosAgregados.map((s, i) => (
-      <Row key={i} label={s.nombre} value={s.precio} />
-    ))}
-    <Row label="Estacionamiento incluido" value={form.estacionamiento} />
-    {form.estacionamiento === "Si" && (
-      <Row label="Patente" value={form.patente} />
-    )}
+      <SectionTitle>Datos de la estadía</SectionTitle>
+      <Row label="Fecha estimada de check-in" value={formatDate(form.fechaCheckin)} />
+      <Row label="Fecha estimada de check-out" value={formatDate(form.fechaCheckout)} />
+      <Row label="Cantidad de noches" value={form.cantidadNoches} />
+      <Row label="Cantidad de adultos" value={form.adultos.toString().padStart(2, "0")} />
+      <Row label="Cantidad de niños" value={form.ninos.toString().padStart(2, "0")} />
+      <Row label="Cantidad de habitaciones" value={form.habitaciones.toString().padStart(2, "0")} />
+      <Row label="Hora estimada de llegada" value={form.horaLlegada} />
+      <Row label="Hora estimada de salida" value={form.horaCheckout} />
+      <Row label="Ingresa con vehículo" value={form.ingresaVehiculo} />
+      <Row label="Tipo de alojamiento" value={form.tipoAlojamiento} />
+      <Row label="Número de alojamiento" value={form.numeroAlojamiento} />
 
-    <SectionTitle>Datos económicos</SectionTitle>
-    <Row label="Precio por noche" value={econ.precioPorNoche} />
-    <Row label="Precio total de noches" value={econ.precioTotalNoches} />
-    <Row label="Precio total de servicios" value={econ.precioServicios} />
-    <Row label="Total estimado de la estadía" value={econ.totalEstadia} />
+      <SectionTitle>Servicios adicionales</SectionTitle>
+      <Row label="Servicios adicionales seleccionados" value={form.serviciosAgregados.length.toString().padStart(2, "0")} />
+      {form.serviciosAgregados.map((s, i) => (
+        <Row key={i} label={s.nombre} value={`${s.precio} USD`} />
+      ))}
+      <Row label="Estacionamiento incluido" value={form.estacionamiento} />
+      {form.estacionamiento === "Si" && <Row label="Patente" value={form.patente} />}
 
-    <SectionTitle>Forma de pago</SectionTitle>
-    <Row label="Medio de pago" value={econ.medioPago} />
-    <Row label="Estado del pago" value={econ.estadoPago} />
-    <Row label="Monto que abona ahora" value={econ.montoAbona} />
-    <Row label="Saldo pendiente" value={econ.saldoPendiente} />
-    <Row label="Número de recibo/transacción" value={econ.nroRecibo} />
+      <SectionTitle>Datos económicos</SectionTitle>
+      <Row label="Precio por noche" value={precioPorNoche > 0 ? `${precioPorNoche} USD` : "—"} />
+      <Row label="Precio total de noches" value={totalNoches > 0 ? `${totalNoches} USD` : "—"} />
+      <Row label="Precio total de servicios" value={totalServicios > 0 ? `${totalServicios} USD` : "—"} />
+      <Row label="Total estimado de la estadía" value={totalEstadia > 0 ? `${totalEstadia} USD` : "—"} />
 
-    <SectionTitle>Observaciones</SectionTitle>
-    <Row label="Nota del recepcionista" value={econ.nota} />
-  </div>
-);
+      <SectionTitle>Forma de pago</SectionTitle>
+      <Row label="Medio de pago" value={econ.medioPago} />
+      <Row label="Estado del pago" value={econ.estadoPago} />
+      <Row
+        label="Monto que abona ahora"
+        value={econ.estadoPago === "Total" ? `${totalEstadia} USD` : econ.montoAbona ? `${econ.montoAbona} USD` : "—"}
+      />
+      <Row label="Saldo pendiente" value={`${saldoPendiente} USD`} />
+      <Row label="Número de recibo/transacción" value={econ.nroRecibo} />
 
-// ─── Tipos económicos ─────────────────────────────────────────────────────────
-interface EconData {
-  precioPorNoche: string;
-  precioTotalNoches: string;
-  totalEstadia: string;
-  precioServicios: string;
-  medioPago: string;
-  estadoPago: "Parcial" | "Total";
-  montoAbona: string;
-  saldoPendiente: string;
-  nroRecibo: string;
-  nota: string;
-}
-
-const initialEcon: EconData = {
-  precioPorNoche: "",
-  precioTotalNoches: "",
-  totalEstadia: "",
-  precioServicios: "",
-  medioPago: "",
-  estadoPago: "Total",
-  montoAbona: "",
-  saldoPendiente: "",
-  nroRecibo: "",
-  nota: "",
+      <SectionTitle>Observaciones</SectionTitle>
+      <Row label="Nota del recepcionista" value={econ.nota} />
+    </div>
+  );
 };
 
-// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 type Tab = "Datos de la reserva" | "Datos económicos" | "Confirmación";
 
 const NuevaReserva: React.FC = () => {
@@ -778,6 +750,7 @@ const NuevaReserva: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>("Datos de la reserva");
   const [form, setFormState] = useState<FormData>(initialForm);
   const [econ, setEconState] = useState<EconData>(initialEcon);
+  const navigate = useNavigate();
 
   const set = (k: keyof FormData, v: any) =>
     setFormState((prev) => ({ ...prev, [k]: v }));
@@ -786,25 +759,25 @@ const NuevaReserva: React.FC = () => {
     setEconState((prev) => ({ ...prev, [k]: v }));
 
   const currentIndex = tabs.indexOf(activeTab);
-  const goNext = () => {
-    if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1]);
-  };
-  const goPrev = () => {
-    if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1]);
-  };
+  const goNext = () => { if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1]); };
+  const goPrev = () => { if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1]); };
 
   return (
-    <div className="min-h-screen bg-(--light-bg)] p-8 font-poppins">
+    <div className="min-h-screen bg-(--light-bg) p-8 font-poppins">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <ArrowLeft className="text-(--light-text)] cursor-pointer" size={24} />
-          <h1 className="text-[24px] font-semibold text-(--light-text)]">Nueva reserva</h1>
+          <ArrowLeft
+            className="text-(--light-text) cursor-pointer hover:opacity-70 transition"
+            size={24}
+            onClick={() => navigate("/dashboard")}
+          />
+          <h1 className="text-[24px] font-semibold text-(--light-text)">Nueva reserva</h1>
         </div>
 
         {/* Tabs */}
-        <div className="flex bg-(--light-main2)] rounded-lg p-1 mb-10 w-fit">
+        <div className="flex bg-(--light-main2) rounded-lg p-1 mb-10 w-fit">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -812,8 +785,8 @@ const NuevaReserva: React.FC = () => {
               onClick={() => setActiveTab(tab)}
               className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${
                 activeTab === tab
-                  ? "bg-(--light-accent)] text-(--icono-navbar-selected)] shadow-sm"
-                  : "text-(--light-text)] hover:bg-white/10"
+                  ? "bg-(--light-accent)] text-(--icono-navbar-selected) shadow-sm"
+                  : "text-(--light-text) hover:bg-white/10"
               }`}
             >
               {tab}
@@ -822,15 +795,9 @@ const NuevaReserva: React.FC = () => {
         </div>
 
         {/* Content */}
-        {activeTab === "Datos de la reserva" && (
-          <DatosReservaTab form={form} set={set} />
-        )}
-        {activeTab === "Datos económicos" && (
-          <DatosEconomicosTab form={form} set={set} econ={econ} setEcon={setEcon} />
-        )}
-        {activeTab === "Confirmación" && (
-          <ConfirmacionTab form={form} econ={econ} />
-        )}
+        {activeTab === "Datos de la reserva" && <DatosReservaTab form={form} set={set} />}
+        {activeTab === "Datos económicos" && <DatosEconomicosTab form={form} set={set} econ={econ} setEcon={setEcon} />}
+        {activeTab === "Confirmación" && <ConfirmacionTab form={form} econ={econ} />}
 
         {/* Navegación */}
         <div className="flex justify-between items-center pt-10">
@@ -838,7 +805,7 @@ const NuevaReserva: React.FC = () => {
             type="button"
             onClick={goPrev}
             disabled={currentIndex === 0}
-            className={`flex items-center gap-2 px-6 py-2 border border-(--light-outline)] rounded-full text-(--light-text)] hover:bg-(--light-main)] transition-all font-medium text-[14px] font-poppins ${
+            className={`flex items-center gap-2 px-6 py-2 border border-(--light-outline) rounded-full text-(--light-text) hover:bg-(--light-main) transition-all font-medium text-[14px] font-poppins ${
               currentIndex === 0 ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
             }`}
           >
@@ -849,14 +816,14 @@ const NuevaReserva: React.FC = () => {
             <button
               type="button"
               onClick={goNext}
-              className="flex items-center gap-2 px-8 py-2 bg-(--light-accent)] text-(--icono-navbar-selected)] rounded-full hover:opacity-90 transition-all font-medium text-[14px] font-poppins cursor-pointer"
+              className="flex items-center gap-2 px-8 py-2 bg-(--light-accent) text-(--icono-navbar-selected) rounded-full hover:opacity-90 transition-all font-medium text-[14px] font-poppins cursor-pointer"
             >
               Siguiente <ArrowRight size={16} />
             </button>
           ) : (
             <button
               type="button"
-              className="flex items-center gap-2 px-8 py-2 bg-(--light-accent)] text-(--icono-navbar-selected)] rounded-full hover:opacity-90 transition-all font-medium text-[14px] font-poppins cursor-pointer"
+              className="flex items-center gap-2 px-8 py-2 bg-(--light-accent) text-(--icono-navbar-selected) rounded-full hover:opacity-90 transition-all font-medium text-[14px] font-poppins cursor-pointer"
             >
               ✓ Confirmar
             </button>
