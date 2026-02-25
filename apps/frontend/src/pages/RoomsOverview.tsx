@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import RoomCard from "../components/roomsOverview/RoomCard";
+import ServiciosAdicionales from "../components/roomsOverview/Servicios/ServiceCard";
+import type { RoomProps } from "../types/room";
 
 // Dentro de RoomsOverview.tsx
 const roomsData: RoomProps[] = [
@@ -60,6 +62,9 @@ const RoomsOverview: React.FC = () => {
 		return room.id.startsWith("C");
 	});
 
+	const isServicios = activeTab === "Servicios Adicionales";
+	const isHabitaciones = activeTab === "Habitaciones";
+
 	return (
 		<div className="min-h-screen p-6 font-['Poppins']">
 			<h1 className="font-medium text-[var(--light-text)] text-[35px] px-6">
@@ -84,36 +89,47 @@ const RoomsOverview: React.FC = () => {
 			</div>
 
 			{/* LEYENDA */}
-			<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
-				<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
-					<h2 className="font-semibold text-[20px]">
-						{activeTab === "Habitaciones"
-							? "Tipo de habitaciones"
-							: "Tipo de cabañas"}
-					</h2>
-					<div className="flex flex-wrap  gap-x-5 pt-5">
-						{ROOM_TYPES_LEGEND.map((item) => (
-							<LegendItem key={item.label} {...item} />
-						))}
+			{!isServicios && (
+				<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
+					<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
+						<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
+						<div className="flex flex-wrap  gap-x-5 pt-5">
+							{ROOM_TYPES_LEGEND.map((item) => (
+								<LegendItem key={item.label} {...item} />
+							))}
+						</div>
 					</div>
-				</div>
 
-				<div className="flex-col">
-					<h2 className="font-semibold text-[20px]">Estado</h2>
-					<div className="flex flex-wrap  gap-x-5 pt-5">
-						{STATUS_LEGEND.map((item) => (
-							<LegendItem key={item.label} {...item} />
-						))}
+					<div className="flex-col">
+						<h2 className="font-semibold text-[20px]">Estado</h2>
+						<div className="flex flex-wrap  gap-x-5 pt-5">
+							{STATUS_LEGEND.map((item) => (
+								<LegendItem key={item.label} {...item} />
+							))}
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
+
+			{/* <div
+				className={`grid grid-cols-[repeat(auto-fill,250px)] gap-6 justify-center pt-4 pb-[20dvh] 
+					text-[var(--light-text)] ${activeTab === "Habitaciones" ? "max-w-[1400px]" : "max-w-[850px]"}`}
+			> */}
 
 			<div
-				className={`grid grid-cols-[repeat(auto-fill,250px)] gap-6 justify-center pt-4 pb-[20dvh] text-[var(--light-text)] ${activeTab === "Habitaciones" ? "max-w-[1400px]" : "max-w-[850px]"}`}
+				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${
+					isServicios
+						? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
+						: isHabitaciones
+							? "max-w-[1400px] grid-cols-[repeat(auto-fill,250px)] justify-center"
+							: "max-w-[850px] grid-cols-[repeat(auto-fill,250px)] justify-center"
+				}`}
 			>
-				{filteredRooms.map((room) => (
-					<RoomCard key={room.id} {...room} />
-				))}
+				{activeTab === "Servicios Adicionales" ? (
+					<ServiciosAdicionales />
+				) : (
+					filteredRooms.map((room) => <RoomCard key={room.id} {...room} />)
+				)}
 			</div>
 		</div>
 	);
