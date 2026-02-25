@@ -17,12 +17,10 @@ router.post('/create-reserve',
     //     .notEmpty().withMessage('La fecha de entrada no puede estar vacia'),
     //  body('checkOut') //deberia ir al put
         // .notEmpty().withMessage('La fecha de salida no puede estar vacia'),
-    //  body('stayPrice')
-    //     .notEmpty().withMessage('El precio de la estadia no puede estar vacio'),
-    //  body('servicePrice')
-    //     .notEmpty().withMessage('El precio del servicio no puede estar vacio'),
-    //  body('totalPrice')
-    //     .notEmpty().withMessage('El precio total no puede estar vacio'),tambien al put
+     body('stayPrice')
+        .notEmpty().withMessage('El precio de la estadia no puede estar vacio'),
+     body('servicePrice')
+        .notEmpty().withMessage('El precio del servicio no puede estar vacio'),
     //  body('observation')
     //     .notEmpty().withMessage('La observación no puede estar vacia'), tambien al put
 
