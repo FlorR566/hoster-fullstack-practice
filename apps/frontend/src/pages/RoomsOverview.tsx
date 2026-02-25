@@ -89,15 +89,17 @@ const RoomsOverview: React.FC = () => {
 			</div>
 
 			{/* LEYENDA */}
-			{!isServicios && (
-				<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
-					<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
-						<h2 className="font-semibold text-[20px]">Tipo de habitación</h2>
-						<div className="flex flex-wrap  gap-x-5 pt-5">
-							{ROOM_TYPES_LEGEND.map((item) => (
-								<LegendItem key={item.label} {...item} />
-							))}
-						</div>
+			<div className="flex gap-x-6 pt-0 p-6 items-centerself-start text-[20px] text-[var(--light-text)]">
+				<div className="flex-col border-r-[2px] border-r-[var(--light-outline)]">
+					<h2 className="font-semibold text-[20px]">
+						{activeTab === "Habitaciones"
+							? "Tipo de habitaciones"
+							: "Tipo de cabañas"}
+					</h2>
+					<div className="flex flex-wrap  gap-x-5 pt-5">
+						{ROOM_TYPES_LEGEND.map((item) => (
+							<LegendItem key={item.label} {...item} />
+						))}
 					</div>
 
 					<div className="flex-col">
