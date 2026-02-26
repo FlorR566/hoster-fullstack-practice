@@ -12,8 +12,9 @@ class Settings(BaseSettings):
     debug: bool = True
     
     # OpenRouter Configuration
-    openrouter_api_key: str
+    openrouter_api_key: str 
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    llm_model: str = "openchat/openchat-7b"
     
     # API Configuration
     api_host: str = "0.0.0.0"

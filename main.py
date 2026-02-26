@@ -14,7 +14,7 @@ from app.services.ai_service import ai_service
 # Setup logging
 setup_logging()
 logger = get_logger(__name__)
-
+print(settings.openrouter_api_key)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
