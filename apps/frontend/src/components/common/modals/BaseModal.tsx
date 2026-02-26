@@ -35,7 +35,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
       />
 
       {/* dialog */}
-      <div className="relative mx-auto mt-16 w-[min(920px,92vw)] rounded-2xl bg-[var(--light-card)] shadow-xl overflow-hidden">
+      <div className="relative mx-auto mt-16 w-[min(920px,92vw)] rounded-2xl bg-(--light-card) shadow-xl overflow-hidden">
         {/* HEADER TOP BAR */}
         {hasHeader && (
           <div className="flex items-center justify-between px-6 py-4 border-b border-black/5">
