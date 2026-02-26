@@ -77,7 +77,7 @@ const Register: React.FC = () => {
 					className="w-[63px] h-[63px] bg-[#fff] rounded-lg"
 				/>
 				<h1 className="text-[#f7f7ff] text-[36px] font-bold text-center">
-					Hoster
+					HOSTER
 				</h1>
 			</div>
 
