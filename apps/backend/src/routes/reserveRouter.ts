@@ -3,6 +3,7 @@ import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { ReserveController } from "../controllers/ReserveController";
 import { UnitController } from "../controllers/UnitController";
+import { OriginController } from "../controllers/OriginController";
 
 const router = Router()
 
@@ -64,5 +65,35 @@ router.post('/create-unit',
     UnitController.createUnit
 )
 
+// Rutas de Origin
+
+router.post('/create-origin',
+     body('description')
+        .notEmpty().withMessage('La descripcion del Origen no puede estar vacia'),
+    handleInputErrors,
+    OriginController.createOrigin
+)
+router.get('/get-origin',
+    handleInputErrors,
+    OriginController.getAllOrigin
+)
+router.get('/get-origin/:id',
+    param('id')
+        .isInt().withMessage('ID debe ser un numero entero'),
+    handleInputErrors,
+    OriginController.getByIdOrigin
+)
+router.put('/update-origin',
+    param('id')
+        .isInt().withMessage('ID debe ser un numero entero'),
+    handleInputErrors,
+    OriginController.createOrigin
+)
+router.delete('/delete-origin',
+    param('id')
+        .isInt().withMessage('ID debe ser un numero entero'),
+    handleInputErrors,
+    OriginController.createOrigin
+)
 
 export default router
