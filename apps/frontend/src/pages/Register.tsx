@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../components/register/Input";
 import { Button } from "../components/register/Button";
-import { User } from "../types";
 import { getSecurityTip } from "../services/service";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
+import { EyeClosed, User, Mail } from "lucide-react";
 
 const Register: React.FC = () => {
 	const navigate = useNavigate();
@@ -68,10 +68,24 @@ const Register: React.FC = () => {
 	};
 
 	return (
-		<div className="font-['Poppins'] text-[var(--light-text)] min-h-screen flex items-center justify-center p-4 bg-[#0F172A]">
-			<div className="w-full max-w-[570px]">
-				<div className="bg-[var(--light-bg)] p-8 rounded-2xl">
-					<div className="flex flex-col items-center mb-6 h-[135px] bg-[var(--light-outline)] -mx-8 -mt-8 pt-7 rounded-t-2xl">
+		<div className="font-['Poppins'] text-[var(--light-text)] min-h-screen flex flex-col items-center justify-center gap-4 p-4 bg-[#000000] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('/images/FondoHoster.webp')] bg-cover bg-center h-screen">
+			{/* Logo + Hoster */}
+			<div className="w-[570px] flex flex-col items-center ">
+				<img
+					src="/images/Hoster.svg"
+					alt="Hoster"
+					className="w-[63px] h-[63px] bg-[#fff] rounded-lg"
+				/>
+				<h1 className="text-[#f7f7ff] text-[36px] font-bold text-center">
+					Hoster
+				</h1>
+			</div>
+
+			{/* contenedor principal */}
+			<div className="w-full max-w-[570px] ">
+				<div className=" bg-[var(--light-bg-center)] p-8 rounded-2xl">
+					{/* Titulo bienvenida */}
+					<div className="flex flex-col items-center mb-6 h-[135px] bg-[var(--light-bg-register)] -mx-8 -mt-8 pt-7 rounded-t-2xl">
 						<h1 className="text-[32px] font-bold">¡Bienvenido!</h1>
 						<p className="text-[16px]">
 							Ingresa tus credenciales para registrarte al sitio
@@ -108,6 +122,7 @@ const Register: React.FC = () => {
 								name="name"
 								placeholder="Usuario"
 								required
+								icon={<User size={25} strokeWidth={1.5} />}
 								disabled={isLoading}
 								value={formData.name}
 								onChange={handleChange}
@@ -120,6 +135,7 @@ const Register: React.FC = () => {
 								type="email"
 								placeholder="****@gmail.com"
 								required
+								icon={<Mail size={25} strokeWidth={1.5} />}
 								disabled={isLoading}
 								value={formData.email}
 								onChange={handleChange}
@@ -133,6 +149,7 @@ const Register: React.FC = () => {
 								type="password"
 								placeholder="************"
 								required
+								icon={<EyeClosed size={25} strokeWidth={1.5} />}
 								disabled={isLoading}
 								error={errors.password}
 								value={formData.password}
@@ -148,11 +165,13 @@ const Register: React.FC = () => {
 								type="password"
 								placeholder="************"
 								required
+								icon={<EyeClosed size={25} strokeWidth={1.5} />}
 								disabled={isLoading}
 								error={errors.confirmPassword}
 								value={formData.confirmPassword}
 								onChange={handleChange}
 							/>
+							<p className="pt-2">La contraseña debe tener 8 caracteres.</p>
 						</div>
 
 						<div className="md:col-span-2 mt-4">
@@ -166,15 +185,20 @@ const Register: React.FC = () => {
 						</div>
 					</form>
 
-					<div className="mt-8 pt-6 text-center h-[67px] bg-[var(--light-outline)] -mx-8 -mb-8 rounded-b-2xl">
+					{/* footer Card */}
+					<div className="mt-8 pt-6 text-center h-[67px] bg-[var(--light-bg-register)] -mx-8 -mb-8 rounded-b-2xl">
 						<p className="text-[16px]">
-							¿Ya sos un usuario?{" "}
+							¿Ya sos un usuario?,{" "}
 							<Link to="/login" className="underline">
 								INICIAR SESION
 							</Link>
 						</p>
 					</div>
 				</div>
+
+				<p className="p-2 text-center text-[var(--light-copyright)]">
+					© 2026 Hoster. Todos los derechos reservados
+				</p>
 			</div>
 		</div>
 	);
