@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import { db } from './config/db'
 import authRouter from './routes/authRouter'
 import currencyRouter from './routes/currencyRouter'
-
+import job from './config/cron'
 async function connectDB() {
     try {
         await db.authenticate()
@@ -23,6 +23,8 @@ const app = express()
 app.use(morgan('dev'))
 
 app.use(express.json())
+
+job.start()
 
 app.use('/api/auth', authRouter)
 
