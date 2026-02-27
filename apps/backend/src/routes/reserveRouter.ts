@@ -30,8 +30,8 @@ router.post('/create-reserve',
 )
 
 router.get('/get-reserves',
-        ReserveController.getAllReserves
-
+    handleInputErrors,
+    ReserveController.getAllReserves
 )
 
 router.get('/get-reserve/:id',
