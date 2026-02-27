@@ -13,6 +13,8 @@ import ModalCheckIn from "./ModalCheckIn";
 import ModalCheckOut from "./ModalCheckOut";
 import ModalAgregarServicio from "./ModalAgregarServicio";
 
+import { useNavigate } from "react-router-dom";
+
 export interface Reserva {
   id: string;
   nombre: string;
@@ -60,7 +62,7 @@ const SvgIcon: React.FC<{ name: string; alt: string; theme: "light" | "dark" }> 
   const suffix = theme === "dark" ? "light" : "dark";
   return (
     <img src={`/icons/${name}-${suffix}.svg`} alt={alt} width={16} height={16}
-         style={{ display: "block" }} />
+      style={{ display: "block" }} />
   );
 };
 
@@ -74,7 +76,7 @@ const InfoRow: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text
 
 const IconNota: React.FC = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-       strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M10 1.5 H3.5 A1 1 0 0 0 2.5 2.5 V13.5 A1 1 0 0 0 3.5 14.5 H12.5 A1 1 0 0 0 13.5 13.5 V5 L10 1.5 Z" />
     <polyline points="10,1.5 10,5 13.5,5" />
   </svg>
@@ -90,6 +92,14 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
     if (e.target === e.currentTarget) onClose();
   };
 
+  const navigate = useNavigate();
+
+  const handleVerMas = () => {
+    setSubModal(null);
+    onClose();
+    navigate(`/reservas/${reserva.id}`);
+  };
+
   const acciones = [
     "Check-In",
     "Check-Out",
@@ -99,9 +109,9 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
   ];
 
   const handleAccion = (label: string) => {
-    if (label === "Check-In")         { setSubModal("checkin");          return; }
-    if (label === "Check-Out")        { setSubModal("checkout");         return; }
-    if (label === "Agregar Servicio") { setSubModal("agregarservicio");  return; }
+    if (label === "Check-In") { setSubModal("checkin"); return; }
+    if (label === "Check-Out") { setSubModal("checkout"); return; }
+    if (label === "Agregar Servicio") { setSubModal("agregarservicio"); return; }
     console.log(label);
   };
 
@@ -170,12 +180,12 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
 
             <div className="grid grid-cols-2 gap-x-8 gap-y-[18px] mb-6
                             max-[520px]:grid-cols-1">
-              <InfoRow icon={<UserRound size={16} />}  text={reserva.nombre} />
-              <InfoRow icon={<IdCard size={16} />}      text={reserva.documento} />
-              <InfoRow icon={<Phone size={16} />}       text={reserva.telefono} />
-              <InfoRow icon={<Mail size={16} />}        text={reserva.email} />
-              <InfoRow icon={<BedDouble size={16} />}   text={`Habitación: ${reserva.habitacion}`} />
-              <InfoRow icon={<UsersRound size={16} />}  text={`${reserva.personas} personas`} />
+              <InfoRow icon={<UserRound size={16} />} text={reserva.nombre} />
+              <InfoRow icon={<IdCard size={16} />} text={reserva.documento} />
+              <InfoRow icon={<Phone size={16} />} text={reserva.telefono} />
+              <InfoRow icon={<Mail size={16} />} text={reserva.email} />
+              <InfoRow icon={<BedDouble size={16} />} text={`Habitación: ${reserva.habitacion}`} />
+              <InfoRow icon={<UsersRound size={16} />} text={`${reserva.personas} personas`} />
               <InfoRow
                 icon={<SvgIcon name="fecha-llegada" alt="Fecha llegada" theme={theme} />}
                 text={`Fecha llegada: ${reserva.fechaLlegada}`}
@@ -197,6 +207,7 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
 
             <div className="flex justify-end pt-4 border-t border-[var(--light-outline)]">
               <button
+                onClick={handleVerMas}
                 className="inline-flex items-center gap-[5px] border-none bg-transparent
                            font-poppins text-[13px] font-semibold cursor-pointer p-0
                            text-[var(--light-text)] opacity-70

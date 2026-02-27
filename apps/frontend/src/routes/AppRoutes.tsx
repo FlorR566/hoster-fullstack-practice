@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard";
 import NuevaReserva from "../components/reservas/NuevaReserva";
 import RoomsOverview from "../pages/RoomsOverview"; // Asegúrate que el archivo existe en src/pages/
 import AppLayout from "../components/layout/AppLayout"; // Asegúrate que el archivo existe en src/components/layout/
+import VerMas from "../components/reservas/VerMas";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ export const AppRoutes: React.FC = () => {
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reservas/nueva" element={<NuevaReserva />} />
+        <Route path="/reservas/:id" element={<VerMas />} />
         <Route path="/roomsOverview" element={<RoomsOverview />} />
       </Route>
 
