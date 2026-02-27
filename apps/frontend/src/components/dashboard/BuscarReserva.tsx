@@ -1,11 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import ModalReserva, { Reserva } from "../common/modals/ModalReserva";
-// ⚠️ Ajusta el path según tu estructura. Si ModalReserva.tsx está en:
-//   src/components/common/modals/ModalReserva.tsx
-// y BuscarReserva.tsx está en:
-//   src/components/dashboard/BuscarReserva.tsx
-// entonces el import de arriba es correcto.
 
 /* ─────────────────────────────────────────────
    Datos mock — reemplazá por tu llamada a API

@@ -8,7 +8,7 @@ const AccionesRapidas: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-6 w-full">
             {/* 60% */}
             <div className="border border-slate-200 rounded-xl p-4 bg-[var(--card)] shadow-sm">
-                <BuscarReserva value={q} onChange={setQ}/>
+                <BuscarReserva />
             </div>
 
             {/* 40% */}
