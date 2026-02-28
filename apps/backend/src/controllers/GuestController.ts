@@ -67,7 +67,7 @@ export class GuestController {
                 return res.status(404).json({ error: error.message })
             }
             await guest.destroy()
-            res.json({ message: 'Huesped eliminado correctamente' })
+            res.json({ message: 'El Huesped ha sido eliminado correctamente' })
         } catch (error) {
             res.status(500).json({ error: 'Error al eliminar el Huesped' })
         }
