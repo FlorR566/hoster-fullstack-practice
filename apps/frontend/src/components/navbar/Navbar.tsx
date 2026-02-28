@@ -72,11 +72,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/dashboard">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<House size={35} />
@@ -89,11 +88,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/roomsOverview">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<Hotel size={35} />
@@ -106,11 +104,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/reports">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<FileText size={35} />

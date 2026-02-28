@@ -68,7 +68,7 @@ const Register: React.FC = () => {
 	};
 
 	return (
-		<div className="font-['Poppins'] text-[var(--light-text)] min-h-screen flex flex-col items-center justify-center gap-4 p-4 bg-[#000000] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('/images/FondoHoster.webp')] bg-cover bg-center h-screen">
+		<div className="font-['Poppins'] text-[var(--light-text)]  flex flex-col items-center justify-center gap-4 p-4 bg-[#000000] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('/images/FondoHoster.webp')] bg-cover bg-center h-screen">
 			{/* Logo + Hoster */}
 			<div className="w-[570px] flex flex-col items-center ">
 				<img
@@ -82,7 +82,7 @@ const Register: React.FC = () => {
 			</div>
 
 			{/* contenedor principal */}
-			<div className="w-full max-w-[570px] ">
+			<div className="w-full max-w-[570px]">
 				<div className=" bg-[var(--light-bg-center)] p-8 rounded-2xl">
 					{/* Titulo bienvenida */}
 					<div className="flex flex-col items-center mb-6 h-[135px] bg-[var(--light-bg-register)] -mx-8 -mt-8 pt-7 rounded-t-2xl">
