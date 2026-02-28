@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen p-6">
+		<div className="h-[100vh] overflow-y-auto scroll-y-auto p-6">
 			<h1 className="font-poppins font-medium text-[35px] text-[var(--light-text)] px-6 pb-2">
 				Hotel Los Álamos
 			</h1>
@@ -32,7 +32,7 @@ const Dashboard: React.FC = () => {
 				<AccionesRapidas />
 			</div>
 
-			<div className="min-h-screen grid grid-cols-1 md:grid-cols-[3fr_2fr] grid-rows-2 gap-6 p-6">
+			<div className=" grid grid-cols-1 md:grid-cols-[3fr_2fr] grid-rows-2 gap-6 p-6">
 				{/* Bloque 1 (60%) */}
 				<div className="border border-[var(--light-card)] rounded-xl p-4 bg-[var(--light-card)] shadow-sm">
 					<ActividadDiaria />
