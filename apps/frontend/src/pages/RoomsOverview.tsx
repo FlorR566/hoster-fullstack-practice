@@ -66,7 +66,7 @@ const RoomsOverview: React.FC = () => {
 	const isHabitaciones = activeTab === "Habitaciones";
 
 	return (
-		<div className="min-h-screen p-6 font-['Poppins']">
+		<div className="h-[100vh] overflow-y-auto scroll-y-auto p-6 font-['Poppins']">
 			<h1 className="font-medium text-[var(--light-text)] text-[35px] px-6">
 				Unidades de Alojamiento
 			</h1>
@@ -97,7 +97,7 @@ const RoomsOverview: React.FC = () => {
 								? "Tipo de habitación"
 								: "Tipo de cabaña"}
 						</h2>
-						<div className="flex flex-wrap  gap-x-5 pt-5">
+						<div className="flex flex-wrap  gap-3 pt-5">
 							{ROOM_TYPES_LEGEND.map((item) => (
 								<LegendItem key={item.label} {...item} />
 							))}
@@ -106,7 +106,7 @@ const RoomsOverview: React.FC = () => {
 
 					<div className="flex-col">
 						<h2 className="font-semibold text-[20px]">Estado</h2>
-						<div className="flex flex-wrap  gap-x-5 pt-5">
+						<div className="flex flex-wrap gap-3 pt-5">
 							{STATUS_LEGEND.map((item) => (
 								<LegendItem key={item.label} {...item} />
 							))}
@@ -116,13 +116,9 @@ const RoomsOverview: React.FC = () => {
 			)}
 
 			<div
-				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${
-					isServicios
-						? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
-						: isHabitaciones
-							? "max-w-[1400px] grid-cols-[repeat(auto-fill,250px)] justify-center"
-							: "max-w-[850px] grid-cols-[repeat(auto-fill,250px)] justify-center"
-				}`}
+				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${isServicios
+					? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
+					: "p-2 grid-cols-[repeat(auto-fill,250px)] justify-center"}`}
 			>
 				{activeTab === "Servicios Adicionales" ? (
 					<ServiciosAdicionales />
