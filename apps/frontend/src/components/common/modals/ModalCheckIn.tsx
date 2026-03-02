@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   X,
   UserRound,
-  BedDouble,
   UsersRound,
   DollarSign,
   IdCard,
@@ -243,7 +242,7 @@ const ModalCheckIn: React.FC<ModalCheckInProps> = ({ reserva, onClose, onBack })
             <InfoRow icon={<UserRound size={16} />}  text={reserva.nombre} />
             <InfoRow icon={<IdCard size={16} />}      text={reserva.documento} />
 
-            <InfoRow icon={<BedDouble size={16} />}   text={`Habitación: ${reserva.habitacion}`} />
+            <InfoRow icon={<SvgIcon name="alojamiento" alt="Alojamiento" theme={theme} />} text={`Alojamiento: ${reserva.habitacion}`} />
             <InfoRow icon={<UsersRound size={16} />}  text={`${reserva.personas} personas`} />
 
             <InfoRow
@@ -255,8 +254,8 @@ const ModalCheckIn: React.FC<ModalCheckInProps> = ({ reserva, onClose, onBack })
               text={`Pago: ${reserva.pago}`}
             />
 
-            <InfoRow icon={<DollarSign size={16} />} text="Total a pagar: $5000" />
-            <InfoRow icon={<DollarSign size={16} />} text="Total: $8000" />
+            <InfoRow icon={<DollarSign size={16} />} text="Total a pagar: $200" />
+            <InfoRow icon={<SvgIcon name="total" alt="Total" theme={theme} />} text="Total: $1000" />
           </div>
 
           {/* Más información */}
