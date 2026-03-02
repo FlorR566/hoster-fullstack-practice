@@ -13,7 +13,6 @@ import paymentRouter from './routes/paymentRouter'
 import reserveRouter from './routes/reserveRouter'
 import serviceRouter from './routes/serviceRouter'
 import unitRouter from './routes/unitRouter'
-import cors from "cors";
 import job from './config/cron'
 
 async function connectDB() {
@@ -30,8 +29,6 @@ async function connectDB() {
 connectDB()
 
 const app = express()
-
-app.use(cors()); 
 
 app.use(morgan('dev'))
 
