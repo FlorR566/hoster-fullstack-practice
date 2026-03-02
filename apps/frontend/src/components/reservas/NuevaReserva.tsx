@@ -627,8 +627,8 @@ const DatosEconomicosTab: React.FC<{
                 econ.estadoPago === "Total"
                   ? "0 USD"
                   : saldoPendiente > 0
-                  ? `${saldoPendiente} USD`
-                  : "0 USD"
+                    ? `${saldoPendiente} USD`
+                    : "0 USD"
               }
               readOnly
             />
@@ -763,7 +763,7 @@ const NuevaReserva: React.FC = () => {
   const goPrev = () => { if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1]); };
 
   return (
-    <div className="min-h-screen bg-(--light-bg) p-8 font-poppins">
+    <div className="max-h-[100vh] overflow-y-auto scroll-y-auto bg-(--light-bg) p-8 font-poppins">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -783,11 +783,10 @@ const NuevaReserva: React.FC = () => {
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${
-                activeTab === tab
+              className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${activeTab === tab
                   ? "bg-(--light-accent)] text-(--icono-navbar-selected) shadow-sm"
                   : "text-(--light-text) hover:bg-white/10"
-              }`}
+                }`}
             >
               {tab}
             </button>
@@ -805,9 +804,8 @@ const NuevaReserva: React.FC = () => {
             type="button"
             onClick={goPrev}
             disabled={currentIndex === 0}
-            className={`flex items-center gap-2 px-6 py-2 border border-(--light-outline) rounded-full text-(--light-text) hover:bg-(--light-main) transition-all font-medium text-[14px] font-poppins ${
-              currentIndex === 0 ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
-            }`}
+            className={`flex items-center gap-2 px-6 py-2 border border-(--light-outline) rounded-full text-(--light-text) hover:bg-(--light-main) transition-all font-medium text-[14px] font-poppins ${currentIndex === 0 ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
+              }`}
           >
             <ArrowLeft size={16} /> Anterior
           </button>
