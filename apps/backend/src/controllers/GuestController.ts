@@ -33,9 +33,23 @@ export class GuestController {
         }
     }
 
-    /*static updateGuest = async (req: Request ,res: Response ) => {
+    static updateGuest = async (req: Request ,res: Response ) => {
+        const {id} = req.params
+        const {name, symbol} = req.body
+        try {
+            const guest = await Guest.findByPk(id)
+            if (!guest) {
+                const error = new Error('Huesped no encontrada')
+                return res.status(404).json({error: error.message})
+            }
+            await guest.update(req.body)
+            res.json('Huesped actualizado correctamente')
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un Error'})
+        }
     }
 
+    /*
     static deleteGuest = async (req: Request ,res: Response ) => {
     }
     */

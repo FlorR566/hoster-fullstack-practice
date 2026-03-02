@@ -34,13 +34,13 @@ router.get('/get-guest/:id',
     GuestController.getGuestById
 )
 
-/*router.put('/update-guest/:id',
+router.put('/update-guest/:id',
     param('id')
         .isInt().withMessage('ID debe ser un número entero'),
     handleInputErrors,
     GuestController.updateGuest
 )
-
+/*
 router.delete('/delete-guest/:id',
     param('id')
         .isInt().withMessage('ID debe ser un número entero'),

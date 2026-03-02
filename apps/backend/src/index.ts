@@ -6,13 +6,12 @@ const port = process.env.PORT || 5000
 
 async function startServer() {
   try {
-    await db.authenticate();
-    await db.sync({ alter: true });
-    console.log(colors.blue.bold("Conexión exitosa con la BD"));
-
     server.listen(port, () => {
       console.log(colors.cyan.bold(`REST API en el puerto ${port}`));
     });
+    await db.authenticate();
+    await db.sync({ alter: true });
+    console.log(colors.blue.bold("Conexión exitosa con la BD"));
   } catch (error) {
     console.error(error);
     console.log(colors.red.bold("Fallo la conexión con la BD"));
