@@ -55,5 +55,4 @@ class Service extends Model{
     @BelongsTo(() => Currency)
     declare currency: Currency;
 }
-
 export default Service

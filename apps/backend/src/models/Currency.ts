@@ -39,5 +39,4 @@ class Currency extends Model{
     reserves: Reserve[]
     
 }
-
 export default Currency

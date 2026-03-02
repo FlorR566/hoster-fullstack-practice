@@ -37,5 +37,4 @@ class Unit extends Model{
     })
     reserves: Reserve[]
 }
-
 export default Unit
