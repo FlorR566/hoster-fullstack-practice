@@ -6,7 +6,7 @@ import Service from "../models/Service"
 export class ReserveController {
 
     static createReserve = async (req: Request ,res: Response ) => {
-        const {night} = req.body, reserveExists = await Reserve.findOne({where: {night}})
+        const reserveExists = await Reserve.findByPk(req.body.id)
         if (reserveExists) {
             const error = new Error('Reserva ya Registrada')
             return res.status(409).json({error: error.message})
@@ -112,15 +112,15 @@ export class ReserveController {
                 stayPrice,
                 servicePrice,
                 totalPrice,
+                estimatedCheckIn,
+                estimatedCheckOut,
                 ...otherData
             });
 
             return res.status(201).json(reserve);
-
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
-        
     }
 
     static getAllReserves = async (req: Request ,res: Response ) => {
