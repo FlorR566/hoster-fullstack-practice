@@ -16,11 +16,11 @@ router.get('/get-currency/:id',
     CurrencyController.getCurrencyById
 )
 
-router.post('/create-currency', 
+router.post('/create-currency',
     body('name')
         .notEmpty().withMessage('El Nombre no puede ir vacio'),
     body('symbol')
-        .notEmpty().withMessage('El simbolo es obligatorio'),    
+        .notEmpty().withMessage('El simbolo es obligatorio'),
     handleInputErrors,
     CurrencyController.createCurrency
 )
