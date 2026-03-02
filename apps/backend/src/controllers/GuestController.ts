@@ -14,7 +14,7 @@ export class GuestController {
         }
     }
 
-    static getGuest = async (req: Request ,res: Response ) => {
+    static getAllGuest = async (req: Request ,res: Response ) => {
         try {
             const guests = await Guest.findAll();
             res.json(guests);
@@ -23,7 +23,7 @@ export class GuestController {
         }
     }
 
-    static getByIdGuest = async (req: Request ,res: Response ) => {
+    static getGuestById = async (req: Request ,res: Response ) => {
         try {
             const guest = await Guest.findByPk(req.params.id);
             if (!guest) return res.status(404).json({ error: "Huésped no encontrado" });
