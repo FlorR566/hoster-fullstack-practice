@@ -2,47 +2,36 @@ import React, { useState } from "react";
 import RoomCard from "../components/roomsOverview/RoomCard";
 import ServiciosAdicionales from "../components/roomsOverview/Servicios/ServiceCard";
 import type { RoomProps } from "../types/room";
+import { ROOM_TYPES_LEGEND, STATUS_LEGEND } from "../types/room";
 
 // Dentro de RoomsOverview.tsx
 const roomsData: RoomProps[] = [
 	// Habitaciones
-	{ id: "H1", type: "Presidencial", status: "Ocupada", capacity: 4 },
-	{ id: "H2", type: "Deluxe", status: "Ocupada", capacity: 2 },
-	{ id: "H3", type: "Deluxe", status: "Limpieza", capacity: 4 },
-	{ id: "H4", type: "Deluxe", status: "Disponible", capacity: 4 },
-	{ id: "H5", type: "Deluxe", status: "Disponible", capacity: 4 },
-	{ id: "H6", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H7", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H8", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H9", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H01", type: "Presidencial", status: "Ocupada", capacity: 2 },
+	{ id: "H02", type: "Deluxe", status: "Ocupada", capacity: 2 },
+	{ id: "H03", type: "Deluxe", status: "Limpieza", capacity: 4 },
+	{ id: "H04", type: "Deluxe", status: "Disponible", capacity: 4 },
+	{ id: "H05", type: "Deluxe", status: "Disponible", capacity: 2 },
+	{ id: "H06", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H07", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "H08", type: "Estandar", status: "Disponible", capacity: 3 },
+	{ id: "H09", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H10", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H11", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H12", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H13", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H13", type: "Estandar", status: "Disponible", capacity: 3 },
 	{ id: "H14", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H15", type: "Estandar", status: "Disponible", capacity: 4 },
 	{ id: "H16", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H17", type: "Estandar", status: "Disponible", capacity: 4 },
+	{ id: "H17", type: "Estandar", status: "Disponible", capacity: 2 },
 	{ id: "H18", type: "Estandar", status: "Disponible", capacity: 4 },
 	// Cabañas
-	{ id: "C1", type: "Presidencial", status: "Ocupada", capacity: 2 },
-	{ id: "C2", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C3", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C4", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C5", type: "Deluxe", status: "Disponible", capacity: 2 },
-	{ id: "C6", type: "Deluxe", status: "Disponible", capacity: 2 },
-];
-
-const ROOM_TYPES_LEGEND = [
-	{ label: "Estándar", color: "bg-[var(--light-chart1)]" },
-	{ label: "Deluxe", color: "bg-[var(--light-chart2)]" },
-	{ label: "Presidencial", color: "bg-[var(--light-chart3)]" },
-];
-
-const STATUS_LEGEND = [
-	{ label: "Ocupado", color: "bg-[var(--light-status-ocupied)]" },
-	{ label: "En limpieza", color: "bg-[var(--light-status-pending)]" },
-	{ label: "Disponible", color: "bg-[var(--light-status-completed)]" },
+	{ id: "C01", type: "Presidencial", status: "Ocupada", capacity: 2 },
+	{ id: "C02", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C03", type: "Estandar", status: "Disponible", capacity: 3 },
+	{ id: "C04", type: "Estandar", status: "Disponible", capacity: 2 },
+	{ id: "C05", type: "Deluxe", status: "Disponible", capacity: 4 },
+	{ id: "C06", type: "Deluxe", status: "Disponible", capacity: 2 },
 ];
 
 const LegendItem = ({ color, label }: { color: string; label: string }) => (
@@ -63,7 +52,6 @@ const RoomsOverview: React.FC = () => {
 	});
 
 	const isServicios = activeTab === "Servicios Adicionales";
-	const isHabitaciones = activeTab === "Habitaciones";
 
 	return (
 		<div className="h-[100vh] overflow-y-auto scroll-y-auto p-6 font-['Poppins']">
@@ -116,9 +104,11 @@ const RoomsOverview: React.FC = () => {
 			)}
 
 			<div
-				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${isServicios
-					? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
-					: "p-2 grid-cols-[repeat(auto-fill,250px)] justify-center"}`}
+				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${
+					isServicios
+						? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
+						: "p-2 grid-cols-[repeat(auto-fill,250px)] justify-center"
+				}`}
 			>
 				{activeTab === "Servicios Adicionales" ? (
 					<ServiciosAdicionales />
