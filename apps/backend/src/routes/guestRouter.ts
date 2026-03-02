@@ -47,6 +47,4 @@ router.delete('/delete-guest/:id',
     handleInputErrors,
     GuestController.deleteGuest
 )*/
-
 export default router
-
