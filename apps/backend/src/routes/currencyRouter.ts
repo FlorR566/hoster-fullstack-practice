@@ -26,6 +26,15 @@ router.get('/get-currency/:id',
     CurrencyController.getCurrencyById
 )
 
+router.post('/create-currency',
+    body('name')
+        .notEmpty().withMessage('El Nombre no puede ir vacio'),
+    body('symbol')
+        .notEmpty().withMessage('El simbolo es obligatorio'),
+    handleInputErrors,
+    CurrencyController.createCurrency
+)
+
 router.put('/update-currency/:id',
     param('id')
         .isInt().withMessage('ID debe ser un numero entero'),
