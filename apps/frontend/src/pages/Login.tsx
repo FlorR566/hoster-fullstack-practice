@@ -49,14 +49,14 @@ const Login: React.FC = () => {
 			<div className="w-full max-w-[570px]">
 				<div className="bg-[var(--light-bg-center)] p-8 rounded-2xl">
 					{/* Titulo bienvenida */}
-					<div className="flex flex-col items-center mb-6 h-[135px] bg-[var(--light-bg-register)] -mx-8 -mt-8 pt-7 rounded-t-2xl">
-						<h1 className="text-[32px] font-bold">¡Bienvenido!</h1>
-						<p className="text-[16px]">
+					<div className="flex flex-col items-center h-[135px] bg-[var(--light-bg-register)] -mx-8 -mt-8 md:pt-4 xl:pt-7 rounded-t-2xl">
+						<h1 className="md:text-[26px] xl:text-[32px] font-bold">¡Bienvenido!</h1>
+						<p className="md:text-[13px] xl:text-[16px]">
 							Ingresa tus credenciales para acceder al dashboard
 						</p>
 					</div>
 
-					<form onSubmit={handleSubmit} className="space-y-4">
+					<form onSubmit={handleSubmit} className="pt-2 space-y-2 xl:space-y-4">
 						{error && (
 							<div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-lg flex items-center gap-2">
 								<svg

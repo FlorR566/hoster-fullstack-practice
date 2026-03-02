@@ -7,7 +7,7 @@ const AppLayout: React.FC = () => {
   return (
     <Layout className="flex">
       <Navbar />
-      <main className="flex-1">
+      <main className="max-h-[100vh] flex-1">
         <Outlet />
       </main>
     </Layout>
