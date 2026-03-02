@@ -1,5 +1,5 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull} from "sequelize-typescript";
-
+import { Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo, HasMany} from 'sequelize-typescript'
+import Reserve from './Reserve'
 
 @Table({
     tableName: 'units'
@@ -17,12 +17,6 @@ class Unit extends Model{
     @Column({
         type: DataType.INTEGER
     })
-    declare amount:number
-
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER
-    })
     declare capacity:number
 
     @AllowNull(false)
@@ -33,16 +27,14 @@ class Unit extends Model{
 
     @AllowNull(false)
     @Column({
-        type: DataType.FLOAT
+        type: DataType.DECIMAL(10, 2)
     })
     declare price:number
 
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER
+    @HasMany(() => Reserve, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     })
-    declare currencyId:number
-    
+    reserves: Reserve[]
 }
-
 export default Unit
