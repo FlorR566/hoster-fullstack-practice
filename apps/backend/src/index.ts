@@ -11,7 +11,6 @@ async function startServer() {
     });
     await db.authenticate();
     await db.sync({ alter: true });
-    console.log(colors.blue.bold("Conexión exitosa con la BD"));
   } catch (error) {
     console.error(error);
     console.log(colors.red.bold("Fallo la conexión con la BD"));
