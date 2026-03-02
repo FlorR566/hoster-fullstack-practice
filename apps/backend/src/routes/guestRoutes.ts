@@ -20,10 +20,10 @@ router.post('/create-guest',
         .notEmpty().withMessage('El país no puede estar vacío'),
     handleInputErrors,
     GuestController.createGuest
-
 )
 
 router.get('/get-guests',
+    handleInputErrors,
     GuestController.getAllGuest
 )
 

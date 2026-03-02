@@ -36,12 +36,12 @@ router.put("/update-origin/:id",
     .isLength({ max: 50 }),
     handleInputErrors,
     OriginController.updateOrigin
-);
+)
+
 router.delete("/delete-origin/:id",
   param("id")
     .isInt().withMessage("ID debe ser un entero"),
   handleInputErrors,
   OriginController.deleteOrigin
 );
-
 export default router;

@@ -35,6 +35,7 @@ router.put('/update-reserve/:id',
     handleInputErrors,
     ReserveController.updateReserveById
 )
+
 router.delete('/delete-reserve/:id',
      param('id')
         .isInt().withMessage('ID debe ser un numero entero'),

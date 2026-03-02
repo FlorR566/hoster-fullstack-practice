@@ -30,6 +30,7 @@ router.put('/update-payment/:id',
     handleInputErrors,
     PaymentController.updatePaymentById
 )
+
 router.delete('/delete-payment/:id',
      param('id')
         .isInt().withMessage('ID debe ser un numero entero'),
