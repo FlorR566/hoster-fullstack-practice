@@ -65,9 +65,6 @@ export class ReserveController {
                 return res.status(400).json({ error: 'guestAdult es requerido' });
             }
             
-            if (guestChild === undefined || guestChild === null) {
-                return res.status(400).json({ error: 'guestChild es requerido' });
-            }
 
             // Retornar unidades disponibles
             res.status(200).json({

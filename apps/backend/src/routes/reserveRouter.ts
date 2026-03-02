@@ -11,8 +11,12 @@ TENEMOS QUE COORDINAR CON FRONT PARA VER QUE MAS VA EN UNA RESERVA Y COMO LO HAC
 */
 
 router.post('/create-reserve',
-    body('night')
-        .notEmpty().withMessage('La cantidad de noches no puede estar vacia'),
+    body('estimatedCheckIn')
+        .notEmpty().withMessage('La fecha estimada de check-in es requerida'),
+    body('estimatedCheckOut')
+        .notEmpty().withMessage('La fecha estimada de check-out es requerida'),
+    body('guestAdult')
+        .notEmpty().withMessage('La cantidad de adultos es requerida'),
     handleInputErrors,
     ReserveController.createReserve
 )
