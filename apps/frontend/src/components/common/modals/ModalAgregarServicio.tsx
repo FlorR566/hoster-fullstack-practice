@@ -1,7 +1,39 @@
-import React, { useState } from "react";
-import { X, DollarSign, UsersRound, BedDouble } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, DollarSign, UsersRound } from "lucide-react";
 import { Reserva } from "./ModalReserva";
 import ModalConfirmacion from "./ModalConfirmacion";
+
+const SvgIcon: React.FC<{ name: string; alt: string; theme: "light" | "dark" }> = ({
+  name, alt, theme,
+}) => {
+  const suffix = theme === "dark" ? "light" : "dark";
+  return (
+    <img src={`/icons/${name}-${suffix}.svg`} alt={alt} width={16} height={16}
+      style={{ display: "block" }} />
+  );
+};
+
+
+function useTheme(): "light" | "dark" {
+  const getTheme = (): "light" | "dark" => {
+    if (typeof document === "undefined") return "light";
+    if (
+      document.documentElement.classList.contains("dark") ||
+      document.body.classList.contains("dark")
+    )
+      return "dark";
+    return "light";
+  };
+  const [theme, setTheme] = useState<"light" | "dark">(getTheme);
+  useEffect(() => {
+    const update = () => setTheme(getTheme());
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+  return theme;
+}
 
 interface ServicioAgregado {
   id: number;
@@ -17,8 +49,8 @@ interface ModalAgregarServicioProps {
 }
 
 const SERVICIOS_INICIALES: ServicioAgregado[] = [
-  { id: 1, nombre: "Servicio 1", fecha: "13/02/2026", monto: "00 USD" },
-  { id: 2, nombre: "Servicio 1", fecha: "13/02/2026", monto: "00 USD" },
+  { id: 1, nombre: "Servicio 1", fecha: "13/02/2026", monto: "70 USD" },
+  { id: 2, nombre: "Servicio 1", fecha: "13/02/2026", monto: "70 USD" },
 ];
 
 const OPCIONES_SERVICIO = [
@@ -38,8 +70,9 @@ const ModalAgregarServicio: React.FC<ModalAgregarServicioProps> = ({
   const [noches, setNoches] = useState<number | "">(1);
   const [servicios, setServicios] = useState<ServicioAgregado[]>(SERVICIOS_INICIALES);
   const [confirmando, setConfirmando] = useState(false);
+  const theme = useTheme();
 
-  const PRECIO_POR_NOCHE = 600;
+  const PRECIO_POR_NOCHE = 60;
   const totalCalculado = typeof noches === "number" ? noches * PRECIO_POR_NOCHE : 0;
 
   const handleAgregarServicio = () => {
@@ -220,11 +253,12 @@ const ModalAgregarServicio: React.FC<ModalAgregarServicioProps> = ({
             <X size={20} />
           </button>
 
-          {/* Habitación / Personas */}
-          <div className="flex gap-8 mb-5">
+          <div className="grid grid-cols-2 gap-x-10 mb-5 max-[600px]:grid-cols-1">
             <div className="flex items-center gap-[10px] text-[14px] text-[var(--light-text)]">
-              <span className="opacity-80"><BedDouble size={16} /></span>
-              <span>Habitación: {reserva.habitacion}</span>
+              <span className="opacity-80">
+                <SvgIcon name="alojamiento" alt="Alojamiento" theme={theme} />
+              </span>
+              <span>Alojamiento: {reserva.habitacion}</span>
             </div>
             <div className="flex items-center gap-[10px] text-[14px] text-[var(--light-text)]">
               <span className="opacity-80"><UsersRound size={16} /></span>
@@ -291,7 +325,7 @@ const ModalAgregarServicio: React.FC<ModalAgregarServicioProps> = ({
               </div>
 
               {/* Nota */}
-              <p className="font-poppins text-[12px] text-[var(--light-text)] opacity-70 m-0 leading-relaxed">
+              <p className="font-poppins text-[12px] text-[var(--light-text)] opacity-70 m-0 leading-relaxed whitespace-nowrap">
                 El total a pagar se le agregara al monto de pago pendiente
               </p>
             </div>

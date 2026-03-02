@@ -3,7 +3,6 @@ import {
   X,
   UserRound,
   Phone,
-  BedDouble,
   IdCard,
   Mail,
   UsersRound,
@@ -184,7 +183,7 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
               <InfoRow icon={<IdCard size={16} />} text={reserva.documento} />
               <InfoRow icon={<Phone size={16} />} text={reserva.telefono} />
               <InfoRow icon={<Mail size={16} />} text={reserva.email} />
-              <InfoRow icon={<BedDouble size={16} />} text={`Habitación: ${reserva.habitacion}`} />
+              <InfoRow icon={<SvgIcon name="alojamiento" alt="Alojamiento" theme={theme} />}text={`Alojamiento: ${reserva.habitacion}`}/>
               <InfoRow icon={<UsersRound size={16} />} text={`${reserva.personas} personas`} />
               <InfoRow
                 icon={<SvgIcon name="fecha-llegada" alt="Fecha llegada" theme={theme} />}
