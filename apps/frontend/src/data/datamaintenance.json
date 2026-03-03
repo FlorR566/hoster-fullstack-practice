@@ -1,0 +1,72 @@
+[
+	{
+		"id": "M-0000000145",
+		"roomId": "H04-D",
+		"status": "Completado",
+		"reportDate": "25/01/2026",
+		"description": "Se atendió reporte de falla en el sistema de aire acondicionado. Cambio de filtros."
+	},
+	{
+		"id": "M-0000000146",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "25/01/2026",
+		"description": "Revisión de fuga de agua en el baño principal. Se requiere plomero."
+	},
+	{
+		"id": "M-0000000147",
+		"roomId": "H12-E",
+		"status": "Completado",
+		"reportDate": "26/01/2026",
+		"description": "Reparación de cerradura electrónica en la entrada principal."
+	},
+	{
+		"id": "M-0000000148",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "27/01/2026",
+		"description": "Falla en el sistema de iluminación LED de la cocina."
+	},
+	{
+		"id": "M-0000000149",
+		"roomId": "C05-D",
+		"status": "Completado",
+		"reportDate": "28/01/2026",
+		"description": "Mantenimiento preventivo de caldera y radiadores."
+	},
+	{
+		"id": "M-0000000150",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "29/01/2026",
+		"description": "Se atendió reporte de falla en el sistema de WiFi. Router reiniciado."
+	},
+	{
+		"id": "L-0000000151",
+		"roomId": "C02-E",
+		"status": "Completado",
+		"reportDate": "30/01/2026",
+		"description": "Limpieza del pasillo."
+	},
+	{
+		"id": "L-0000000152",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "31/01/2026",
+		"description": "Limpieza ventanas y baño."
+	},
+	{
+		"id": "L-0000000153",
+		"roomId": "H02-D",
+		"status": "Completado",
+		"reportDate": "01/02/2026",
+		"description": "Limpieza colchon."
+	},
+	{
+		"id": "L-0000000154",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos."
+	}
+]
