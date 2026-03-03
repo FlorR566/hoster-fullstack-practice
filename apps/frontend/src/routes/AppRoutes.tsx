@@ -6,8 +6,9 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import NuevaReserva from "../components/reservas/NuevaReserva";
-import RoomsOverview from "../pages/RoomsOverview"; // Asegúrate que el archivo existe en src/pages/
-import AppLayout from "../components/layout/AppLayout"; // Asegúrate que el archivo existe en src/components/layout/
+import EditarReserva from "../components/reservas/EditarReserva";
+import RoomsOverview from "../pages/RoomsOverview"; 
+import AppLayout from "../components/layout/AppLayout";
 import VerMas from "../components/reservas/VerMas";
 
 export const AppRoutes: React.FC = () => {
@@ -35,6 +36,7 @@ export const AppRoutes: React.FC = () => {
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reservas/nueva" element={<NuevaReserva />} />
+        <Route path="/editar-reserva/:id" element={<EditarReserva />} />
         <Route path="/reservas/:id" element={<VerMas />} />
         <Route path="/roomsOverview" element={<RoomsOverview />} />
       </Route>

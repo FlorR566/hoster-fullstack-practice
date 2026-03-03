@@ -108,11 +108,16 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
   ];
 
   const handleAccion = (label: string) => {
-    if (label === "Check-In") { setSubModal("checkin"); return; }
-    if (label === "Check-Out") { setSubModal("checkout"); return; }
-    if (label === "Agregar Servicio") { setSubModal("agregarservicio"); return; }
-    console.log(label);
-  };
+  if (label === "Check-In") { setSubModal("checkin"); return; }
+  if (label === "Check-Out") { setSubModal("checkout"); return; }
+  if (label === "Agregar Servicio") { setSubModal("agregarservicio"); return; }
+  if (label === "Editar Reserva") {
+    onClose();
+    navigate(`/editar-reserva/${reserva.id}`);
+    return;
+  }
+  console.log(label);
+};
 
   return (
     <>
