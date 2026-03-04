@@ -1,0 +1,68 @@
+[
+  {
+    "idReporte": "R-0000000145",
+    "fecha": "01/02/2026",
+    "periodoAnalizado": "Enero 2026",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000144",
+    "fecha": "01/01/2026",
+    "periodoAnalizado": "Diciembre 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000143",
+    "fecha": "01/12/2025",
+    "periodoAnalizado": "Noviembre 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000142",
+    "fecha": "01/11/2025",
+    "periodoAnalizado": "Octubre 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000141",
+    "fecha": "01/10/2025",
+    "periodoAnalizado": "Septiembre 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000140",
+    "fecha": "01/09/2025",
+    "periodoAnalizado": "Agosto 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000139",
+    "fecha": "01/08/2025",
+    "periodoAnalizado": "Julio 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000138",
+    "fecha": "01/07/2025",
+    "periodoAnalizado": "Junio 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000137",
+    "fecha": "01/06/2025",
+    "periodoAnalizado": "Mayo 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000136",
+    "fecha": "01/05/2025",
+    "periodoAnalizado": "Abril 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  },
+  {
+    "idReporte": "R-0000000135",
+    "fecha": "01/04/2025",
+    "periodoAnalizado": "Marzo 2025",
+    "descripcion": "Se atendió reporte de falla en el sistema de mantenimiento"
+  }
+]

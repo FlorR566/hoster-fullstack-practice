@@ -132,10 +132,7 @@ const Navbar: React.FC = () => {
 				<button
 					type="button"
 					onClick={() => dispatch(toggleTheme())}
-					className={`
-      w-full flex items-center gap-3 rounded-lg px-2 py-2 transition
-      text-[var(--light-text)] hover:bg-black/5
-    `}
+					className={`w-full flex items-center gap-3 rounded-lg px-2 py-2 transition text-[var(--light-text)] hover:bg-black/5`}
 					title="Cambiar tema"
 				>
 					{/* Toggle visual */}

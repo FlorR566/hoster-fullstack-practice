@@ -1,51 +1,47 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
-import Origin from "../models/Origin";
+import { OriginController } from "../controllers/OriginController";
 
 const router = Router();
 
-router.post(
-  "/create-origin",
+router.post("/create-origin",
   body("description")
     .notEmpty()
     .withMessage("La descripción no puede estar vacía")
     .isLength({ max: 50 })
     .withMessage("Máximo 50 caracteres"),
   handleInputErrors,
-  async (req, res) => {
-    try {
-      const origin = await Origin.create(req.body);
-      res.json(origin); // devuelve id
-    } catch (error: any) {
-      console.log(error);
-      res.status(500).json({ error: "Error al crear el origen", detail: error?.message });
-    }
-  }
+  OriginController.createOrigin
 );
 
-router.get("/get-origins", async (_req, res) => {
-  try {
-    const origins = await Origin.findAll();
-    res.json(origins);
-  } catch (error) {
-    res.status(500).json({ error: "Hubo un error" });
-  }
-});
+router.get("/get-origins",
+    handleInputErrors,
+    OriginController.getAllOrigin
+);
 
-router.get(
-  "/get-origin/:id",
-  param("id").isInt().withMessage("ID debe ser un entero"),
+router.get("/get-origin/:id",
+  param("id")
+    .isInt().withMessage("ID debe ser un entero"),
   handleInputErrors,
-  async (req, res) => {
-    try {
-      const origin = await Origin.findByPk(req.params.id);
-      if (!origin) return res.status(404).json({ error: "Origen no encontrado" });
-      res.json(origin);
-    } catch (error) {
-      res.status(500).json({ error: "Hubo un error" });
-    }
-  }
+  OriginController.getOriginById
 );
 
+router.put("/update-origin/:id",
+  param("id")
+    .isInt().withMessage("ID debe ser un entero"),
+  body("description")
+    .notEmpty()
+    .withMessage("La descripción no puede estar vacía")
+    .isLength({ max: 50 }),
+    handleInputErrors,
+    OriginController.updateOrigin
+)
+
+router.delete("/delete-origin/:id",
+  param("id")
+    .isInt().withMessage("ID debe ser un entero"),
+  handleInputErrors,
+  OriginController.deleteOrigin
+);
 export default router;

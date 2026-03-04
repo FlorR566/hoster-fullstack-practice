@@ -17,6 +17,7 @@ export class OriginController {
                 res.status(500).json({error: 'Error al crear el Origen'})
             }
     }
+
     static getAllOrigin = async (req: Request ,res: Response ) => {
         try {
                 const origins = await Origin.findAll()
@@ -25,7 +26,8 @@ export class OriginController {
                 res.status(500).json({error: 'Hubo un Error'})
             }
     }
-    static getByIdOrigin = async (req: Request ,res: Response ) => {
+
+    static getOriginById = async (req: Request ,res: Response ) => {
         const {id} = req.params
         try {
             const origin = await Origin.findByPk(id)
@@ -38,6 +40,7 @@ export class OriginController {
             res.status(500).json({error: 'Hubo un Error'})
         }
     }
+
     static updateOrigin = async (req: Request ,res: Response ) => {
         const { id } = req.params
         const { description } = req.body
@@ -54,6 +57,7 @@ export class OriginController {
         }
         
     }
+    
     static deleteOrigin = async (req: Request ,res: Response ) => {
         const {id} = req.params
         try {

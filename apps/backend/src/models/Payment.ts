@@ -41,5 +41,4 @@ class Payment extends Model {
   @BelongsTo(() => Currency)
   declare currency: Currency;
 }
-
 export default Payment;

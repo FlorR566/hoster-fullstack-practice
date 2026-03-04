@@ -18,5 +18,4 @@ class Origin extends Model {
     })
     reserves: Reserve[]
 }
-
 export default Origin;

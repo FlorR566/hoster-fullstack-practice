@@ -19,7 +19,6 @@ export class AuthEmail{
                 <p> e ingresa el codigo <b>${user.token}</b></p>
             `
         })
-
         console.log('Mensaje enviado', email.messageId)
     }
 
@@ -35,7 +34,6 @@ export class AuthEmail{
                 <p> e ingresa el codigo <b>${user.token}</b></p>
             `
         })
-
         console.log('Mensaje enviado', email.messageId)
     }
 }
