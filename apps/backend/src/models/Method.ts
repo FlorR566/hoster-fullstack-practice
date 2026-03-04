@@ -24,5 +24,4 @@ class Method extends Model {
     })
     payments: Payment[]
 }
-
 export default Method;

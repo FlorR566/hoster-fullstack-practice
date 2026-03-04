@@ -2,7 +2,6 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { ServiceController } from "../controllers/ServiceController";
-import { ReserveController } from "../controllers/ReserveController";
 
 const router = Router()
 
@@ -15,14 +14,12 @@ router.post('/create-service',
         .notEmpty().withMessage('Los dias del servicio no pueden estar vacios'),
      body('price')
         .notEmpty().withMessage('El precio del servicio no puede estar vacio'),
-
     handleInputErrors,
     ServiceController.createService
 )
 
 router.get('/get-services',
         ServiceController.getAllServices
-
 )
 
 router.get('/get-service/:id',
@@ -45,5 +42,4 @@ router.delete('/delete-service/:id',
     handleInputErrors,
     ServiceController.deleteServiceById
 )
-
 export default router

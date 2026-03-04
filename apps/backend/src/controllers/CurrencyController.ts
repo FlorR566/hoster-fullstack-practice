@@ -4,23 +4,22 @@ import Currency from "../models/Currency"
 export class CurrencyController {
 
     static createCurrency = async (req: Request ,res: Response ) => {
-            const {name, symbol} = req.body
+        const {name, symbol} = req.body
     
-            //prevenir duplicados
-            const currencyExists = await Currency.findOne({where: {name}})
-            if (currencyExists) {
-                const error = new Error('Moneda ya Registrada')
-                return res.status(409).json({error: error.message})
-            }
-            try {
-                const currency = new Currency(req.body)
-                await currency.save()
-                res.json('Moneda creada Correctamente')
-
-            } catch (error) {
-                //console.log(error)
-                res.status(500).json({error: 'Hubo un Error'})
-            }
+        //prevenir duplicados
+        const currencyExists = await Currency.findOne({where: {name}})
+        if (currencyExists) {
+            const error = new Error('Moneda ya Registrada')
+            return res.status(409).json({error: error.message})
+        }
+        try {
+            const currency = new Currency(req.body)
+            await currency.save()
+            res.json('Moneda creada Correctamente')
+        } catch (error) {
+            //console.log(error)
+            res.status(500).json({error: 'Hubo un Error'})
+        }
     }
 
     static getAllCurrency = async (req: Request ,res: Response ) => {
