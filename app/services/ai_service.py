@@ -26,7 +26,7 @@ class AIService:
                 "HTTP-Referer": "https://github.com/your-username/template-python-fastapi",
                 "X-Title": settings.app_name,
             },
-            timeout=60.0
+            timeout=180.0
         )
         logger.info(f"AI Service initialized with API key: {mask_api_key(settings.openrouter_api_key)}")
     

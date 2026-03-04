@@ -11,7 +11,15 @@ from app.api.v1 import api_router
 from app.models.schemas import RootResponse
 from app.services.ai_service import ai_service
 
+from app.db import engine
+from app.models import Base
+
 # Setup logging
+
+async def create_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    
 setup_logging()
 logger = get_logger(__name__)
 print(settings.openrouter_api_key)
@@ -26,7 +34,6 @@ async def lifespan(app: FastAPI):
     await ai_service.close()
     logger.info("Application shutdown complete")
 
-
 # Create FastAPI application
 app = FastAPI(
     title=settings.app_name,
@@ -37,6 +44,10 @@ app = FastAPI(
     redoc_url="/redoc",
     openapi_url="/openapi.json"
 )
+
+@app.on_event("startup")
+async def startup():
+    await create_tables()
 
 # Add CORS middleware
 app.add_middleware(
