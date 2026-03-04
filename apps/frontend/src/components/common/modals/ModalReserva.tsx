@@ -3,7 +3,6 @@ import {
   X,
   UserRound,
   Phone,
-  BedDouble,
   IdCard,
   Mail,
   UsersRound,
@@ -109,11 +108,16 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
   ];
 
   const handleAccion = (label: string) => {
-    if (label === "Check-In") { setSubModal("checkin"); return; }
-    if (label === "Check-Out") { setSubModal("checkout"); return; }
-    if (label === "Agregar Servicio") { setSubModal("agregarservicio"); return; }
-    console.log(label);
-  };
+  if (label === "Check-In") { setSubModal("checkin"); return; }
+  if (label === "Check-Out") { setSubModal("checkout"); return; }
+  if (label === "Agregar Servicio") { setSubModal("agregarservicio"); return; }
+  if (label === "Editar Reserva") {
+    onClose();
+    navigate(`/editar-reserva/${reserva.id}`);
+    return;
+  }
+  console.log(label);
+};
 
   return (
     <>
@@ -184,7 +188,7 @@ const ModalReserva: React.FC<ModalReservaProps> = ({ reserva, onClose }) => {
               <InfoRow icon={<IdCard size={16} />} text={reserva.documento} />
               <InfoRow icon={<Phone size={16} />} text={reserva.telefono} />
               <InfoRow icon={<Mail size={16} />} text={reserva.email} />
-              <InfoRow icon={<BedDouble size={16} />} text={`Habitación: ${reserva.habitacion}`} />
+              <InfoRow icon={<SvgIcon name="alojamiento" alt="Alojamiento" theme={theme} />}text={`Alojamiento: ${reserva.habitacion}`}/>
               <InfoRow icon={<UsersRound size={16} />} text={`${reserva.personas} personas`} />
               <InfoRow
                 icon={<SvgIcon name="fecha-llegada" alt="Fecha llegada" theme={theme} />}

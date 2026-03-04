@@ -11,7 +11,7 @@ const MOCK_RESERVA: Reserva = {
   telefono: "+54 9 261123456",
   documento: "44765419",
   email: "juan.gomez@gmail.com",
-  habitacion: "306",
+  habitacion: "H06-E",
   personas: 4,
   fechaLlegada: "25/01/2026",
   fechaSalida: "02/02/2026",

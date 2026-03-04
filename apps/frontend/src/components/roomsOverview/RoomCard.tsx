@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { User } from "lucide-react";
 import Modal from "./Modal";
+import type { RoomProps } from "../../types/room";
+import { TYPE_INITIALS, STATUS_STYLES, TYPE_BORDER } from "../../types/room";
+import { User } from "lucide-react";
 import {
 	Bath,
 	BedDouble,
@@ -8,29 +10,7 @@ import {
 	SoapDispenserDroplet,
 } from "lucide-react";
 
-const STATUS_STYLES = {
-	Ocupada:
-		"border-[var(--light-status-ocupied)] bg-[color-mix(in_srgb,var(--light-status-ocupied),transparent_80%)]",
-	Limpieza:
-		"border-[var(--light-status-pending)] bg-[color-mix(in_srgb,var(--light-status-pending),transparent_80%)] ",
-	Disponible:
-		"border-[var(--light-status-completed)] bg-[color-mix(in_srgb,var(--light-status-completed),transparent_80%)] ",
-};
-
-const TYPE_BORDER = {
-	Estandar: "border-l-[var(--light-chart1)]",
-	Deluxe: "border-l-[var(--light-chart2)]",
-	Presidencial: "border-l-[var(--light-chart3)]",
-};
-
-interface RoomCardProps {
-	id: string;
-	type: keyof typeof TYPE_BORDER;
-	status: keyof typeof STATUS_STYLES;
-	capacity: number;
-}
-
-const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
+const RoomCard: React.FC<RoomProps> = ({ id, type, status, capacity }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
@@ -113,7 +93,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 					{/* Body: ID de Habitación */}
 					<div className="absolute inset-0 flex justify-center items-center pointer-events-none ">
 						<h3 className="font-['Poppins'] font-bold text-[40px] pointer-events-auto">
-							{id}
+							{id} - {TYPE_INITIALS[type]}
 						</h3>
 					</div>
 				</div>

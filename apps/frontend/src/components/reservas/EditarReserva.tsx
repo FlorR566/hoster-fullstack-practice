@@ -6,7 +6,7 @@ import {
   ShoppingBag, DollarSign, CreditCard, Receipt,
   StickyNote, Home, Hash, Layers, Package
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface FormData {
   recepcionista: string;
@@ -47,7 +47,7 @@ interface EconData {
 const initialForm: FormData = {
   recepcionista: "",
   canalReserva: "",
-  idReserva: "HSTR-2026-000341",
+  idReserva: "",
   nombreCompleto: "",
   pais: "",
   tipoDocumento: "",
@@ -65,10 +65,7 @@ const initialForm: FormData = {
   adultos: 1,
   ninos: 0,
   habitaciones: 1,
-  serviciosAgregados: [
-    { nombre: "Servicio 1", precio: "20" },
-    { nombre: "Servicio 2", precio: "30" },
-  ],
+  serviciosAgregados: [],
   estacionamiento: "No",
   patente: "",
   precioPorNoche: "",
@@ -100,7 +97,7 @@ function formatDate(iso: string): string {
 
 // ─── Componentes base ────────
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <label className="block text-[14px] font-medium text-(--light-text)]1 ml-1 font-poppins">
+  <label className="block text-[14px] font-medium text-(--light-text) ml-1 font-poppins">
     {children}
   </label>
 );
@@ -221,7 +218,6 @@ const DatosReservaTab: React.FC<{
   return (
     <form className="space-y-8 text-(--light-text)">
 
-      {/* SECCIÓN 1: DATOS GENERALES */}
       <div className="grid grid-cols-3 gap-x-8 gap-y-6">
         <div>
           <Label>Recepcionista</Label>
@@ -245,7 +241,6 @@ const DatosReservaTab: React.FC<{
         </div>
       </div>
 
-      {/* SECCIÓN 2: DATOS DEL HUÉSPED */}
       <div>
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos del huésped</h2>
         <div className="grid grid-cols-4 gap-x-8 gap-y-6">
@@ -302,60 +297,32 @@ const DatosReservaTab: React.FC<{
         </div>
       </div>
 
-      {/* SECCIÓN 3: DATOS DE LA ESTADÍA */}
       <div>
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos de la estadía</h2>
         <div className="grid grid-cols-4 gap-x-8 gap-y-6">
-
           <div>
             <Label>Fecha estimada de check-in</Label>
-            <DateInput
-              value={form.fechaCheckin}
-              onChange={(v) => set("fechaCheckin", v)}
-              placeholder="DD/MM/AAAA"
-            />
+            <DateInput value={form.fechaCheckin} onChange={(v) => set("fechaCheckin", v)} placeholder="DD/MM/AAAA" />
           </div>
           <div>
             <Label>Fecha estimada de check-out</Label>
-            <DateInput
-              value={form.fechaCheckout}
-              onChange={(v) => set("fechaCheckout", v)}
-              placeholder="DD/MM/AAAA"
-            />
+            <DateInput value={form.fechaCheckout} onChange={(v) => set("fechaCheckout", v)} placeholder="DD/MM/AAAA" />
           </div>
           <div>
             <Label>Cantidad de noches</Label>
-            <InputField
-              value={form.cantidadNoches}
-              placeholder="00"
-              readOnly
-            />
+            <InputField value={form.cantidadNoches} placeholder="00" readOnly />
             <div className="mt-4">
               <Label>Ingresa con vehículo</Label>
               <div className="flex flex-col gap-1 mt-1">
                 <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="v"
-                    checked={form.ingresaVehiculo === "Si"}
-                    onChange={() => set("ingresaVehiculo", "Si")}
-                  />{" "}
-                  Si
+                  <input type="radio" name="v" checked={form.ingresaVehiculo === "Si"} onChange={() => set("ingresaVehiculo", "Si")} /> Si
                 </label>
                 <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="v"
-                    checked={form.ingresaVehiculo === "No"}
-                    onChange={() => set("ingresaVehiculo", "No")}
-                  />{" "}
-                  No
+                  <input type="radio" name="v" checked={form.ingresaVehiculo === "No"} onChange={() => set("ingresaVehiculo", "No")} /> No
                 </label>
               </div>
             </div>
           </div>
-
-          {/* Cantidad de personas  */}
           <div className="row-span-2">
             <Label>Cantidad de personas</Label>
             <div className="space-y-2 mt-1">
@@ -364,25 +331,15 @@ const DatosReservaTab: React.FC<{
               <CounterField label="Habitaciones" value={form.habitaciones} onChange={(v) => set("habitaciones", v)} />
             </div>
           </div>
-
           <div>
             <Label>Hora estimada de llegada</Label>
-            <TimeInput
-              value={form.horaLlegada}
-              onChange={(v) => set("horaLlegada", v)}
-              placeholder="14:00"
-            />
+            <TimeInput value={form.horaLlegada} onChange={(v) => set("horaLlegada", v)} placeholder="14:00" />
           </div>
           <div>
             <Label>Hora estimada de check-out</Label>
-            <TimeInput
-              value={form.horaCheckout}
-              onChange={(v) => set("horaCheckout", v)}
-              placeholder="10:00"
-            />
+            <TimeInput value={form.horaCheckout} onChange={(v) => set("horaCheckout", v)} placeholder="10:00" />
           </div>
           <div />
-
           <div>
             <Label>Tipo de alojamiento</Label>
             <SelectField
@@ -393,46 +350,32 @@ const DatosReservaTab: React.FC<{
           </div>
           <div>
             <Label>Número de alojamiento</Label>
-            <InputField
-              placeholder="03"
-              value={form.numeroAlojamiento}
-              onChange={(e) => set("numeroAlojamiento", e.target.value)}
-            />
+            <InputField placeholder="03" value={form.numeroAlojamiento} onChange={(e) => set("numeroAlojamiento", e.target.value)} />
           </div>
         </div>
       </div>
 
-      {/* SECCIÓN 4: SERVICIOS ADICIONALES */}
       <div>
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Servicios adicionales</h2>
         <div className="grid grid-cols-3 gap-x-8 items-start">
-
-          {/* Col 1: Buscar + Precio por noche */}
           <div className="flex flex-col gap-4">
             <div>
               <Label>Buscar servicios</Label>
               <InputField placeholder="Buscar" />
             </div>
           </div>
-
-          {/* Col 2: Servicios agregados */}
           <div>
             <p className="text-[14px] font-medium mb-2 ml-1">Servicios agregados</p>
             <div className="space-y-2">
               {form.serviciosAgregados.map((s, i) => (
-                <div
-                  key={i}
-                  className="bg-[varlight-main2) rounded-lg px-4 py-3 flex justify-between items-center"
-                >
+                <div key={i} className="bg-(--light-main2) rounded-lg px-4 py-3 flex justify-between items-center">
                   <div>
                     <p className="text-[13px] font-medium">{s.nombre}</p>
                     <p className="text-[11px] text-(--light-placeholder)">{s.precio} USD</p>
                   </div>
                   <button
                     type="button"
-                    onClick={() =>
-                      set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))
-                    }
+                    onClick={() => set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))}
                     className="text-(--light-text) hover:opacity-70 shrink-0 text-[18px] leading-none"
                   >
                     −
@@ -441,44 +384,25 @@ const DatosReservaTab: React.FC<{
               ))}
             </div>
           </div>
-
-          {/* Col 3: Estacionamiento + Patente condicional */}
           <div className="flex flex-col gap-3">
             <div>
               <Label>Estacionamiento incluido</Label>
               <div className="flex flex-col gap-1 mt-2">
                 <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="p"
-                    checked={form.estacionamiento === "No"}
-                    onChange={() => set("estacionamiento", "No")}
-                  />{" "}
-                  No
+                  <input type="radio" name="p" checked={form.estacionamiento === "No"} onChange={() => set("estacionamiento", "No")} /> No
                 </label>
                 <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="p"
-                    checked={form.estacionamiento === "Si"}
-                    onChange={() => set("estacionamiento", "Si")}
-                  />{" "}
-                  Si
+                  <input type="radio" name="p" checked={form.estacionamiento === "Si"} onChange={() => set("estacionamiento", "Si")} /> Si
                 </label>
               </div>
             </div>
             {form.estacionamiento === "Si" && (
               <div>
                 <Label>Patente</Label>
-                <InputField
-                  placeholder="AA 342 ZQ"
-                  value={form.patente}
-                  onChange={(e) => set("patente", e.target.value)}
-                />
+                <InputField placeholder="AA 342 ZQ" value={form.patente} onChange={(e) => set("patente", e.target.value)} />
               </div>
             )}
           </div>
-
         </div>
       </div>
 
@@ -486,90 +410,58 @@ const DatosReservaTab: React.FC<{
   );
 };
 
-// ─── TAB 2: Datos Económicos ─────────────────────────────────────────────────
+// ─── TAB 2: Datos Económicos ──────────────────────────────────────────────────
 const DatosEconomicosTab: React.FC<{
   form: FormData;
   set: (k: keyof FormData, v: any) => void;
   econ: EconData;
   setEcon: (k: keyof EconData, v: any) => void;
 }> = ({ form, set, econ, setEcon }) => {
-
-  // ── Cálculos automáticos ─────────────────────────────────────────────────
   const precioPorNoche = parseFloat(form.precioPorNoche) || 0;
   const noches = parseInt(form.cantidadNoches) || 0;
   const totalNoches = precioPorNoche * noches;
-
-  const totalServicios = form.serviciosAgregados.reduce(
-    (acc, s) => acc + (parseFloat(s.precio) || 0),
-    0
-  );
-
+  const totalServicios = form.serviciosAgregados.reduce((acc, s) => acc + (parseFloat(s.precio) || 0), 0);
   const totalEstadia = totalNoches + totalServicios;
   const montoAbona = parseFloat(econ.montoAbona) || 0;
   const saldoPendiente = econ.estadoPago === "Total" ? 0 : Math.max(0, totalEstadia - montoAbona);
 
   useEffect(() => {
-    setEcon(
-      "saldoPendiente",
-      econ.estadoPago === "Total" ? "0" : String(Math.max(0, totalEstadia - montoAbona))
-    );
+    setEcon("saldoPendiente", econ.estadoPago === "Total" ? "0" : String(Math.max(0, totalEstadia - montoAbona)));
   }, [econ.estadoPago, econ.montoAbona, totalEstadia]);
 
   return (
     <div className="space-y-10 text-(--light-text)">
-
       <div>
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos económicos</h2>
         <div className="grid grid-cols-3 gap-x-8 gap-y-6">
           <div>
             <Label>Precio por noche</Label>
-            <InputField
-              placeholder="00 USD"
-              value={form.precioPorNoche}
-              onChange={(e) => set("precioPorNoche", e.target.value)}
-            />
+            <InputField placeholder="00 USD" value={form.precioPorNoche} onChange={(e) => set("precioPorNoche", e.target.value)} />
           </div>
           <div>
             <Label>Precio total de noches</Label>
-            <InputField
-              placeholder="00 USD"
-              value={totalNoches > 0 ? `${totalNoches} USD` : ""}
-              readOnly
-            />
+            <InputField placeholder="00 USD" value={totalNoches > 0 ? `${totalNoches} USD` : ""} readOnly />
           </div>
           <div>
             <Label>Total estimado de la estadía</Label>
-            <InputField
-              placeholder="00 USD"
-              value={totalEstadia > 0 ? `${totalEstadia} USD` : ""}
-              readOnly
-            />
+            <InputField placeholder="00 USD" value={totalEstadia > 0 ? `${totalEstadia} USD` : ""} readOnly />
           </div>
           <div>
             <Label>Precio total de servicios</Label>
-            <InputField
-              placeholder="00 USD"
-              value={totalServicios > 0 ? `${totalServicios} USD` : ""}
-              readOnly
-            />
+            <InputField placeholder="00 USD" value={totalServicios > 0 ? `${totalServicios} USD` : ""} readOnly />
           </div>
           <div className="col-span-2">
             <Label>Servicios agregados</Label>
             <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
               {form.serviciosAgregados.map((s, i) => (
-                <div
-                  key={i}
-                  className="bg-(--light-main2) rounded-lg px-4 py-3 flex justify-between items-center"
-                >
+                <div key={i} className="bg-(--light-main2) rounded-lg px-4 py-3 flex justify-between items-center">
                   <div>
                     <p className="text-[13px] font-medium">{s.nombre}</p>
                     <p className="text-[11px] text-(--light-placeholder)">{s.precio} USD</p>
                   </div>
                   <button
                     type="button"
-                    onClick={() =>
-                      set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))
-                    }
+                    onClick={() => set("serviciosAgregados", form.serviciosAgregados.filter((_, j) => j !== i))}
                     className="text-(--light-text) hover:opacity-70 text-[18px] leading-none"
                   >
                     −
@@ -596,22 +488,10 @@ const DatosEconomicosTab: React.FC<{
             <Label>Estado de pago</Label>
             <div className="flex flex-col gap-1 mt-2">
               <label className="flex items-center gap-2 text-[14px] cursor-pointer">
-                <input
-                  type="radio"
-                  name="estadoPago"
-                  checked={econ.estadoPago === "Parcial"}
-                  onChange={() => setEcon("estadoPago", "Parcial")}
-                />{" "}
-                Parcial
+                <input type="radio" name="estadoPago" checked={econ.estadoPago === "Parcial"} onChange={() => setEcon("estadoPago", "Parcial")} /> Parcial
               </label>
               <label className="flex items-center gap-2 text-[14px] cursor-pointer">
-                <input
-                  type="radio"
-                  name="estadoPago"
-                  checked={econ.estadoPago === "Total"}
-                  onChange={() => setEcon("estadoPago", "Total")}
-                />{" "}
-                Total
+                <input type="radio" name="estadoPago" checked={econ.estadoPago === "Total"} onChange={() => setEcon("estadoPago", "Total")} /> Total
               </label>
             </div>
           </div>
@@ -629,23 +509,13 @@ const DatosEconomicosTab: React.FC<{
             <Label>Saldo pendiente</Label>
             <InputField
               placeholder="00 USD"
-              value={
-                econ.estadoPago === "Total"
-                  ? "0 USD"
-                  : saldoPendiente > 0
-                    ? `${saldoPendiente} USD`
-                    : "0 USD"
-              }
+              value={econ.estadoPago === "Total" ? "0 USD" : saldoPendiente > 0 ? `${saldoPendiente} USD` : "0 USD"}
               readOnly
             />
           </div>
           <div>
             <Label>Número de recibo/transacción</Label>
-            <InputField
-              placeholder="1487"
-              value={econ.nroRecibo}
-              onChange={(e) => setEcon("nroRecibo", e.target.value)}
-            />
+            <InputField placeholder="1487" value={econ.nroRecibo} onChange={(e) => setEcon("nroRecibo", e.target.value)} />
           </div>
         </div>
       </div>
@@ -663,17 +533,15 @@ const DatosEconomicosTab: React.FC<{
           />
         </div>
       </div>
-
     </div>
   );
 };
 
-// ─── iconos SVG con modo claro/oscuro ───
+// ─── Helper para iconos SVG con modo claro/oscuro ───
 const SvgIcon = ({ lightSvg, darkSvg }: { lightSvg: string; darkSvg: string }) => {
   const [isDark, setIsDark] = React.useState(
     () => document.documentElement.classList.contains("dark")
   );
-
   React.useEffect(() => {
     const el = document.documentElement;
     const observer = new MutationObserver(() => {
@@ -682,16 +550,8 @@ const SvgIcon = ({ lightSvg, darkSvg }: { lightSvg: string; darkSvg: string }) =
     observer.observe(el, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
-
-  // lightSvg (*-light.svg) = modo oscuro | darkSvg (*-dark.svg) = modo claro
   return (
-    <img
-      src={`/icons/${isDark ? lightSvg : darkSvg}`}
-      alt=""
-      width={13}
-      height={13}
-      className="shrink-0 mt-[1px] opacity-60"
-    />
+    <img src={`/icons/${isDark ? lightSvg : darkSvg}`} alt="" width={13} height={13} className="shrink-0 mt-[1px] opacity-60" />
   );
 };
 
@@ -702,19 +562,9 @@ const ConfirmSectionTitle = ({ children }: { children: React.ReactNode }) => (
   </h2>
 );
 
-const ConfirmRow = ({
-  icon,
-  label,
-  value,
-}: {
-  icon?: React.ReactNode;
-  label: string;
-  value: string;
-}) => (
+const ConfirmRow = ({ icon, label, value }: { icon?: React.ReactNode; label: string; value: string }) => (
   <div className="flex items-start gap-2 text-[13px] text-[var(--light-text)]">
-    {icon && (
-      <span className="mt-[1px] opacity-60 shrink-0">{icon}</span>
-    )}
+    {icon && <span className="mt-[1px] opacity-60 shrink-0">{icon}</span>}
     <span>
       {label ? <><span className="font-medium">{label}:</span>{"  "}</> : null}{value || "—"}
     </span>
@@ -733,14 +583,12 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
   return (
     <div className="text-[var(--light-text)] max-w-full">
       <h2 className="text-[18px] font-bold mb-4 text-[var(--light-text)]">Confirmación</h2>
-      
       <div className="grid grid-cols-3 gap-x-12 gap-y-2 mb-2">
         <ConfirmRow label="Recepcionista" value={form.recepcionista} />
         <ConfirmRow label="Canal" value={form.canalReserva} />
         <ConfirmRow label="ID de la reserva" value={form.idReserva} />
       </div>
 
-      {/* ── Datos del huésped ── */}
       <ConfirmSectionTitle>Datos del huésped</ConfirmSectionTitle>
       <div className="grid grid-cols-3 gap-x-12 gap-y-2">
         <div className="flex flex-col gap-2">
@@ -757,7 +605,6 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
         </div>
       </div>
 
-      {/* ── Datos de la estadía ── */}
       <ConfirmSectionTitle>Datos de la estadía</ConfirmSectionTitle>
       <div className="grid grid-cols-3 gap-x-12 gap-y-2">
         <div className="flex flex-col gap-2">
@@ -782,7 +629,6 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
         </div>
       </div>
 
-      {/* ── Servicios adicionales ── */}
       <ConfirmSectionTitle>Servicios adicionales</ConfirmSectionTitle>
       <div className="grid grid-cols-3 gap-x-12 gap-y-2 mb-3">
         <ConfirmRow icon={<SvgIcon lightSvg="servicios-light.svg" darkSvg="servicios-dark.svg" />} label="Servicios adicionales seleccionados" value={form.serviciosAgregados.length.toString().padStart(2, "0")} />
@@ -805,7 +651,6 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
         )}
       </div>
 
-      {/* ── Datos económicos ── */}
       <ConfirmSectionTitle>Datos económicos</ConfirmSectionTitle>
       <div className="grid grid-cols-3 gap-x-12 gap-y-2">
         <div className="flex flex-col gap-2">
@@ -818,7 +663,6 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
         </div>
       </div>
 
-      {/* ── Forma de pago ── */}
       <ConfirmSectionTitle>Forma de pago</ConfirmSectionTitle>
       <div className="grid grid-cols-3 gap-x-12 gap-y-2">
         <div className="flex flex-col gap-2">
@@ -836,7 +680,6 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
         </div>
       </div>
 
-      {/* ── Observaciones ── */}
       <ConfirmSectionTitle>Observaciones</ConfirmSectionTitle>
       <ConfirmRow icon={<StickyNote size={13} />} label="Nota del recepcionista" value={econ.nota} />
     </div>
@@ -845,12 +688,13 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({ form, e
 
 type Tab = "Datos de la reserva" | "Datos económicos" | "Confirmación";
 
-const NuevaReserva: React.FC = () => {
+const EditarReserva: React.FC = () => {
   const tabs: Tab[] = ["Datos de la reserva", "Datos económicos", "Confirmación"];
   const [activeTab, setActiveTab] = useState<Tab>("Datos de la reserva");
   const [form, setFormState] = useState<FormData>(initialForm);
   const [econ, setEconState] = useState<EconData>(initialEcon);
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const set = (k: keyof FormData, v: any) =>
     setFormState((prev) => ({ ...prev, [k]: v }));
@@ -866,17 +710,17 @@ const NuevaReserva: React.FC = () => {
     <div className="max-h-[100vh] overflow-y-auto scroll-y-auto bg-(--light-bg) p-8 font-poppins">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <ArrowLeft
             className="text-(--light-text) cursor-pointer hover:opacity-70 transition"
             size={24}
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate(-1)}
           />
-          <h1 className="text-[24px] font-semibold text-(--light-text)">Nueva reserva</h1>
+          <h1 className="text-[24px] font-semibold text-(--light-text)">
+            Editar reserva #{id}
+          </h1>
         </div>
 
-        {/* Tabs */}
         <div className="flex bg-[var(--light-main2)] rounded-lg p-1 mb-10 w-fit">
           {tabs.map((tab) => (
             <button
@@ -893,12 +737,10 @@ const NuevaReserva: React.FC = () => {
           ))}
         </div>
 
-        {/* Content */}
         {activeTab === "Datos de la reserva" && <DatosReservaTab form={form} set={set} />}
         {activeTab === "Datos económicos" && <DatosEconomicosTab form={form} set={set} econ={econ} setEcon={setEcon} />}
         {activeTab === "Confirmación" && <ConfirmacionTab form={form} econ={econ} />}
 
-        {/* Navegación */}
         <div className="flex justify-between items-center pt-10">
           <button
             type="button"
@@ -932,4 +774,4 @@ const NuevaReserva: React.FC = () => {
   );
 };
 
-export default NuevaReserva;
+export default EditarReserva;

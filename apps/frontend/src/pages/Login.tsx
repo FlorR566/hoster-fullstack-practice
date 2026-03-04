@@ -126,7 +126,7 @@ const Login: React.FC = () => {
 					<div className="mt-8 pt-6 text-center h-[67px] bg-[var(--light-bg-register)] -mx-8 -mb-8 rounded-b-2xl">
 						<p className="text-[16px]">
 							¿Todavía no sos un usuario?{" "}
-							<Link to="/register" className="underline">
+							<Link to="/create-account" className="underline">
 								REGISTRATE
 							</Link>
 						</p>
