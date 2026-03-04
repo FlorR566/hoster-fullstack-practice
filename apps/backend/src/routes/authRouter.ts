@@ -86,7 +86,4 @@ router.post('/check-password',
     handleInputErrors,
     AuthController.checkPassword
 )
-
-
-
 export default router

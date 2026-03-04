@@ -37,6 +37,16 @@ class Reserve extends Model{
     declare checkOut: Date
 
     @Column({
+        type: DataType.DATE
+    })
+    declare estimatedCheckIn: Date
+
+    @Column({
+        type: DataType.DATE
+    })
+    declare estimatedCheckOut: Date
+
+    @Column({
         type: DataType.DECIMAL(10, 2)
     })
     declare stayPrice: number

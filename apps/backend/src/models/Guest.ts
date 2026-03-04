@@ -47,5 +47,4 @@ class Guest extends Model {
     reserves: Reserve[]
     
 }
-
 export default Guest;

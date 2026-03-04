@@ -42,5 +42,4 @@ class User extends Model{
     })
     reserves: Reserve[]
 }
-
 export default User
