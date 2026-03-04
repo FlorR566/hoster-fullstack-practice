@@ -5,7 +5,7 @@ import { Button } from "../components/register/Button";
 import { User } from "../types";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
-import { EyeClosed, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -96,7 +96,6 @@ const Login: React.FC = () => {
 							disabled={isLoading}
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							icon={<EyeClosed size={25} strokeWidth={1.5} />}
 						/>
 
 						<div className="flex items-center justify-between">
