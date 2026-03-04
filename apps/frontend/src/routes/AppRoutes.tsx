@@ -33,8 +33,14 @@ export const AppRoutes: React.FC = () => {
 				}
 			/>
 
-			{/* Rutas con Layout (Protegidas o con barra lateral/header) */}
-			<Route element={<AppLayout />}>
+			{/* Rutas Privadas */}
+			<Route
+				element={
+					<ProtectedRoute>
+						<AppLayout /> {/* Layout con sidebar/header */}
+					</ProtectedRoute>
+				}
+			>
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/reservas/nueva" element={<NuevaReserva />} />
 				<Route path="/editar-reserva/:id" element={<EditarReserva />} />
@@ -44,7 +50,7 @@ export const AppRoutes: React.FC = () => {
 			</Route>
 
 			{/* Redirección por defecto */}
-			<Route path="/" element={<Navigate to="/login" replace />} />
+			<Route path="*" element={<Navigate to="/login" replace />} />
 		</Routes>
 	);
 };
