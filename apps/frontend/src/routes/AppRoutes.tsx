@@ -11,6 +11,7 @@ import Mantenimiento from "../pages/Mantenimiento";
 import RoomsOverview from "../pages/RoomsOverview";
 import AppLayout from "../components/layout/AppLayout";
 import VerMas from "../components/reservas/VerMas";
+import Reports from "../pages/Reports";
 
 export const AppRoutes: React.FC = () => {
 	return (
@@ -47,6 +48,7 @@ export const AppRoutes: React.FC = () => {
 				<Route path="/reservas/:id" element={<VerMas />} />
 				<Route path="/mantenimiento" element={<Mantenimiento />} />
 				<Route path="/roomsOverview" element={<RoomsOverview />} />
+				<Route path="/reports" element={<Reports />} />
 			</Route>
 
 			{/* Redirección por defecto */}

@@ -26,6 +26,7 @@ async function connectDB() {
 connectDB()
 
 const app = express()
+app.use(cors()); 
 
 app.use(cors()); 
 
