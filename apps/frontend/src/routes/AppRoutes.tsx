@@ -25,7 +25,7 @@ export const AppRoutes: React.FC = () => {
 				}
 			/>
 			<Route
-				path="/register"
+				path="/create-account"
 				element={
 					<PublicRoute>
 						<Register />
