@@ -8,7 +8,8 @@ import {
 	Sun,
 	Moon,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 // modo
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +27,12 @@ const Navbar: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const mode = useSelector((s: RootState) => s.theme.mode);
 
+	const { logout } = useAuth();
+	const navigate = useNavigate();
+
 	const handleLogout = () => {
+		logout(); // limpia contexto y storage
+		navigate("/login"); // redirige al login
 		console.log("logout");
 	};
 

@@ -25,7 +25,11 @@
 	/*utilizado para status ocupado y no disponible*/
 	--light-status-ocupied: #ac0c0c;
 	--icono-navbar-selected: #f7f7ff;
-	--light-main: #C1C0FF;
+	--light-main: #c1c0ff;
+	/*utilizado en tabla mantenimiento */
+	--light-column1: #e2e2f4;
+	--light-column2: #f2f2ff;
+	--light-title-table: #f7f7ff;
 }
 
 /* Tema DARK */
@@ -56,4 +60,8 @@
 	--light-status-completed: #16bc00;
 	/*utilizado para status ocupado y no disponible*/
 	--light-status-ocupied: #ac0c0c;
+	/*utilizado en tabla mantenimiento */
+	--light-column1: #0b1222;
+	--light-column2: #0f172a;
+	--light-title-table: #f7f7ff;
 }
