@@ -537,7 +537,7 @@ const DatosEconomicosTab: React.FC<{
   );
 };
 
-// ─── Helper para iconos SVG con modo claro/oscuro ───
+// ─── iconos SVG con modo claro/oscuro ───
 const SvgIcon = ({ lightSvg, darkSvg }: { lightSvg: string; darkSvg: string }) => {
   const [isDark, setIsDark] = React.useState(
     () => document.documentElement.classList.contains("dark")
