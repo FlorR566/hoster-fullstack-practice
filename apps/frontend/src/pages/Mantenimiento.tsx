@@ -11,6 +11,9 @@ const Mantenimiento = () => {
 	const [isNewReportOpen, setIsNewReportOpen] = useState(false);
 	const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
 
+	// Buscamos el objeto completo del reporte seleccionado para pasárselo al modal
+	const selectedReport = reports.find((r) => r.id === selectedReportId);
+
 	return (
 		<div className="min-h-screen bg-[var(--light-bg)] p-8">
 			{/* Encabezado y Navegación (Vista Global, Limpieza, etc.) */}
@@ -32,13 +35,15 @@ const Mantenimiento = () => {
 				onViewMore={(id) => setSelectedReportId(id)}
 			/>
 
-			{/* Modales */}
+			{/* Modal Nuevo Reporte */}
 			{isNewReportOpen && (
 				<ReportModal onClose={() => setIsNewReportOpen(false)} />
 			)}
-			{selectedReportId && (
+
+			{/* Detalle del Reporte: pasamos el objeto encontrado */}
+			{selectedReport && (
 				<DetailModal
-					reportId={selectedReportId}
+					report={selectedReport} // Pasamos el objeto completo
 					onClose={() => setSelectedReportId(null)}
 				/>
 			)}
