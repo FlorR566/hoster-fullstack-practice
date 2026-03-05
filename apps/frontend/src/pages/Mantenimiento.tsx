@@ -27,18 +27,15 @@ const Mantenimiento = () => {
 			/>
 
 			{/* Tabla pasándole la data del hook */}
-			<div className="mt-6 overflow-x-auto bg-white rounded-2xl border border-[var(--light-text)]">
-				<MaintenanceTable
-					data={reports}
-					onViewMore={(id) => setSelectedReportId(id)}
-				/>
-			</div>
+			<MaintenanceTable
+				data={reports}
+				onViewMore={(id) => setSelectedReportId(id)}
+			/>
 
 			{/* Modales */}
 			{isNewReportOpen && (
 				<ReportModal onClose={() => setIsNewReportOpen(false)} />
 			)}
-
 			{selectedReportId && (
 				<DetailModal
 					reportId={selectedReportId}
