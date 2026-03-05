@@ -5,8 +5,13 @@ import Service from "../models/Service"
 
 export class ReserveController {
 
+    //TODO: filtro de fechas para ver mas de las reservas.
+
     static createReserve = async (req: Request ,res: Response ) => {
         const reserveExists = await Reserve.findByPk(req.body.id)
+
+        //TODO: generar modulo de disponibilidad de unidades en un  endpoint aparte.
+
         if (reserveExists) {
             const error = new Error('Reserva ya Registrada')
             return res.status(409).json({error: error.message})
@@ -130,6 +135,8 @@ export class ReserveController {
     }
 
     static updateReserveById = async (req: Request, res: Response) => {
+
+        // TODO: CheckIn ChecHOut status,
         const { id } = req.params;
         try {
             const reserve = await Reserve.findByPk(id);
@@ -165,6 +172,7 @@ export class ReserveController {
     }
 
     static deleteReserveById = async (req: Request ,res: Response ) => {
+        // TODO: no es eliminado es cancelado logico.
         const {id} = req.params
         try {
             const reserve = await Reserve.findByPk(id)
