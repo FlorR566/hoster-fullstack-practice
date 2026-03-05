@@ -27,7 +27,7 @@ const Mantenimiento = () => {
 			/>
 
 			{/* Tabla pasándole la data del hook */}
-			<div className="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+			<div className="mt-6 overflow-x-auto bg-white rounded-2xl border border-[var(--light-text)]">
 				<MaintenanceTable
 					data={reports}
 					onViewMore={(id) => setSelectedReportId(id)}
