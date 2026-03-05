@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import NuevaReserva from "../components/reservas/NuevaReserva";
 import EditarReserva from "../components/reservas/EditarReserva";
+import ReporteIncidente from "../components/dashboard/Incidente/ReporteIncidente";
 import Mantenimiento from "../pages/Mantenimiento";
 import RoomsOverview from "../pages/RoomsOverview";
 import AppLayout from "../components/layout/AppLayout";
@@ -46,6 +47,7 @@ export const AppRoutes: React.FC = () => {
 				<Route path="/reservas/nueva" element={<NuevaReserva />} />
 				<Route path="/editar-reserva/:id" element={<EditarReserva />} />
 				<Route path="/reservas/:id" element={<VerMas />} />
+				<Route path="/incidentes/reporte" element={<ReporteIncidente />} />
 				<Route path="/mantenimiento" element={<Mantenimiento />} />
 				<Route path="/roomsOverview" element={<RoomsOverview />} />
 				<Route path="/reports" element={<Reports />} />

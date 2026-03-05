@@ -26,11 +26,6 @@ const DashboardActions: React.FC = () => {
 					label="Reporte de mantenimiento"
 					icon={<Wrench size={16} />}
 				/>
-				<NavActionButton
-					to="/limpieza/reporte"
-					label="Reporte de limpieza"
-					icon={<BrushCleaning size={16} />}
-				/>
 			</div>
 		</div>
 	);
