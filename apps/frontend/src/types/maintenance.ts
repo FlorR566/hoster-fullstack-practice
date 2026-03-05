@@ -6,4 +6,7 @@ export interface MaintenanceReport {
 	status: MaintenanceStatus;
 	reportDate: string;
 	description: string;
+	time: string;
+	duration: string;
+	owner: string;
 }
