@@ -9,6 +9,14 @@ const router = Router()
 de la reserva con el check in y check out.
 TENEMOS QUE COORDINAR CON FRONT PARA VER QUE MAS VA EN UNA RESERVA Y COMO LO HACEN FUNCIONAR ELLOS.
 */
+router.get('/check-availability',
+    body('estimatedCheckIn')
+        .notEmpty().withMessage('La fecha estimada de check-in es requerida'),
+    body('estimatedCheckOut')
+        .notEmpty().withMessage('La fecha estimada de check-out es requerida'),
+    handleInputErrors,
+    ReserveController.checkAvailability
+)
 
 router.post('/create-reserve',
     body('estimatedCheckIn')
