@@ -40,7 +40,7 @@ const Mantenimiento = () => {
 				<ReportModal onClose={() => setIsNewReportOpen(false)} />
 			)}
 
-			{/* Detalle del Reporte: pasamos el objeto encontrado */}
+			{/* Modal detalle del Reporte: pasamos el objeto encontrado */}
 			{selectedReport && (
 				<DetailModal
 					report={selectedReport} // Pasamos el objeto completo

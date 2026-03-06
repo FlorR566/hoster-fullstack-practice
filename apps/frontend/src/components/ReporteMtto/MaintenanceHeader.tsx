@@ -44,15 +44,8 @@ export const MaintenanceHeader = ({
 					))}
 				</nav>
 
-				{/* <button
-					onClick={onNewReport}
-					className="bg-[#C1C1FF] text-[#4F46E5] px-4 py-2 rounded-xl flex items-center gap-2 font-medium hover:bg-opacity-80 transition-all"
-				>
-					<Wrench size={18} /> Nuevo reporte
-				</button> */}
-
 				<NavActionButton
-					to="reporte"
+					to=""
 					onClick={onNewReport}
 					label="Nuevo reporte"
 					icon={<Wrench size={16} />}

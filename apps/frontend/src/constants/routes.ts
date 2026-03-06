@@ -1,6 +1,7 @@
 export const ROUTES = {
 	LOGIN: "/login",
 	REGISTER: "/create-account",
+	CONFIRMACCOUNT: "/confirm-account",
 	DASHBOARD: "/dashboard",
 	HOME: "/",
 } as const;
@@ -10,6 +11,7 @@ export const API_ENDPOINTS = {
 	AUTH: {
 		LOGIN: "/auth/login",
 		REGISTER: "/auth/create-account",
+		CONFIRMACCOUNT: "/auth/confirm-account",
 	},
 	HEALTH: "/health",
 } as const;

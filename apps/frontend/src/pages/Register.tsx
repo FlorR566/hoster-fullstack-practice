@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../components/register/Input";
 import { Button } from "../components/register/Button";
-import { getSecurityTip } from "../services/service";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { EyeClosed, User, Mail } from "lucide-react";
