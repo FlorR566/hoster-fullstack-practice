@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ConfirmAccount from "../pages/ConfirmAccount";
 import Dashboard from "../pages/Dashboard";
 import NuevaReserva from "../components/reservas/NuevaReserva";
 import EditarReserva from "../components/reservas/EditarReserva";
@@ -34,7 +35,14 @@ export const AppRoutes: React.FC = () => {
 					</PublicRoute>
 				}
 			/>
-
+			<Route
+				path="/confirm-account"
+				element={
+					<PublicRoute>
+						<ConfirmAccount />
+					</PublicRoute>
+				}
+			/>
 			{/* Rutas Privadas */}
 			<Route
 				element={
