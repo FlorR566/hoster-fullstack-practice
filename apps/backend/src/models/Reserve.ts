@@ -5,6 +5,7 @@ import Guest from './Guest'
 import Origin from './Origin'
 import User from './User'
 import Service from './Service'
+import Payment from './Payment'
 
 @Table({
     tableName: 'reserves'
@@ -35,6 +36,30 @@ class Reserve extends Model{
         type: DataType.DATE
     })
     declare checkOut: Date
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare checkInConfirmed: boolean
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare checkOutConfirmed: boolean
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare checkInConfirmedAt: Date
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare checkOutConfirmedAt: Date
 
     @Column({
         type: DataType.DATE
@@ -74,7 +99,19 @@ class Reserve extends Model{
     @Column({
         type: DataType.STRING(20)
     })
-    declare observation: string  
+    declare observation: string
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare isCancelled: boolean
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare cancelledAt: Date
   
     @ForeignKey(() => Currency)
     declare currencyId: number;
@@ -96,6 +133,9 @@ class Reserve extends Model{
 
     @BelongsToMany(() => Service, () => ReserveService)
     declare services: Service[];
+
+    @HasMany(() => Payment)
+    declare payments: Payment[];
 
     @ForeignKey(() => User)
     declare userId: number;
