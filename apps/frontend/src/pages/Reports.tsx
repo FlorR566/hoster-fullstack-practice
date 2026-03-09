@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 //common 
 import SearchInput from '../components/common/busqueda/SearchInput';
 import NavActionButton from "../components/common/Navigation/NavActionButton";
