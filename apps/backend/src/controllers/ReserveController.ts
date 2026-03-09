@@ -146,8 +146,8 @@ export class ReserveController {
             const newReserve = await Reserve.create({
                 unitId,
                 userId,
-                estimatedCheckIn: format(checkInDate, 'yyyy-MM-dd'),
-                estimatedCheckOut: format(checkOutDate, 'yyyy-MM-dd'),
+                estimatedCheckIn: format(checkInDate, 'dd-MM-yyyy'),
+                estimatedCheckOut: format(checkOutDate, 'dd-MM-yyyy'),
                 estimatedCheckInTime,
                 estimatedCheckOutTime,
                 guestAdult,
@@ -207,7 +207,7 @@ export class ReserveController {
             if (req.body.checkIn) {
                 try {
                     checkInDate = this.parseAndValidateDate(req.body.CheckIn);
-                    updateData.CheckIn = format(checkInDate, 'yyyy-MM-dd');
+                    updateData.CheckIn = format(checkInDate, 'dd-MM-yyyy');
                 } catch (error) {
                     return res.status(400).json({ error: error.message });
                 }
@@ -215,7 +215,7 @@ export class ReserveController {
             if (req.body.checkOut) {
                 try {
                     checkOutDate = this.parseAndValidateDate(req.body.checkOut);
-                    updateData.checkOut = format(checkOutDate, 'yyyy-MM-dd');
+                    updateData.checkOut = format(checkOutDate, 'dd-MM-yyyy');
                 } catch (error) {
                     return res.status(400).json({ error: error.message });
                 }
