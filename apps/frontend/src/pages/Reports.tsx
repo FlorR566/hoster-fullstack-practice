@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 //common 
 import SearchInput from '../components/common/busqueda/SearchInput';
 import NavActionButton from "../components/common/Navigation/NavActionButton";
 //iconos
-import { Search, Sparkles } from "lucide-react"
+import { Sparkles } from "lucide-react"
 // info tables
 import ReportsTable from '../components/reports/ReportsTable';
 import reportsData from "../data/reports.json"
 
+// modal
+import NewReportModal from "../components/reports/NewReportModal";
+
 const Reports: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div className="h-[100vh] overflow-y-auto scroll-y-auto p-6">
 
@@ -22,14 +26,20 @@ const Reports: React.FC = () => {
 
                 {/* Botón */}
                 <NavActionButton
-                    to="/reports/new"
                     icon={<Sparkles size={18} />}
                     label="Nuevo reporte"
+                    onClick={() => setIsModalOpen(true)}
                 />
 
             </div>
 
             <ReportsTable reports={reportsData} />
+
+            {/* Modal */}
+            <NewReportModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     )
 }

@@ -47,7 +47,7 @@ export const AppRoutes: React.FC = () => {
 			<Route
 				element={
 					<ProtectedRoute>
-						<AppLayout /> {/* Layout con sidebar/header */}
+						<AppLayout /> 
 					</ProtectedRoute>
 				}
 			>
