@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-	House,
-	Hotel,
-	FileText,
-	LogOut,
-	ChevronLeft,
-	Sun,
-	Moon,
-} from "lucide-react";
+import { House, Hotel, FileText, LogOut, ChevronLeft, Sun, Moon } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -16,10 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../../store/themeSlice";
 import type { RootState, AppDispatch } from "../../store/store";
 
-const baseBtn =
-	"flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
-const iconWrapper =
-	"w-[40px] h-[40px] flex items-center justify-center rounded-lg";
+const baseBtn = "flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
+const iconWrapper = "w-[40px] h-[40px] flex items-center justify-center rounded-lg";
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +23,7 @@ const Navbar: React.FC = () => {
 	const handleLogout = () => {
 		logout(); // limpia contexto y storage
 		navigate("/login"); // redirige al login
-		console.log("logout");
+		//console.log("logout");
 	};
 
 	return (
@@ -78,11 +68,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/dashboard">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<House size={35} />
@@ -95,11 +84,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/roomsOverview">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<Hotel size={35} />
@@ -112,11 +100,10 @@ const Navbar: React.FC = () => {
 				<NavLink to="/reports">
 					{({ isActive }) => (
 						<div
-							className={`${baseBtn} ${
-								isActive
+							className={`${baseBtn} ${isActive
 									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)]"
 									: "text-[var(--light-text)]"
-							}`}
+								}`}
 						>
 							<div className={iconWrapper}>
 								<FileText size={35} />
