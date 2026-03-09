@@ -1,15 +1,17 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
+import { authenticate } from "../middleware/auth";
 import { ReserveController } from "../controllers/ReserveController";
 
 const router = Router()
 
-/* TODO: Tenemos que verificar que se necesita para crear una reserva, colocar en el put la actualizacion
-de la reserva con el check in y check out.
-TENEMOS QUE COORDINAR CON FRONT PARA VER QUE MAS VA EN UNA RESERVA Y COMO LO HACEN FUNCIONAR ELLOS.
-*/
-router.get('/check-availability',
+// Aplicar autenticación a todas las rutas de reservas
+router.use(authenticate)
+
+router.post('/check-availability',
+    body('unitId')
+        .isInt().withMessage('unitId debe ser un número entero'),
     body('estimatedCheckIn')
         .notEmpty().withMessage('La fecha estimada de check-in es requerida'),
     body('estimatedCheckOut')
@@ -19,6 +21,14 @@ router.get('/check-availability',
 )
 
 router.post('/create-reserve',
+    body('unitId')
+        .isInt().withMessage('unitId debe ser un número entero'),
+    body('guestId')
+        .isInt().withMessage('guestId debe ser un número entero'),
+    body('currencyId')
+        .isInt().withMessage('currencyId debe ser un número entero'),
+    body('originId')
+        .isInt().withMessage('originId debe ser un número entero'),
     body('estimatedCheckIn')
         .notEmpty().withMessage('La fecha estimada de check-in es requerida'),
     body('estimatedCheckOut')
@@ -46,6 +56,20 @@ router.put('/update-reserve/:id',
         .isInt().withMessage('ID debe ser un numero entero'),
     handleInputErrors,
     ReserveController.updateReserveById
+)
+
+router.post('/confirm-check-in',
+    body('reserveId')
+        .isInt().withMessage('reserveId debe ser un numero entero'),
+    handleInputErrors,
+    ReserveController.confirmCheckIn
+)
+
+router.post('/confirm-check-out',
+    body('reserveId')
+        .isInt().withMessage('reserveId debe ser un numero entero'),
+    handleInputErrors,
+    ReserveController.confirmCheckOut
 )
 
 router.delete('/delete-reserve/:id',
