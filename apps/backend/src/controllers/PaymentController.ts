@@ -4,16 +4,50 @@ import Payment from "../models/Payment"
 export class PaymentController {
 
     static createPayment = async (req: Request ,res: Response ) => {
-        const {date} = req.body, paymentExists = await Payment.findOne({where: {date}})
-        if (paymentExists) {
-            const error = new Error('Pago ya Registrado')
-            return res.status(409).json({error: error.message})
-        } 
-        try { 
-            const newPayment = new Payment(req.body)
-             newPayment.totalAmount = 0 //modificar para que sea el monto parcial multiplicado por las noches reservadas
-             await newPayment.save()
-             res.json({message: 'Pago Creado Correctamente'})
+        const {date, partialAmount, reserveId, methodId, currencyId} = req.body
+        
+        // Validar campos requeridos
+        if (!date || !partialAmount || !reserveId || !methodId || !currencyId) {
+            return res.status(400).json({ 
+                error: 'Faltan campos requeridos: date, partialAmount, reserveId, methodId, currencyId' 
+            });
+        }
+
+        try {
+            // Validar que la reserva exista
+            const Reserve = require('../models/Reserve').default;
+            const reserve = await Reserve.findByPk(reserveId);
+            if (!reserve) {
+                return res.status(404).json({error: 'Reserva no encontrada'})
+            }
+
+            // Calcular monto total y cantidad pendiente
+            const reserveTotalPrice = Number(reserve.totalPrice);
+            const partialAmountNum = Number(partialAmount);
+            
+            // Obtener pagos previos para esta reserva
+            const existingPayments = await Payment.findAll({where: {reserveId}});
+            let totalPaidBefore = 0;
+            existingPayments.forEach((p: any) => {
+                if (p.partialAmount) {
+                    totalPaidBefore += Number(p.partialAmount);
+                }
+            });
+
+            const outstandingAmount = Math.max(0, reserveTotalPrice - totalPaidBefore - partialAmountNum);
+
+            const newPayment = new Payment({
+                date,
+                partialAmount: partialAmountNum,
+                totalAmount: reserveTotalPrice,
+                outstandingAmount,
+                reserveId,
+                methodId,
+                currencyId
+            });
+            
+            await newPayment.save()
+            res.status(201).json({message: 'Pago Creado Correctamente', payment: newPayment})
         } catch (error) {
             console.log(error)
             res.status(500).json({error: 'Error al crear el Pago'})

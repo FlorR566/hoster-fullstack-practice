@@ -2,12 +2,24 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { PaymentController } from "../controllers/PaymentController";
 import { handleInputErrors } from "../middleware/validation";
+import { authenticate } from "../middleware/auth";
 
 const router = Router()
+
+// Aplicar autenticación a todas las rutas de pagos
+router.use(authenticate)
 
 router.post('/create-payment',
      body('date')
         .notEmpty().withMessage('La Fecha no puede estar vacia'),
+     body('partialAmount')
+        .isDecimal().withMessage('El monto parcial debe ser un número decimal'),
+     body('reserveId')
+        .isInt().withMessage('reserveId debe ser un número entero'),
+     body('methodId')
+        .isInt().withMessage('methodId debe ser un número entero'),
+     body('currencyId')
+        .isInt().withMessage('currencyId debe ser un número entero'),
     handleInputErrors,
     PaymentController.createPayment
 )

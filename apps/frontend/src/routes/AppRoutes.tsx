@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Login from "../pages/Login";
@@ -15,6 +15,7 @@ import AppLayout from "../components/layout/AppLayout";
 import VerMas from "../components/reservas/VerMas";
 import Reports from "../pages/Reports";
 import ReportDetail from "../components/reports/ReportDetail";
+import NotFound from "../pages/404";
 
 export const AppRoutes: React.FC = () => {
 	return (
@@ -48,7 +49,7 @@ export const AppRoutes: React.FC = () => {
 			<Route
 				element={
 					<ProtectedRoute>
-						<AppLayout /> 
+						<AppLayout />
 					</ProtectedRoute>
 				}
 			>
@@ -64,7 +65,7 @@ export const AppRoutes: React.FC = () => {
 			</Route>
 
 			{/* Redirección por defecto */}
-			<Route path="*" element={<Navigate to="/login" replace />} />
+			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);
 };
