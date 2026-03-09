@@ -4,15 +4,38 @@ import Unit from "../models/Unit"
 export class UnitController {
 
     static createUnit = async (req: Request ,res: Response ) => {
-        const {type, amount, capacity, state, price} = req.body, unitExists = await Unit.findOne({where: {type}})
-        if (unitExists) {
-            const error = new Error('Unidad ya Registrada')
-            return res.status(409).json({error: error.message})
-        } 
-        try { 
+        const {type, capacity, state, price} = req.body
+        
+        // Validar campos requeridos
+        if (!type || !capacity || !state || !price) {
+            return res.status(400).json({ 
+                error: 'Faltan campos requeridos: type, capacity, state, price' 
+            });
+        }
+
+        try {
+            // Validar que type tenga un formato válido
+            const unitExists = await Unit.findOne({where: {type}})
+            if (unitExists) {
+                const error = new Error('Una unidad con ese tipo ya está registrada')
+                return res.status(409).json({error: error.message})
+            }
+
+            // Validar que capacity sea un número positivo
+            const capacityNum = Number(capacity);
+            if (capacityNum <= 0) {
+                return res.status(400).json({error: 'La capacidad debe ser un número positivo'});
+            }
+
+            // Validar que price sea un número positivo
+            const priceNum = Number(price);
+            if (priceNum <= 0) {
+                return res.status(400).json({error: 'El precio debe ser un número positivo'});
+            }
+
             const newUnit = new Unit(req.body)
             await newUnit.save()
-            res.json({message: 'Unidad Creada Correctamente'})
+            res.status(201).json({message: 'Unidad Creada Correctamente', unit: newUnit})
         } catch (error) {
             console.log(error)
             res.status(500).json({error: 'Error al crear la Unidad'})
