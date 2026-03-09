@@ -12,6 +12,11 @@ class Unit extends Model{
         type: DataType.STRING(60)
     })
     declare type:string
+
+    @Column({
+        type: DataType.STRING(255)
+    })
+    declare description:string
     
     @AllowNull(false)
     @Column({

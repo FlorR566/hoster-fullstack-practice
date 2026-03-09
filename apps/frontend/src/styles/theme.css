@@ -30,6 +30,7 @@
 	--light-column1: #e2e2f4;
 	--light-column2: #f2f2ff;
 	--light-title-table: #f7f7ff;
+	--boton-principal: #C1C0FF;
 }
 
 /* Tema DARK */
@@ -64,4 +65,5 @@
 	--light-column1: #0b1222;
 	--light-column2: #0f172a;
 	--light-title-table: #f7f7ff;
+	--boton-principal: #2D2B9A;
 }

@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { ArrowUpRight } from "lucide-react";
 
 export type Report = {
@@ -13,6 +15,8 @@ type Props = {
 };
 
 const ReportsTable: React.FC<Props> = ({ reports }) => {
+    const navigate = useNavigate();
+
     return (
         <div className="px-6">
             <div className="overflow-x-auto rounded-xl border border-[var(--light-text)]">
@@ -37,7 +41,12 @@ const ReportsTable: React.FC<Props> = ({ reports }) => {
                                 className="border-t border-[var(--light-text)] hover:bg-[var(--light-main2)]/40 transition">
                                 {/* Columna 1 */}
                                 <td className="px-4 py-3 bg-[var(--light-column1)]">
-                                    {report.idReporte}
+                                    <button
+                                        onClick={() => navigate(`/reports/${report.idReporte}`)}
+                                        className="text-[var(--light-text)]"
+                                    >
+                                        {report.idReporte}
+                                    </button>
                                 </td>
 
                                 {/* Columna 2 */}

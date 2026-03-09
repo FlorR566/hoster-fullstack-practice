@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 //common 
 import SearchInput from '../components/common/busqueda/SearchInput';
 import NavActionButton from "../components/common/Navigation/NavActionButton";
 //iconos
-import { Search, Sparkles } from "lucide-react"
+import { Sparkles } from "lucide-react"
 // info tables
 import ReportsTable from '../components/reports/ReportsTable';
 import reportsData from "../data/reports.json"
 
+// modal
+import NewReportModal from "../components/reports/NewReportModal";
+
+//paginacion
+import { Pagination } from "../components/common/Navigation/Pagination";
+import { paginate } from "../utils/pagination";
+
 const Reports: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const ITEMS_PER_PAGE = 10;
+
+    const { totalPages, paginatedData } = paginate(
+        reportsData,
+        currentPage,
+        ITEMS_PER_PAGE
+    );
+
     return (
         <div className="h-[100vh] overflow-y-auto scroll-y-auto p-6">
 
@@ -22,14 +41,27 @@ const Reports: React.FC = () => {
 
                 {/* Botón */}
                 <NavActionButton
-                    to="/reports/new"
                     icon={<Sparkles size={18} />}
                     label="Nuevo reporte"
+                    onClick={() => setIsModalOpen(true)}
                 />
 
             </div>
 
-            <ReportsTable reports={reportsData} />
+            <ReportsTable reports={paginatedData} />
+
+            <div className="px-6">
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                />
+            </div>
+            {/* Modal */}
+            <NewReportModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey, BelongsToMany} from 'sequelize-typescript'
 import Unit from './Unit'
 import Currency from './Currency'
 import Guest from './Guest'
@@ -47,6 +47,16 @@ class Reserve extends Model{
     declare estimatedCheckOut: Date
 
     @Column({
+        type: DataType.TIME
+    })
+    declare estimatedCheckInTime: string
+
+    @Column({
+        type: DataType.TIME
+    })
+    declare estimatedCheckOutTime: string
+
+    @Column({
         type: DataType.DECIMAL(10, 2)
     })
     declare stayPrice: number
@@ -84,11 +94,8 @@ class Reserve extends Model{
     @BelongsTo(() => Origin)
     declare origin: Origin;
 
-    @ForeignKey(() => Service)
-    declare serviceId: number;
-
-    @BelongsTo(() => Service)
-    declare service: Service;
+    @BelongsToMany(() => Service, () => ReserveService)
+    declare services: Service[];
 
     @ForeignKey(() => User)
     declare userId: number;
@@ -102,4 +109,19 @@ class Reserve extends Model{
     @BelongsTo(() => Unit)
     declare unit: Unit;
 }
+
+@Table({
+    tableName: 'reserve_services'
+})
+class ReserveService extends Model{
+    @ForeignKey(() => Reserve)
+    @Column
+    declare reserveId: number;
+
+    @ForeignKey(() => Service)
+    @Column
+    declare serviceId: number;
+}
+
 export default Reserve
+export { ReserveService }

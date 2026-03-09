@@ -14,6 +14,7 @@ import RoomsOverview from "../pages/RoomsOverview";
 import AppLayout from "../components/layout/AppLayout";
 import VerMas from "../components/reservas/VerMas";
 import Reports from "../pages/Reports";
+import ReportDetail from "../components/reports/ReportDetail";
 
 export const AppRoutes: React.FC = () => {
 	return (
@@ -47,7 +48,7 @@ export const AppRoutes: React.FC = () => {
 			<Route
 				element={
 					<ProtectedRoute>
-						<AppLayout /> {/* Layout con sidebar/header */}
+						<AppLayout /> 
 					</ProtectedRoute>
 				}
 			>
@@ -59,6 +60,7 @@ export const AppRoutes: React.FC = () => {
 				<Route path="/mantenimiento" element={<Mantenimiento />} />
 				<Route path="/roomsOverview" element={<RoomsOverview />} />
 				<Route path="/reports" element={<Reports />} />
+				<Route path="/reports/:id" element={<ReportDetail />} />
 			</Route>
 
 			{/* Redirección por defecto */}
