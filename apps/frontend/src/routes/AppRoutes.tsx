@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Login from "../pages/Login";
@@ -65,6 +65,7 @@ export const AppRoutes: React.FC = () => {
 			</Route>
 
 			{/* Redirección por defecto */}
+			<Route path="/" element={<Navigate to="/login" replace />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);
