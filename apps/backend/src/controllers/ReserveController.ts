@@ -230,12 +230,15 @@ export class ReserveController {
                 );
             }
 
-            // Recargar la reserva con sus servicios asociados
-            const reserveWithServices = await Reserve.findByPk(newReserve.id, {
-                include: [{ model: Service, attributes: ['id', 'name', 'price'] }]
+            // Recargar la reserva con sus servicios y guest asociados
+            const reserveWithServicesAndGuest = await Reserve.findByPk(newReserve.id, {
+                include: [
+                    { model: Service, attributes: ['id', 'name', 'price'] },
+                    { model: Guest, attributes: ['id', 'name', 'email', 'phone', 'document'] }
+                ]
             });
 
-            res.status(201).json(this.formatReserve(reserveWithServices));
+            res.status(201).json(this.formatReserve(reserveWithServicesAndGuest));
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: error.message });
