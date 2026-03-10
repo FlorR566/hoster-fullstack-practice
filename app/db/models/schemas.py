@@ -3,36 +3,19 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
-from enum import Enum
-
-class AIReservationAnalysisRequest(BaseModel):
-    reservation_id: int
-
-class AIReservationAnalysisResponse(BaseModel):
-    reason: str
-    risk_score: float
-    decision: str
-
-class AIExecutionResponse(BaseModel):
-    success: bool
-    data: Optional[AIReservationAnalysisResponse]
-    message: Optional[str]
-
-class RiskScore(str, Enum):
-    low = "low"
-    medium = "medium"
-    high = "high"
-
-
-class ReservationAnalysis(BaseModel):
-    analysis_type: str
-    risk_score: RiskScore
-    operational_alert: bool
-    key_observations: List[str] = Field(max_items=5)
-    recommended_action: str
-    confidence: float
-    analysis_version: str
     
+class ReportRequest(BaseModel):
+    month: int
+    year: int    
+    
+class ReportResponse(BaseModel):
+    id: int
+    report_date: datetime = Field(default_factory=datetime.utcnow)
+    analyzed_period: str
+    description: str
+
+class Config:
+    from_attributes = True
 
 class ChatMessage(BaseModel):
     """Chat message model."""
@@ -56,8 +39,9 @@ class ChatResponse(BaseModel):
     created: int = Field(..., description="Creation timestamp")
     model: str = Field(..., description="Model used")
     choices: List[Dict[str, Any]] = Field(..., description="Response choices")
-    usage: Optional[Dict[str, int]] = Field(default=None, description="Token usage information")
-
+    # usage: Optional[Dict[str, int]] = Field(default=None, description="Token usage information")
+    usage: dict | None = None
+    
 
 class ModelInfo(BaseModel):
     """AI model information."""
