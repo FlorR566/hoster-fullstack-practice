@@ -47,7 +47,7 @@ export const api = {
 	},
 
 	// LOGIN
-	async login(data: any): Promise<AuthResponse> {
+	async login(data: any): Promise<string> {
 		const response = await fetch(
 			"http://localhost:5000/api/auth/login",
 			//  `${API_ENDPOINTS.BASE}${API_ENDPOINTS.AUTH.LOGIN}`,
@@ -61,6 +61,26 @@ export const api = {
 		const result = await response.json();
 		if (!response.ok) {
 			throw new Error(result.error || "Login failed");
+		}
+		return result;
+	},
+
+	// GET USER
+	async getUser(token: string): Promise<User> {
+		const response = await fetch(
+			"http://localhost:5000/api/auth/user",
+			// `${API_ENDPOINTS.BASE}${API_ENDPOINTS.AUTH.GETUSER}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+		const result = await response.json();
+		if (!response.ok) {
+			throw new Error(result.error || "Failed to get user");
 		}
 		return result;
 	},
