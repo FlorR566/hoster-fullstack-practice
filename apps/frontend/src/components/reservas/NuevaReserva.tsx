@@ -66,8 +66,8 @@ const initialForm: FormData = {
   ninos: 0,
   habitaciones: 1,
   serviciosAgregados: [
-    { nombre: "Servicio 1", precio: "20" },
-    { nombre: "Servicio 2", precio: "30" },
+    { nombre: "Tour", precio: "120" },
+    { nombre: "Masaje", precio: "120" },
   ],
   estacionamiento: "No",
   patente: "",
@@ -138,10 +138,12 @@ const DateInput = ({
   value,
   onChange,
   placeholder,
+  disabled,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }) => (
   <div className="relative w-full">
     <input
@@ -149,6 +151,7 @@ const DateInput = ({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
+      disabled={disabled}
       className={`${inputBase} cursor-pointer pr-10`}
       style={{ colorScheme: "light dark" }}
     />
@@ -159,10 +162,12 @@ const TimeInput = ({
   value,
   onChange,
   placeholder,
+  disabled,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }) => (
   <div className="relative w-full">
     <input
@@ -170,6 +175,7 @@ const TimeInput = ({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
+      disabled={disabled}
       className={`${inputBase} cursor-pointer pr-10`}
       style={{ colorScheme: "light dark" }}
     />
@@ -214,104 +220,25 @@ const DatosReservaTab: React.FC<{
   form: FormData;
   set: (k: keyof FormData, v: any) => void;
 }> = ({ form, set }) => {
+  const [disponible, setDisponible] = React.useState<boolean | null>(null);
+
   useEffect(() => {
+    setDisponible(null);
     set("cantidadNoches", calcNights(form.fechaCheckin, form.fechaCheckout));
   }, [form.fechaCheckin, form.fechaCheckout]);
 
   return (
     <form className="space-y-8 text-(--light-text)">
 
-      {/* SECCIÓN 1: DATOS GENERALES */}
-      <div className="grid grid-cols-3 gap-x-8 gap-y-6">
-        <div>
-          <Label>Recepcionista</Label>
-          <SelectField
-            options={["Seleccionar", "Admin", "Laura Pérez"]}
-            value={form.recepcionista}
-            onChange={(e) => set("recepcionista", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>Canal de reserva</Label>
-          <SelectField
-            options={["Seleccionar", "Booking", "Directo", "Venta telefónica"]}
-            value={form.canalReserva}
-            onChange={(e) => set("canalReserva", e.target.value)}
-          />
-        </div>
-        <div>
-          <Label>ID de la reserva</Label>
-          <InputField value={form.idReserva} disabled />
-        </div>
-      </div>
-
-      {/* SECCIÓN 2: DATOS DEL HUÉSPED */}
-      <div>
-        <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos del huésped</h2>
-        <div className="grid grid-cols-4 gap-x-8 gap-y-6">
-          <div>
-            <Label>Nombre completo</Label>
-            <InputField
-              placeholder="Juan Pérez"
-              value={form.nombreCompleto}
-              onChange={(e) => set("nombreCompleto", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>País</Label>
-            <SelectField
-              options={["Seleccionar", "Argentina", "Chile", "Uruguay", "Venezuela"]}
-              value={form.pais}
-              onChange={(e) => set("pais", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Tipo de Documento</Label>
-            <SelectField
-              options={["Seleccionar", "DNI", "Pasaporte"]}
-              value={form.tipoDocumento}
-              onChange={(e) => set("tipoDocumento", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Documento de identidad</Label>
-            <InputField
-              placeholder="12345678"
-              value={form.documentoIdentidad}
-              onChange={(e) => set("documentoIdentidad", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-4 gap-x-8 mt-6">
-          <div>
-            <Label>Email</Label>
-            <InputField
-              placeholder="juan.perez@gmail.com"
-              value={form.email}
-              onChange={(e) => set("email", e.target.value)}
-            />
-          </div>
-          <div>
-            <Label>Teléfono de contacto</Label>
-            <InputField
-              placeholder="12345678"
-              value={form.telefono}
-              onChange={(e) => set("telefono", e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* SECCIÓN 3: DATOS DE LA ESTADÍA */}
+      {/* SECCIÓN 1: DATOS DE LA ESTADÍA */}
       <div>
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos de la estadía</h2>
         <div className="grid grid-cols-4 gap-x-8 gap-y-6">
-
           <div>
             <Label>Fecha estimada de check-in</Label>
             <DateInput
               value={form.fechaCheckin}
-              onChange={(v) => set("fechaCheckin", v)}
+              onChange={(v) => { set("fechaCheckin", v); setDisponible(null); }}
               placeholder="DD/MM/AAAA"
             />
           </div>
@@ -319,85 +246,108 @@ const DatosReservaTab: React.FC<{
             <Label>Fecha estimada de check-out</Label>
             <DateInput
               value={form.fechaCheckout}
-              onChange={(v) => set("fechaCheckout", v)}
+              onChange={(v) => { set("fechaCheckout", v); setDisponible(null); }}
               placeholder="DD/MM/AAAA"
             />
           </div>
           <div>
             <Label>Cantidad de noches</Label>
-            <InputField
-              value={form.cantidadNoches}
-              placeholder="00"
-              readOnly
-            />
-            <div className="mt-4">
-              <Label>Ingresa con vehículo</Label>
-              <div className="flex flex-col gap-1 mt-1">
-                <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="v"
-                    checked={form.ingresaVehiculo === "Si"}
-                    onChange={() => set("ingresaVehiculo", "Si")}
-                  />{" "}
-                  Si
-                </label>
-                <label className="flex items-center gap-1.5 text-[14px] cursor-pointer">
-                  <input
-                    type="radio"
-                    name="v"
-                    checked={form.ingresaVehiculo === "No"}
-                    onChange={() => set("ingresaVehiculo", "No")}
-                  />{" "}
-                  No
-                </label>
-              </div>
-            </div>
+            <InputField value={form.cantidadNoches} placeholder="00" readOnly />
           </div>
-
-          {/* Cantidad de personas  */}
           <div className="row-span-2">
             <Label>Cantidad de personas</Label>
-            <div className="space-y-2 mt-1">
-              <CounterField label="Adultos" value={form.adultos} onChange={(v) => set("adultos", v)} />
-              <CounterField label="Niños" value={form.ninos} onChange={(v) => set("ninos", v)} />
-              <CounterField label="Habitaciones" value={form.habitaciones} onChange={(v) => set("habitaciones", v)} />
+            <div className="space-y-2 mt-1" style={{ opacity: disponible ? 1 : 0.4, pointerEvents: disponible ? "auto" : "none" }}>
+              <CounterField label="Huéspedes" value={form.adultos} onChange={(v) => set("adultos", Math.min(4, v))} />
             </div>
           </div>
-
           <div>
             <Label>Hora estimada de llegada</Label>
-            <TimeInput
-              value={form.horaLlegada}
-              onChange={(v) => set("horaLlegada", v)}
-              placeholder="14:00"
-            />
+            <TimeInput value={form.horaLlegada} onChange={(v) => set("horaLlegada", v)} placeholder="14:00" disabled={!disponible} />
           </div>
           <div>
             <Label>Hora estimada de check-out</Label>
-            <TimeInput
-              value={form.horaCheckout}
-              onChange={(v) => set("horaCheckout", v)}
-              placeholder="10:00"
-            />
+            <TimeInput value={form.horaCheckout} onChange={(v) => set("horaCheckout", v)} placeholder="10:00" disabled={!disponible} />
           </div>
           <div />
-
           <div>
             <Label>Tipo de alojamiento</Label>
             <SelectField
               options={["Seleccionar", "Habitación", "Habitación Deluxe", "Suite"]}
               value={form.tipoAlojamiento}
               onChange={(e) => set("tipoAlojamiento", e.target.value)}
+              disabled={!disponible}
             />
+            <button
+              type="button"
+              onClick={() => setDisponible(true)}
+              className="mt-2 text-[13px] text-[var(--light-accent)] underline cursor-pointer hover:opacity-70"
+            >
+              Ver disponibilidad
+            </button>
           </div>
           <div>
             <Label>Número de alojamiento</Label>
-            <InputField
-              placeholder="03"
-              value={form.numeroAlojamiento}
-              onChange={(e) => set("numeroAlojamiento", e.target.value)}
+            <InputField placeholder="03" value={form.numeroAlojamiento} onChange={(e) => set("numeroAlojamiento", e.target.value)} disabled={!disponible} />
+          </div>
+        </div>
+
+        {disponible === false && (
+          <p className="mt-3 text-[13px] text-red-400">No hay disponibilidad para las fechas seleccionadas.</p>
+        )}
+
+        <div className="grid grid-cols-3 gap-x-8 gap-y-6 mt-6">
+          <div>
+            <Label>Recepcionista</Label>
+            <SelectField
+              options={["Seleccionar", "Admin", "Laura Pérez"]}
+              value={form.recepcionista}
+              onChange={(e) => set("recepcionista", e.target.value)}
             />
+          </div>
+          <div>
+            <Label>Canal de reserva</Label>
+            <SelectField
+              options={["Seleccionar", "Booking", "Directo", "Venta telefónica"]}
+              value={form.canalReserva}
+              onChange={(e) => set("canalReserva", e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>ID de la reserva</Label>
+            <InputField value={form.idReserva} disabled />
+          </div>
+        </div>
+      </div>
+
+      {/* SECCIÓN 3: DATOS DEL HUÉSPED */}
+      <div style={{ opacity: disponible ? 1 : 0.4, pointerEvents: disponible ? "auto" : "none" }}>
+        <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Datos del huésped</h2>
+        <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+          <div>
+            <Label>Nombre completo</Label>
+            <InputField placeholder="Juan Pérez" value={form.nombreCompleto} onChange={(e) => set("nombreCompleto", e.target.value)} />
+          </div>
+          <div>
+            <Label>País</Label>
+            <SelectField options={["Seleccionar", "Argentina", "Chile", "Uruguay", "Venezuela"]} value={form.pais} onChange={(e) => set("pais", e.target.value)} />
+          </div>
+          <div>
+            <Label>Tipo de Documento</Label>
+            <SelectField options={["Seleccionar", "DNI", "Pasaporte"]} value={form.tipoDocumento} onChange={(e) => set("tipoDocumento", e.target.value)} />
+          </div>
+          <div>
+            <Label>Documento de identidad</Label>
+            <InputField placeholder="12345678" value={form.documentoIdentidad} onChange={(e) => set("documentoIdentidad", e.target.value)} />
+          </div>
+        </div>
+        <div className="grid grid-cols-4 gap-x-8 mt-6">
+          <div>
+            <Label>Email</Label>
+            <InputField placeholder="juan.perez@gmail.com" value={form.email} onChange={(e) => set("email", e.target.value)} />
+          </div>
+          <div>
+            <Label>Teléfono de contacto</Label>
+            <InputField placeholder="12345678" value={form.telefono} onChange={(e) => set("telefono", e.target.value)} />
           </div>
         </div>
       </div>
@@ -407,11 +357,22 @@ const DatosReservaTab: React.FC<{
         <h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">Servicios adicionales</h2>
         <div className="grid grid-cols-3 gap-x-8 items-start">
 
-          {/* Col 1: Buscar + Precio por noche */}
+          {/* Col 1: Agregar un servicio */}
           <div className="flex flex-col gap-4">
             <div>
-              <Label>Buscar servicios</Label>
-              <InputField placeholder="Buscar" />
+              <Label>Agregar un servicio</Label>
+              <SelectField
+                options={["Seleccionar", "Tour", "Masaje", "Desayuno", "Traslado"]}
+                value=""
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (!val) return;
+                  set("serviciosAgregados", [
+                    ...form.serviciosAgregados,
+                    { nombre: val, precio: "120" },
+                  ]);
+                }}
+              />
             </div>
           </div>
 
@@ -422,11 +383,11 @@ const DatosReservaTab: React.FC<{
               {form.serviciosAgregados.map((s, i) => (
                 <div
                   key={i}
-                  className="bg-[varlight-main2) rounded-lg px-4 py-3 flex justify-between items-center"
+                  className="bg-[var(--light-main2)] rounded-lg px-4 py-3 flex justify-between items-center"
                 >
                   <div>
                     <p className="text-[13px] font-medium">{s.nombre}</p>
-                    <p className="text-[11px] text-(--light-placeholder)">{s.precio} USD</p>
+                    <p className="text-[11px] text-(--light-placeholder) mt-0.5">{formatDate(new Date().toISOString().split("T")[0])}{"   "}{s.precio} USD</p>
                   </div>
                   <button
                     type="button"
@@ -486,7 +447,7 @@ const DatosReservaTab: React.FC<{
   );
 };
 
-// ─── TAB 2: Datos Económicos ─────────────────────────────────────────────────
+// ─── TAB 2: Datos Económicos ─────────
 const DatosEconomicosTab: React.FC<{
   form: FormData;
   set: (k: keyof FormData, v: any) => void;
@@ -494,7 +455,7 @@ const DatosEconomicosTab: React.FC<{
   setEcon: (k: keyof EconData, v: any) => void;
 }> = ({ form, set, econ, setEcon }) => {
 
-  // ── Cálculos automáticos ─────────────────────────────────────────────────
+  // ── Cálculos automáticos ────────
   const precioPorNoche = parseFloat(form.precioPorNoche) || 0;
   const noches = parseInt(form.cantidadNoches) || 0;
   const totalNoches = precioPorNoche * noches;
@@ -695,7 +656,7 @@ const SvgIcon = ({ lightSvg, darkSvg }: { lightSvg: string; darkSvg: string }) =
   );
 };
 
-// ─── TAB 3: Confirmación ─────────────────────────────────────────────────────
+// ─── TAB 3: Confirmación ─────────
 const ConfirmSectionTitle = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[15px] font-bold uppercase tracking-wide mt-6 mb-3 text-[var(--light-text)]">
     {children}
