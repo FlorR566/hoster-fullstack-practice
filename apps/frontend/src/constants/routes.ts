@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
 		LOGIN: "/auth/login",
 		REGISTER: "/auth/create-account",
 		CONFIRMACCOUNT: "/auth/confirm-account",
+		GETUSER: "/auth/user",
 	},
 	HEALTH: "/health",
 } as const;

@@ -6,6 +6,7 @@ import { User } from "../types";
 import { api } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { Mail } from "lucide-react";
+import { storage } from "../utils/storage";
 
 const Login: React.FC = () => {
 	const navigate = useNavigate();
@@ -21,8 +22,10 @@ const Login: React.FC = () => {
 		setError(null);
 
 		try {
-			const response = await api.login({ email, password });
-			login(response.user);
+			const token = await api.login({ email, password });
+			storage.setToken(token);
+			const user = await api.getUser(token);
+			login(user);
 			navigate("/dashboard");
 		} catch (err: any) {
 			setError(err.message || "An unexpected error occurred");
