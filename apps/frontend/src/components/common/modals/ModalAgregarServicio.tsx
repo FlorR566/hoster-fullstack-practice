@@ -49,13 +49,13 @@ interface ModalAgregarServicioProps {
 }
 
 const SERVICIOS_INICIALES: ServicioAgregado[] = [
-  { id: 1, nombre: "Servicio 1", fecha: "13/02/2026", monto: "70 USD" },
-  { id: 2, nombre: "Servicio 1", fecha: "13/02/2026", monto: "70 USD" },
+  { id: 1, nombre: "Tour", fecha: "13/02/2026", monto: "120 USD" },
+  { id: 2, nombre: "Masaje", fecha: "13/02/2026", monto: "120 USD" },
 ];
 
 const OPCIONES_SERVICIO = [
-  { value: "servicio1",  label: "Servicio 1" },
-  { value: "servicio2",  label: "Servicio 2" },
+  { value: "Tour",  label: "Tour" },
+  { value: "Masaje",  label: "Masaje" },
   { value: "spa",        label: "Spa" },
   { value: "desayuno",   label: "Desayuno" },
   { value: "traslado",   label: "Traslado" },
