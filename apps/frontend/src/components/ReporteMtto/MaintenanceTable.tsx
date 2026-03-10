@@ -3,14 +3,22 @@ import { ArrowUpRight } from "lucide-react";
 import { MaintenanceReport } from "../../types/maintenance";
 import { Pagination } from "../common/Navigation/Pagination";
 
+const ITEMS_PER_PAGE = 10;
+
 interface Props {
 	data: MaintenanceReport[];
 	onViewMore: (id: string) => void;
 }
 
 export const MaintenanceTable = ({ data, onViewMore }: Props) => {
-	const TOTAL_PAGES = 5;
 	const [currentPage, setCurrentPage] = useState(1);
+
+	const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+
+	const paginatedData = data.slice(
+		(currentPage - 1) * ITEMS_PER_PAGE,
+		currentPage * ITEMS_PER_PAGE,
+	);
 
 	return (
 		<div className="mt-6 flex flex-col w-full">
@@ -30,7 +38,7 @@ export const MaintenanceTable = ({ data, onViewMore }: Props) => {
 
 					{/* Body */}
 					<tbody className="text-[var(--light-text)] text-[15px]">
-						{data.map((report) => (
+						{paginatedData.map((report) => (
 							<tr
 								key={report.id}
 								className="border-t border-[var(--light-text)]"
@@ -73,7 +81,7 @@ export const MaintenanceTable = ({ data, onViewMore }: Props) => {
 			{/* Pagination */}
 			<Pagination
 				currentPage={currentPage}
-				totalPages={TOTAL_PAGES}
+				totalPages={totalPages}
 				onPageChange={(page) => setCurrentPage(page)}
 			/>
 		</div>
