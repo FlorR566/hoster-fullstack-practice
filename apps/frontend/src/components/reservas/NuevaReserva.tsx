@@ -252,7 +252,7 @@ const DatosReservaTab: React.FC<{
 	}, [form.fechaCheckin, form.fechaCheckout]);
 
 	return (
-		<form className="space-y-8 text-(--light-text)">
+		<form className="text-(--light-text)">
 			{/* SECCIÓN 1: DATOS DE LA ESTADÍA */}
 			<div>
 				<h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">
@@ -322,15 +322,10 @@ const DatosReservaTab: React.FC<{
 					<div />
 					<div>
 						<Label>Tipo de alojamiento</Label>
-						<SelectField
-							options={[
-								"Seleccionar",
-								"Habitación",
-								"Habitación Deluxe",
-								"Suite",
-							]}
+						<InputField
 							value={form.tipoAlojamiento}
-							onChange={(e) => set("tipoAlojamiento", e.target.value)}
+							placeholder="—"
+							readOnly
 							disabled={!disponible}
 						/>
 
@@ -338,7 +333,7 @@ const DatosReservaTab: React.FC<{
 						<button
 							type="button"
 							onClick={() => setShowDisponibilidad(true)}
-							className="text-[13px] text-[var(--light-accent)] underline cursor-pointer hover:opacity-70"
+							className="text-[15px] font-medium text-[var(--light-accent)] underline cursor-pointer hover:opacity-70 mt-2 pl-1"
 						>
 							Ver disponibilidad
 						</button>
@@ -346,10 +341,12 @@ const DatosReservaTab: React.FC<{
 					<div>
 						<Label>Número de alojamiento</Label>
 						<InputField
-							placeholder="03"
+							placeholder="H03-D"
 							value={form.numeroAlojamiento}
 							onChange={(e) => set("numeroAlojamiento", e.target.value)}
 							disabled={!disponible}
+							readOnly
+							className=""
 						/>
 					</div>
 				</div>
@@ -396,7 +393,7 @@ const DatosReservaTab: React.FC<{
 					pointerEvents: disponible ? "auto" : "none",
 				}}
 			>
-				<h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">
+				<h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide pt-8">
 					Datos del huésped
 				</h2>
 				<div className="grid grid-cols-4 gap-x-8 gap-y-6">
