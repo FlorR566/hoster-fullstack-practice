@@ -1273,7 +1273,7 @@ const NuevaReserva: React.FC = () => {
 					<ConfirmacionTab form={form} econ={econ} />
 				)}
 
-				{/* Navegación */}
+				{/* Navegación. */}
 				<div className="flex justify-between items-center pt-10">
 					<button
 						type="button"
