@@ -5,6 +5,8 @@ import BaseModalFormulario, {
 	FormSelect,
 	FormTextarea,
 } from "../common/modals/BaseModalFormulario";
+import { NewMaintenanceReport, ReportCategory } from "../../types/maintenance";
+import { roomsData } from "../../data/roomsData";
 import { Wrench } from "lucide-react";
 
 interface ReportModalProps {
@@ -13,18 +15,27 @@ interface ReportModalProps {
 
 export const ReportModal = ({ onClose }: ReportModalProps) => {
 	// Estado para capturar los datos del nuevo reporte
-	const [formData, setFormData] = useState({
-		type: "",
+	const [formData, setFormData] = useState<NewMaintenanceReport>({
+		category: "Mantenimiento",
 		id: "",
+		duration: "",
 		roomId: "",
 		owner: "",
-		category: "",
+		reportDate: "",
+		startTime: "",
 		description: "",
 	});
 
-	const [tipoReporte, setTipoReporte] = useState("Mantenimiento"); // Estado para el radio
-
 	const handleConfirm = () => {
+		const idPattern = /^[ML]-\d{10}$/;
+		if (!idPattern.test(formData.id)) {
+			alert("El Reporte ID debe tener el formato M-0000000145");
+			return;
+		}
+		if (!formData.roomId || !formData.description || !formData.category) {
+			alert("Por favor completá todos los campos obligatorios.");
+			return; // no enviar si faltan estos campos obligatorios
+		}
 		console.log("Enviando nuevo reporte a la BD:", formData);
 		// Aquí iría la lógica para actualizar tu estado global o llamar a la API
 		onClose();
@@ -41,15 +52,16 @@ export const ReportModal = ({ onClose }: ReportModalProps) => {
 			confirmDisabled={!formData.roomId || !formData.description} // Validación simple
 		>
 			{/* Campos del Formulario */}
-
 			<FormRadioGroup
 				label="Tipo de Reporte"
 				name="Tipo de Reporte"
-				value={tipoReporte}
-				onChange={(val) => setTipoReporte(val)} // revisar si este dato se guarda bien
+				value={formData.category}
+				onChange={(val) =>
+					setFormData({ ...formData, category: val as ReportCategory })
+				}
 				options={[
-					{ value: "Limpieza", label: "Limpieza" },
 					{ value: "Mantenimiento", label: "Mantenimiento" },
+					{ value: "Limpieza", label: "Limpieza" },
 				]}
 			/>
 
@@ -63,20 +75,20 @@ export const ReportModal = ({ onClose }: ReportModalProps) => {
 			<FormSelect
 				label="Número de alojamiento"
 				placeholder="Selecciona"
-				// NOTA: VER LA FORMA DE ACOMODAR MEJOR ESTA PARTE (HABITACIONES Y CABAÑAS)
-				options={[
-					{ value: "H01", label: "H01" },
-					{ value: "H02", label: "H02" },
-					{ value: "H03", label: "H03" },
-					{ value: "H04", label: "H04" },
-					{ value: "H05", label: "H05" },
-					{ value: "H06", label: "H06" },
-					{ value: "H07", label: "H07" },
-					{ value: "H08", label: "H08" },
-					{ value: "H09", label: "H09" },
-				]}
+				options={roomsData.map((room) => ({
+					value: room.id,
+					label: room.id,
+				}))}
 				value={formData.roomId}
 				onChange={(val) => setFormData({ ...formData, roomId: val })}
+			/>
+
+			<FormField
+				label="Duración estimada"
+				type="number"
+				placeholder="1 h"
+				value={formData.duration}
+				onChange={(val) => setFormData({ ...formData, duration: val })}
 			/>
 
 			<FormField
@@ -88,16 +100,18 @@ export const ReportModal = ({ onClose }: ReportModalProps) => {
 
 			<FormField
 				label="Fecha"
+				type="date"
 				placeholder="DD/MM/AAAA"
-				value={formData.roomId}
-				onChange={(val) => setFormData({ ...formData, roomId: val })}
+				value={formData.reportDate}
+				onChange={(val) => setFormData({ ...formData, reportDate: val })}
 			/>
 
 			<FormField
 				label="Horario de comienzo"
+				type="time"
 				placeholder="00:00"
-				value={formData.roomId}
-				onChange={(val) => setFormData({ ...formData, roomId: val })}
+				value={formData.startTime}
+				onChange={(val) => setFormData({ ...formData, startTime: val })}
 			/>
 
 			<FormTextarea

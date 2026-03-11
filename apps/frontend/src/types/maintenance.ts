@@ -10,3 +10,16 @@ export interface MaintenanceReport {
 	duration: string;
 	owner: string;
 }
+
+export type ReportCategory = "Mantenimiento" | "Limpieza";
+
+export interface NewMaintenanceReport {
+	category: ReportCategory;
+	id: string; // M-0000000150
+	roomId: string;
+	duration: string;
+	owner: string;
+	reportDate: string;
+	startTime: string;
+	description: string;
+}
