@@ -6,6 +6,7 @@ import Origin from './Origin'
 import User from './User'
 import Service from './Service'
 import Payment from './Payment'
+import ReserveService from './ReserveService'
 
 @Table({
     tableName: 'reserves'
@@ -150,18 +151,4 @@ class Reserve extends Model{
     declare unit: Unit;
 }
 
-@Table({
-    tableName: 'reserve_services'
-})
-class ReserveService extends Model{
-    @ForeignKey(() => Reserve)
-    @Column
-    declare reserveId: number;
-
-    @ForeignKey(() => Service)
-    @Column
-    declare serviceId: number;
-}
-
 export default Reserve
-export { ReserveService }
