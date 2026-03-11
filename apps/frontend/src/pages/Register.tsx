@@ -18,6 +18,7 @@ const Register: React.FC = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const [serverError, setServerError] = useState<string | null>(null);
+	sessionStorage.setItem("pendingEmail", formData.email);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -57,8 +58,7 @@ const Register: React.FC = () => {
 				email: formData.email,
 				password: formData.password,
 			});
-			login(response.user);
-			navigate("/dashboard");
+			navigate("/confirm-account");
 		} catch (err: any) {
 			setServerError(err.message || "Registration failed");
 		} finally {
