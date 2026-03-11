@@ -61,8 +61,8 @@ const MOCK_TOTAL_POR_NOCHE   = 1150;
 const MOCK_PRECIO_TOTAL_FINAL = 7950;
 const MOCK_ID_TRANSACCION    = "314789012345";
 const MOCK_SERVICIOS: Servicio[] = [
-  { nombre: "Servicio 1", fechaPedido: "25/01/26", cantidadNoches: 7, precioPorNoche: 100, precioTotal: 700 },
-  { nombre: "Servicio 2", fechaPedido: "27/01/26", cantidadNoches: 5, precioPorNoche: 50,  precioTotal: 250 },
+  { nombre: "Tour", fechaPedido: "25/01/26", cantidadNoches: 7, precioPorNoche: 100, precioTotal: 700 },
+  { nombre: "Masaje", fechaPedido: "27/01/26", cantidadNoches: 5, precioPorNoche: 50,  precioTotal: 250 },
 ];
 
 const InfoRow: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (

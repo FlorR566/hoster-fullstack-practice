@@ -92,11 +92,31 @@
 	{
 		"id": "L-0000000154",
 		"roomId": "H04-D",
-		"status": "Pendiente",
+		"status": "Completado",
 		"reportDate": "02/02/2026",
 		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
 		"time": "12:00",
 		"duration": "2h",
 		"owner": "Mucama Rosa Díaz"
+	},
+	{
+		"id": "L-0000000155",
+		"roomId": "H06-D",
+		"status": "Completado",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
+		"time": "12:00",
+		"duration": "2h",
+		"owner": "Mucama Juana Perez"
+	},
+	{
+		"id": "L-0000000156",
+		"roomId": "H08-D",
+		"status": "Pendiente",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
+		"time": "12:00",
+		"duration": "2h",
+		"owner": "Mucama Juana Perez"
 	}
 ]

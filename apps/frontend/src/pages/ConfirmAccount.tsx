@@ -13,6 +13,7 @@ const ConfirmAccount: React.FC = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
+	const pendingEmail = sessionStorage.getItem("pendingEmail");
 
 	// Un ref por cada casilla para manejar el foco
 	const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
@@ -104,7 +105,7 @@ const ConfirmAccount: React.FC = () => {
 			setSuccess(response.message || "¡Cuenta verificada con éxito!");
 
 			// Redirigimos al dashboard después de 1.5 segundos
-			setTimeout(() => navigate("/dashboard"), 1500);
+			setTimeout(() => navigate("/dashboard"), 2500);
 		} catch (err: any) {
 			setError(err.message || "Token no válido. Intentá de nuevo.");
 			// Limpiamos las casillas para que el usuario reingrese el código
@@ -151,7 +152,10 @@ const ConfirmAccount: React.FC = () => {
 					<div className="flex flex-col items-center mb-6 h-[135px] bg-[var(--light-bg-register)] -mx-8 -mt-8 pt-7 rounded-t-2xl text-center px-4">
 						<h1 className="text-[32px] font-bold">Verificar Registro</h1>
 						<p className="text-[16px] mt-1">
-							Enviamos un código de 6 dígitos a tu email
+							Enviamos un código de 6 dígitos a{" "}
+							<span className="font-semibold">
+								{pendingEmail ?? "tu email"}
+							</span>
 						</p>
 					</div>
 
