@@ -8,7 +8,7 @@ const router = Router();
 router.post('/create-unit',
      body('type')
         .notEmpty().withMessage('El tipo de unidad no puede estar vacio'),
-     body('amount')
+     body('capacity')
         .notEmpty().withMessage('La cantidad de unidades no puede estar vacia'),
     handleInputErrors,
     UnitController.createUnit

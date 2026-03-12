@@ -4,7 +4,7 @@ import Reserve from "../models/Reserve"
 import Unit from "../models/Unit"
 import Service from "../models/Service"
 import Payment from "../models/Payment"
-import { ReserveService } from "../models/Reserve"
+import ReserveService from "../models/ReserveService"
 import { format, parse, isValid } from 'date-fns';
 import { es } from 'date-fns/locale';
 
