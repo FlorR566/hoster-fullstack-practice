@@ -1,90 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import reportsData from "../../data/reports.json";
+import { reportsService, Report } from "../../services/reportsService";
 
 const ReportDetail: React.FC = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [report, setReport] = useState<Report | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    const report = reportsData.find(
-        (r) => r.idReporte === id
-    );
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        const data = await reportsService.getById(Number(id));
+        setReport(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReport();
+  }, [id]);
 
-    if (!report) {
-        return (
-            <div className="p-6 font-poppins">
-                Reporte no encontrado
-            </div>
-        );
-    }
+  if (loading) return <div className="p-6">Cargando reporte...</div>;
+  if (!report) return <div className="p-6">Reporte no encontrado</div>;
 
-    return (
-        <div className="p-6">
+  return (
+    <div className="p-6">
+      {/* Header igual */}
+      <div className="flex items-center gap-3 mb-6">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-[var(--light-text)] hover:opacity-70 transition">
+          <ArrowLeft size={22} />
+        </button>
+        <h1 className="font-poppins text-[28px] font-medium text-[var(--light-text)]">
+          Reporte #{report.id}
+        </h1>
+      </div>
 
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
+      <div className="text-[16px]">
+        <p>Fecha de generación: {report.report_date}</p>
+        <p>Período analizado: {report.analyzed_period}</p>
+      </div>
 
-                <button
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-[var(--light-text)] hover:opacity-70 transition"
-                >
-                    <ArrowLeft size={22} />
-                </button>
-
-                <h1 className="font-poppins text-[28px] font-medium text-[var(--light-text)]">
-                    Reporte {report.idReporte}
-                </h1>
-
-            </div>
-
-            {/* Contenido */}
-            <div className="text-[16px]">
-                <p>Alojamiento: Hotel Los Álamos</p>
-                <p>Periodo analizado: {report.periodoAnalizado}</p>
-                <p>Fecha de generación: {report.fecha}</p>
-            </div>
-
-            <div className="mt-3">
-                <p className="text-[20px] font-semibold">Resumen general del período:</p>
-                <p className="text-[16px]">{report.resumen}</p>
-            </div>
-
-            <div className="mt-3">
-                <p className="text-[20px] font-semibold">Ocupación y estadías:</p>
-                <ul className="list-disc pl-6 font-poppins text-[16px]">
-                    {report.insights?.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="mt-3">
-                <p className="text-[20px] font-semibold">Servicios adicionales:</p>
-                <ul className="list-disc pl-6 font-poppins text-[16px]">
-                    {report.observaciones?.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-            </div>
-            <div className="mt-3">
-                <p className="text-[20px] font-semibold">
-                    Incidencias
-                </p>
-
-                <ul className="list-disc pl-6 font-poppins text-[15px]">
-                    {report.incidencias?.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-            </div>
-
-             <div className="mt-3">
-                <p className="text-[20px] font-semibold">Cierre descriptivo:</p>
-                <p className="text-[16px]">{report.cierre}</p>
-            </div>
-        </div>
-    );
+      <div className="mt-6">
+        <p className="text-[20px] font-semibold">Análisis generado por IA:</p>
+        <p className="text-[16px] mt-2 whitespace-pre-wrap">{report.description}</p>
+      </div>
+    </div>
+  );
 };
 
 export default ReportDetail;
