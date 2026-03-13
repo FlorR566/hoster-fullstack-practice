@@ -1,12 +1,11 @@
+import { format, isValid, parse } from 'date-fns'
 import type { Request, Response } from "express"
 import { Op } from "sequelize"
-import Reserve from "../models/Reserve"
-import Unit from "../models/Unit"
-import Service from "../models/Service"
 import Payment from "../models/Payment"
+import Reserve from "../models/Reserve"
 import ReserveService from "../models/ReserveService"
-import { format, parse, isValid } from 'date-fns';
-import { es } from 'date-fns/locale';
+import Service from "../models/Service"
+import Unit from "../models/Unit"
 
 export class ReserveController {
 
@@ -24,10 +23,10 @@ export class ReserveController {
         const formatted = reserve.toJSON ? reserve.toJSON() : reserve;
         return {
             ...formatted,
-            estimatedCheckIn: formatted.estimatedCheckIn 
+            estimatedCheckIn: formatted.estimatedCheckIn
                 ? format(new Date(formatted.estimatedCheckIn), 'dd-MM-yyyy')
                 : null,
-            estimatedCheckOut: formatted.estimatedCheckOut 
+            estimatedCheckOut: formatted.estimatedCheckOut
                 ? format(new Date(formatted.estimatedCheckOut), 'dd-MM-yyyy')
                 : null,
             estimatedCheckInTime: formatted.estimatedCheckInTime || null,
@@ -42,8 +41,8 @@ export class ReserveController {
         try {
             // Validar que todos los campos requeridos estén presentes
             if (!unitId || !estimatedCheckIn || !estimatedCheckOut) {
-                return res.status(400).json({ 
-                    error: 'Faltan campos requeridos: unitId, estimatedCheckIn, estimatedCheckOut' 
+                return res.status(400).json({
+                    error: 'Faltan campos requeridos: unitId, estimatedCheckIn, estimatedCheckOut'
                 });
             }
 
@@ -70,17 +69,17 @@ export class ReserveController {
                     isCancelled: false,
                     [Op.or]: [
                         // Caso 1: Check-in solicitado cae dentro de una reserva existente
-                        { 
+                        {
                             estimatedCheckIn: { [Op.lte]: checkInDate },
                             estimatedCheckOut: { [Op.gt]: checkInDate }
                         },
-                        
+
                         // Caso 2: Check-out solicitado cae dentro de una reserva existente
-                        { 
+                        {
                             estimatedCheckIn: { [Op.lt]: checkOutDate },
                             estimatedCheckOut: { [Op.gte]: checkOutDate }
                         },
-                        
+
                         // Caso 3: Reserva existente envuelve completamente las fechas solicitadas
                         {
                             estimatedCheckIn: { [Op.lte]: checkInDate },
@@ -91,7 +90,7 @@ export class ReserveController {
             });
 
             const isAvailable = overlappingReserves.length === 0;
-            
+
             res.json({
                 unitId,
                 isAvailable,
@@ -104,13 +103,16 @@ export class ReserveController {
         }
     }
 
-    static createReserve = async (req: Request ,res: Response ) => {
+    static createReserve = async (req: Request, res: Response) => {
         const {
             unitId,
             userId,
-            guestId,
+            numberDocument,
             currencyId,
             originId,
+            name,
+            typeDocument,
+            country,
             serviceIds,
             estimatedCheckIn,
             estimatedCheckOut,
@@ -118,13 +120,15 @@ export class ReserveController {
             estimatedCheckOutTime,
             guestAdult,
             guestChild,
+            email,
+            phone,
             observation
         } = req.body;
 
         // Validar campos requeridos
-        if (!unitId || !userId || !guestId || !currencyId || !originId || !estimatedCheckIn || !estimatedCheckOut || !estimatedCheckInTime || !estimatedCheckOutTime || !guestAdult) {
-            return res.status(400).json({ 
-                error: 'Faltan campos requeridos: unitId, userId, guestId, currencyId, originId, estimatedCheckIn, estimatedCheckOut, estimatedCheckInTime, estimatedCheckOutTime, guestAdult' 
+        if (!unitId || !userId || !numberDocument || !currencyId || !originId || !estimatedCheckIn || !estimatedCheckOut || !estimatedCheckInTime || !estimatedCheckOutTime || !guestAdult) {
+            return res.status(400).json({
+                error: 'Faltan campos requeridos: unitId, userId, numberDocument, currencyId, originId, estimatedCheckIn, estimatedCheckOut, estimatedCheckInTime, estimatedCheckOutTime, guestAdult'
             });
         }
 
@@ -137,9 +141,13 @@ export class ReserveController {
 
             // Validar que el guest exista
             const Guest = require('../models/Guest').default;
-            const guest = await Guest.findByPk(guestId);
+            let guest = await Guest.findOne({ where: { numberDocument } });
             if (!guest) {
-                return res.status(404).json({ error: 'Huésped no encontrado' });
+                if (!name || !typeDocument || !numberDocument || !country) {
+                    return res.status(400).json({ error: 'Huésped no encontrado' });
+                }
+                guest = await Guest.create({ name, typeDocument, numberDocument, country, email: email || null, phone: phone || null });
+
             }
 
             // Validar que la moneda exista
@@ -204,7 +212,7 @@ export class ReserveController {
             const newReserve = await Reserve.create({
                 unitId,
                 userId,
-                guestId,
+                guestId: guest.id,
                 currencyId,
                 originId,
                 estimatedCheckIn: format(checkInDate, 'yyyy-MM-dd'),
@@ -234,7 +242,7 @@ export class ReserveController {
             const reserveWithServicesAndGuest = await Reserve.findByPk(newReserve.id, {
                 include: [
                     { model: Service, attributes: ['id', 'name', 'price'] },
-                    { model: Guest, attributes: ['id', 'name', 'email', 'phone', 'document'] }
+                    { model: Guest, attributes: ['id', 'name', 'email', 'phone', 'numberDocument'] }
                 ]
             });
 
@@ -245,7 +253,7 @@ export class ReserveController {
         }
     }
 
-    static getAllReserves = async (req: Request ,res: Response ) => {
+    static getAllReserves = async (req: Request, res: Response) => {
         try {
             const reserves = await Reserve.findAll({
                 where: {
@@ -254,7 +262,7 @@ export class ReserveController {
             })
             res.json(reserves.map(reserve => this.formatReserve(reserve)))
         } catch (error) {
-            res.status(500).json({error: 'Hubo un Error'})
+            res.status(500).json({ error: 'Hubo un Error' })
         }
     }
 
@@ -351,8 +359,8 @@ export class ReserveController {
                 isPaid,
                 paymentStatus: isPaid ? 'complete' : 'partial',
                 paymentCount: payments.length,
-                lastPaymentDate: payments.length > 0 
-                    ? payments[payments.length - 1].date 
+                lastPaymentDate: payments.length > 0
+                    ? payments[payments.length - 1].date
                     : null
             };
         } catch (error) {
@@ -371,8 +379,8 @@ export class ReserveController {
 
             // Validar que no esté confirmada
             if (reserve.checkInConfirmed || reserve.checkOutConfirmed) {
-                return res.status(400).json({ 
-                    error: 'No se puede actualizar una reserva que ya ha sido confirmada' 
+                return res.status(400).json({
+                    error: 'No se puede actualizar una reserva que ya ha sido confirmada'
                 });
             }
 
@@ -428,7 +436,7 @@ export class ReserveController {
                 const reserveServices = await ReserveService.findAll({
                     where: { reserveId: reserve.id }
                 });
-                
+
                 if (reserveServices.length > 0) {
                     let newServicePrice = 0;
                     for (const rs of reserveServices) {
@@ -447,7 +455,7 @@ export class ReserveController {
             }
 
             await reserve.update(updateData);
-            
+
             res.json({
                 message: 'Reserva actualizada correctamente',
                 reserve: this.formatReserve(reserve)
@@ -457,28 +465,28 @@ export class ReserveController {
         }
     }
 
-    static getReserveById = async (req: Request ,res: Response ) => {
-        const {id} = req.params
+    static getReserveById = async (req: Request, res: Response) => {
+        const { id } = req.params
         try {
             const reserve = await Reserve.findByPk(id)
             if (!reserve) {
                 const error = new Error('Reserva no encontrada')
-                return res.status(404).json({error: error.message})
+                return res.status(404).json({ error: error.message })
             }
             res.json(this.formatReserve(reserve))
         } catch (error) {
-            res.status(500).json({error: 'Hubo un Error'})
+            res.status(500).json({ error: 'Hubo un Error' })
         }
     }
 
-    static deleteReserveById = async (req: Request ,res: Response ) => {
+    static deleteReserveById = async (req: Request, res: Response) => {
         // Cancelación lógica: no se elimina el registro, solo se marca como cancelado
-        const {id} = req.params
+        const { id } = req.params
         try {
             const reserve = await Reserve.findByPk(id)
             if (!reserve) {
                 const error = new Error('Reserva no encontrada')
-                return res.status(404).json({error: error.message})
+                return res.status(404).json({ error: error.message })
             }
 
             // Marcar como cancelada en lugar de eliminar
@@ -491,7 +499,7 @@ export class ReserveController {
                 reserve: this.formatReserve(reserve)
             })
         } catch (error) {
-            res.status(500).json({error: 'Hubo un Error'})
+            res.status(500).json({ error: 'Hubo un Error' })
         }
     }
 }

@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { handleInputErrors } from "../middleware/validation";
-import { authenticate } from "../middleware/auth";
 import { ReserveController } from "../controllers/ReserveController";
+import { authenticate } from "../middleware/auth";
+import { handleInputErrors } from "../middleware/validation";
 
 const router = Router()
 
@@ -23,8 +23,8 @@ router.post('/check-availability',
 router.post('/create-reserve',
     body('unitId')
         .isInt().withMessage('unitId debe ser un número entero'),
-    body('guestId')
-        .isInt().withMessage('guestId debe ser un número entero'),
+    body('numberDocument')
+        .notEmpty().withMessage('numberDocument es requerido'),
     body('currencyId')
         .isInt().withMessage('currencyId debe ser un número entero'),
     body('originId')
@@ -73,7 +73,7 @@ router.post('/confirm-check-out',
 )
 
 router.delete('/delete-reserve/:id',
-     param('id')
+    param('id')
         .isInt().withMessage('ID debe ser un numero entero'),
     handleInputErrors,
     ReserveController.deleteReserveById
