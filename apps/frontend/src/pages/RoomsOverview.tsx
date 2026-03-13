@@ -17,8 +17,8 @@ const RoomsOverview: React.FC = () => {
 		useState<(typeof tabs)[number]>("Habitaciones");
 
 	const filteredRooms = roomsData.filter((room) => {
-		if (activeTab === "Habitaciones") return room.id.startsWith("H");
-		return room.id.startsWith("C");
+		if (activeTab === "Habitaciones") return room.code.startsWith("H");
+		return room.code.startsWith("C");
 	});
 
 	const isServicios = activeTab === "Servicios Adicionales";
@@ -74,16 +74,17 @@ const RoomsOverview: React.FC = () => {
 			)}
 
 			<div
-				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${
-					isServicios
+				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${isServicios
 						? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
 						: "p-2 grid-cols-[repeat(auto-fill,250px)] justify-center"
-				}`}
+					}`}
 			>
 				{activeTab === "Servicios Adicionales" ? (
 					<ServiciosAdicionales />
 				) : (
-					filteredRooms.map((room) => <RoomCard key={room.id} {...room} />)
+					filteredRooms.map((room) => (
+						<RoomCard key={room.id} {...room} id={String(room.id)} />
+					))
 				)}
 			</div>
 		</div>

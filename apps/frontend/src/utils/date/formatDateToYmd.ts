@@ -13,3 +13,10 @@ export function parseYmdToDate(value: string): Date {
   const [y, m, d] = value.split("-").map(Number);
   return new Date(y, m - 1, d);
 }
+
+export function formatDate(iso: string): string {
+  if (!iso) return "—";
+
+  const [y, m, d] = iso.split("-");
+  return `${d}/${m}/${y}`;
+}

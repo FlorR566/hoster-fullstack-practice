@@ -31,5 +31,6 @@ export const mapReservePayload = (form: any, econ: any) => {
     serviceIds: form.serviciosAgregados.map((s: any) =>
       Number(s.id || 1)
     ),
+    numberDocument: form.documentoIdentidad,
   };
 };

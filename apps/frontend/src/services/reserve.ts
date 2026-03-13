@@ -52,22 +52,27 @@ export const reserveApi = {
     //     return result;
     //   },
 
-    //   async createReserve(data: Partial<Reserve>): Promise<Reserve> {
-    //     const response = await fetch(
-    //       `${API_ENDPOINTS.BASE}${API_ENDPOINTS.RESERVE.CREATE}`,
-    //       {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify(data),
-    //       }
-    //     );
+   async createReserve(data: any) {
+  const token = localStorage.getItem("example_token"); 
+  
+    const response = await fetch(
+      "http://localhost:5000/api/reserve/create-reserve",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
-    //     const result = await response.json();
+    const result = await response.json();
 
-    //     if (!response.ok) {
-    //       throw new Error(result.error || "Error creating reserve");
-    //     }
+    if (!response.ok) {
+      throw new Error(result.error || "Error creando la reserva");
+    }
 
-    //     return result;
-    //   },
+    return result;
+  },
 };

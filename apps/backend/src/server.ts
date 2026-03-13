@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import express from 'express' 
-=======
->>>>>>> 1ca4c4b10785d5e9459bead4127e993ef9e5f4e0
 import colors from 'colors'
 import cors from "cors"
 import express from 'express'
@@ -24,20 +20,10 @@ async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
-<<<<<<< HEAD
         console.log( colors.blue.bold('Conexion exitosa con la BD'))
     } catch (error) {
         console.log(error)
         console.log( colors.red.bold('Fallo la Conexion con la BD'))
-=======
-        console.log(colors.blue.bold('Conexion exitosa con la BD'))
-      
-    } catch (error) {
-        console.log(colors.red.bold('Fallo la Conexion con la BD'))
-        console.log(error)
-       
-
->>>>>>> 1ca4c4b10785d5e9459bead4127e993ef9e5f4e0
     }
 }
 

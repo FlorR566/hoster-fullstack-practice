@@ -25,12 +25,13 @@ const TYPE_BORDER = {
 
 interface RoomCardProps {
 	id: string;
+	code: string,
 	type: keyof typeof TYPE_BORDER;
 	status: keyof typeof STATUS_STYLES;
 	capacity: number;
 }
 
-const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity, code }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
@@ -113,7 +114,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ id, type, status, capacity }) => {
 					{/* Body: ID de Habitación */}
 					<div className="absolute inset-0 flex justify-center items-center pointer-events-none ">
 						<h3 className="font-['Poppins'] font-bold text-[40px] pointer-events-auto">
-							{id}
+							{code}
 						</h3>
 					</div>
 				</div>
