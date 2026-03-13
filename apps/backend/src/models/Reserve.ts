@@ -1,10 +1,12 @@
-import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey} from 'sequelize-typescript'
+import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo, ForeignKey, BelongsToMany} from 'sequelize-typescript'
 import Unit from './Unit'
 import Currency from './Currency'
 import Guest from './Guest'
 import Origin from './Origin'
 import User from './User'
 import Service from './Service'
+import Payment from './Payment'
+import ReserveService from './ReserveService'
 
 @Table({
     tableName: 'reserves'
@@ -37,6 +39,30 @@ class Reserve extends Model{
     declare checkOut: Date
 
     @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare checkInConfirmed: boolean
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare checkOutConfirmed: boolean
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare checkInConfirmedAt: Date
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare checkOutConfirmedAt: Date
+
+    @Column({
         type: DataType.DATE
     })
     declare estimatedCheckIn: Date
@@ -45,6 +71,16 @@ class Reserve extends Model{
         type: DataType.DATE
     })
     declare estimatedCheckOut: Date
+
+    @Column({
+        type: DataType.TIME
+    })
+    declare estimatedCheckInTime: string
+
+    @Column({
+        type: DataType.TIME
+    })
+    declare estimatedCheckOutTime: string
 
     @Column({
         type: DataType.DECIMAL(10, 2)
@@ -64,7 +100,19 @@ class Reserve extends Model{
     @Column({
         type: DataType.STRING(20)
     })
-    declare observation: string  
+    declare observation: string
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false
+    })
+    declare isCancelled: boolean
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true
+    })
+    declare cancelledAt: Date
   
     @ForeignKey(() => Currency)
     declare currencyId: number;
@@ -84,11 +132,11 @@ class Reserve extends Model{
     @BelongsTo(() => Origin)
     declare origin: Origin;
 
-    @ForeignKey(() => Service)
-    declare serviceId: number;
+    @BelongsToMany(() => Service, () => ReserveService)
+    declare services: Service[];
 
-    @BelongsTo(() => Service)
-    declare service: Service;
+    @HasMany(() => Payment)
+    declare payments: Payment[];
 
     @ForeignKey(() => User)
     declare userId: number;
@@ -102,4 +150,5 @@ class Reserve extends Model{
     @BelongsTo(() => Unit)
     declare unit: Unit;
 }
+
 export default Reserve

@@ -1,12 +1,13 @@
-import express from 'express'
 import colors from 'colors'
-import cors from 'cors'
+import cors from "cors"
+import express from 'express'
 import morgan from 'morgan'
 import { allowedUrls } from './config/url'
 import { db } from './config/db'
 import authRouter from './routes/authRouter'
 import currencyRouter from './routes/currencyRouter'
 import guestRouter from './routes/guestRouter'
+import maintenanceReportRouter from './routes/maintenanceReportRouter'
 import methodRouter from './routes/methodRouter'
 import originRouter from './routes/originRouter'
 import paymentRouter from './routes/paymentRouter'
@@ -19,21 +20,20 @@ async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
-        console.log(colors.blue.bold('Conexion existosa con la BD'))
+        console.log(colors.blue.bold('Conexion exitosa con la BD'))
+      
     } catch (error) {
         console.log(colors.red.bold('Fallo la Conexion con la BD'))
         console.log(error)
+       
 
     }
 }
+
 connectDB()
 
 const app = express()
 
-app.use(morgan('dev'))
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedUrls.includes(origin)) {
@@ -44,6 +44,12 @@ app.use(cors({
     },
     credentials: true,
 }))
+
+app.use(morgan('dev'))
+
+app.use(express.json())
+
+app.use(express.urlencoded({ extended: true }));
 
 job.start()
 
@@ -64,5 +70,7 @@ app.use('/api/reserve', reserveRouter)
 app.use('/api/service', serviceRouter)
 
 app.use('/api/unit', unitRouter)
+
+app.use('/api/maintenance-report', maintenanceReportRouter)
 
 export default app

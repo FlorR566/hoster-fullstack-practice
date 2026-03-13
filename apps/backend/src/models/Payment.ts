@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasMany, Default, Unique, AllowNull, BelongsTo,ForeignKey} from 'sequelize-typescript'
 import Method from './Method'
 import Currency from './Currency'
+import Reserve from './Reserve'
 
 @Table({
   tableName: "payments"
@@ -40,5 +41,11 @@ class Payment extends Model {
 
   @BelongsTo(() => Currency)
   declare currency: Currency;
+
+  @ForeignKey(() => Reserve)
+  declare reserveId: number;
+
+  @BelongsTo(() => Reserve)
+  declare reserve: Reserve;
 }
 export default Payment;
