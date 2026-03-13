@@ -437,21 +437,21 @@ const NuevaReserva: React.FC = () => {
 		if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1]);
 	};
 
-const handleConfirmReserve = async () => {
-	try {
-		const payload = mapReservePayload(form, econ);
-		console.log("Payload enviado:", payload);
-		const reserve = await reserveApi.createReserve(payload);
-		console.log("Reserva creada:", reserve);
+	const handleConfirmReserve = async () => {
+		try {
+			const payload = mapReservePayload(form, econ);
+			console.log("Payload enviado:", payload);
+			const reserve = await reserveApi.createReserve(payload);
+			console.log("Reserva creada:", reserve);
 
-		alert("Reserva creada correctamente ✅");
+			alert("Reserva creada correctamente ✅");
 
-		navigate(`/reservas/${reserve.id}`);
-	} catch (error: any) {
-		console.error(error);
-		alert(error.message || "Error al crear la reserva");
-	}
-};
+			navigate(`/reservas/${reserve.id}`);
+		} catch (error: any) {
+			console.error(error);
+			alert(error.message || "Error al crear la reserva");
+		}
+	};
 
 	useEffect(() => {
 		const user = localStorage.getItem("example_user");
