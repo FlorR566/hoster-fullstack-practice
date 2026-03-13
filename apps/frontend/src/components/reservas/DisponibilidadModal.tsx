@@ -61,9 +61,10 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
                       rounded-2xl p-4 h-[250px] w-full flex flex-col justify-between
                       border-l-[6px] ${TYPE_BORDER[room.type]}
                       transition-all duration-150
-                      ${isSelected
-												? "bg-[var(--light-main2)] outline outline-2 outline-[var(--light-accent)]"
-												: "bg-[var(--light-card)] hover:bg-[var(--light-main2)] hover:outline hover:outline-2 hover:outline-[var(--light-accent)]"
+                      ${
+												isSelected
+													? "bg-[var(--light-main2)] outline outline-2 outline-[var(--light-accent)]"
+													: "bg-[var(--light-card)] hover:bg-[var(--light-main2)] hover:outline hover:outline-2 hover:outline-[var(--light-accent)]"
 											}
                     `}
 									>
@@ -136,11 +137,12 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 								// Enviamos solo el id numérico para backend, pero seguimos mostrando el code
 								onSelect({
 									...selected,
-									id: selected.id // ⚡ aquí id numérico
+									id: selected.id, // ⚡ aquí id numérico
 								});
 								onClose();
 							}
 						}}
+						className="px-6 py-2 rounded-full text-[13px] font-medium bg-[var(--light-accent)] text-white hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed"
 					>
 						Confirmar
 					</button>
