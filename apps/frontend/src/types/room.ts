@@ -39,7 +39,8 @@ export type RoomType = keyof typeof TYPE_BORDER;
 export type RoomStatus = keyof typeof STATUS_STYLES;
 
 export interface RoomProps {
-	id: string;
+	id: number;  
+	code: string;
 	type: RoomType;
 	status: RoomStatus;
 	capacity: number;

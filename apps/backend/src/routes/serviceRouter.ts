@@ -2,6 +2,7 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { ServiceController } from "../controllers/ServiceController";
+import { seedServices } from "../controllers/seed";
 
 const router = Router()
 
@@ -42,4 +43,6 @@ router.delete('/delete-service/:id',
     handleInputErrors,
     ServiceController.deleteServiceById
 )
+
+router.post("/seed-services", seedServices);
 export default router

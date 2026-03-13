@@ -7,14 +7,12 @@ export const ROUTES = {
 } as const;
 
 export const API_ENDPOINTS = {
-	BASE: import.meta.env.VITE_API_BASE_URL,
-	AUTH: {
-		LOGIN: "/auth/login",
-		REGISTER: "/auth/create-account",
-		CONFIRMACCOUNT: "/auth/confirm-account",
-		GETUSER: "/auth/user",
-	},
-	HEALTH: "/health",
+  BASE: import.meta.env.VITE_API_URL,
+  AUTH: {
+    LOGIN: '/auth/login',
+    REGISTER: '/auth/create-account',
+  },
+  HEALTH: '/health',
 } as const;
 
 export const STORAGE_KEYS = {

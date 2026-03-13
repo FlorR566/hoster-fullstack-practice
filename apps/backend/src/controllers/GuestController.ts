@@ -8,9 +8,16 @@ export class GuestController {
         try {
             const guest = await Guest.create(req.body);
             res.json(guest); // devuelve el id para usarlo como guestId
+            
         } catch (error: any) {
-            console.log(error);
-            res.status(500).json({ error: "Error al crear el huésped", detail: error?.message });
+            if(req.body.numberDocument) {
+                const existingGuest = await Guest.findOne({ where: { numberDocument: req.body.numberDocument } });
+                if (existingGuest) {
+                    console.log(error);
+                    return res.status(400).json({ error: "El documento ya está registrado" });
+                }
+            }
+                res.status(500).json({ error: "Hubo un error" });
         }
     }
 

@@ -14,7 +14,7 @@ class Unit extends Model{
     declare type:string
 
     @Column({
-        type: DataType.STRING(255)
+        type: DataType.STRING(255),
     })
     declare description:string
     
