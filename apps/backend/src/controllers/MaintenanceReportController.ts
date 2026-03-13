@@ -15,6 +15,8 @@ export class MaintenanceReportController {
             const count = await MaintenanceReport.count({ where: { type } });
             const nextNumber = count + 1;
             const reportId = `${prefix}${String(nextNumber).padStart(7, '0')}`;
+            const [day, month, year] = date.split('/');
+            const formattedDate = `${year}-${month}-${day}`;
 
             const maintenanceReport = await MaintenanceReport.create({
                 reportId,
@@ -22,7 +24,7 @@ export class MaintenanceReportController {
                 unitId,
                 responsibleName,
                 estimatedDuration,
-                date,
+                date: formattedDate,
                 startTime,
                 description,
                 reserveId: reserveId || null,

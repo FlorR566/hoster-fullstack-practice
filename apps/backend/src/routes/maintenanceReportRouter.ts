@@ -14,7 +14,7 @@ router.post('/create-maintenance-report',
     body('responsibleName')
         .notEmpty().withMessage('El nombre del responsable no puede estar vacío'),
     body('estimatedDuration')
-        .isInt().withMessage('La duración estimada debe ser un número entero'),
+        .notEmpty().withMessage('La duración estimada debe ser un número entero'),
     body('date')
         .notEmpty().withMessage('La fecha no puede estar vacía')
         .matches(/^\d{1,2}\/\d{1,2}\/\d{4}$/).withMessage('La fecha debe estar en formato DD/MM/YYYY'),
