@@ -10,28 +10,10 @@ import DatosEconomicos from "./InfoVerMas/DatosEconomicos";
 import FormaPago from "./InfoVerMas/FormaPago";
 import Observaciones from "./InfoVerMas/Observaciones";
 
-import { reserveApi  } from "../../services/reserve"
-
 const VerMas: React.FC = () => {
     const { id = "" } = useParams();
     const navigate = useNavigate();
     const [subModal, setSubModal] = useState("");
-
-
-    useEffect(() => {
-    if (!id) return;
-
-    const fetchReserve = async () => {
-      try {
-        const data = await reserveApi.getReserveById(id);
-        console.log("Reserva obtenida:", data);
-      } catch (error) {
-        console.error("Error al traer la reserva:", error);
-      }
-    };
-
-    fetchReserve();
-  }, [id]);
 
     return (
         <div className="p-6">
