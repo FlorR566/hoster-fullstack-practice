@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormData } from "../../../types/reserva";
 import { formatDate } from "../../../utils/date/formatDateToYmd";
 import { InputField } from "../../common/input/InputField";
+
+import { serviceApi, Service } from "../../../services/serviceApi";
 
 type Props = {
 	form: FormData;
@@ -10,20 +12,20 @@ type Props = {
 	SelectField: any;
 };
 
-export const ServiciosAdicionalesSection: React.FC<Props> = ({
-	form,
-	set,
-	Label,
-	SelectField,
-}) => {
-	const agregarServicio = (nombre: string) => {
-		if (!nombre) return;
+export const ServiciosAdicionalesSection: React.FC<Props> = ({ form, set, Label, SelectField }) => {
+	const [services, setServices] = useState<Service[]>([]);
+
+	// ✅ agregar servicio real
+	const agregarServicio = (serviceId: number) => {
+		const servicio = services.find((s) => s.id === serviceId);
+		if (!servicio) return;
 
 		set("serviciosAgregados", [
 			...form.serviciosAgregados,
 			{
-				nombre,
-				precio: "120",
+				id: servicio.id,
+				nombre: servicio.name,
+				precio: servicio.price,
 				fecha: form.fechaCheckin,
 			},
 		]);
@@ -32,9 +34,23 @@ export const ServiciosAdicionalesSection: React.FC<Props> = ({
 	const eliminarServicio = (index: number) => {
 		set(
 			"serviciosAgregados",
-			form.serviciosAgregados.filter((_, i) => i !== index),
+			form.serviciosAgregados.filter((_, i) => i !== index)
 		);
 	};
+
+	// ✅ traer servicios dinámicamente
+	useEffect(() => {
+		const fetchServices = async () => {
+			try {
+				const data = await serviceApi.getServices();
+				setServices(data);
+			} catch (error) {
+				console.error("Error cargando servicios", error);
+			}
+		};
+
+		fetchServices();
+	}, []);
 
 	return (
 		<div>
@@ -49,15 +65,15 @@ export const ServiciosAdicionalesSection: React.FC<Props> = ({
 						<Label>Agregar un servicio</Label>
 						<SelectField
 							options={[
-								"Seleccionar",
-								"Tour",
-								"Masaje",
-								"Desayuno",
-								"Traslado",
+								{ label: "Seleccionar", value: "" },
+								...services.map((service) => ({
+									label: service.name,
+									value: service.id,
+								})),
 							]}
 							value=""
 							onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-								agregarServicio(e.target.value)
+								agregarServicio(Number(e.target.value))
 							}
 						/>
 					</div>
@@ -80,7 +96,7 @@ export const ServiciosAdicionalesSection: React.FC<Props> = ({
 
 									<p className="text-[11px] text-(--light-placeholder) mt-0.5">
 										{formatDate(
-											new Date().toISOString().split("T")[0],
+											new Date().toISOString().split("T")[0]
 										)}
 										{"   "}
 										{s.precio} USD
@@ -90,7 +106,7 @@ export const ServiciosAdicionalesSection: React.FC<Props> = ({
 								<button
 									type="button"
 									onClick={() => eliminarServicio(i)}
-									className="text-(--light-text) hover:opacity-70 shrink-0 text-[18px] leading-none"
+									className="text-(--light-text) hover:opacity-70 shrink-0 text-[18px]"
 								>
 									−
 								</button>
