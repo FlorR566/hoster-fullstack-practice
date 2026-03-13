@@ -1,5 +1,9 @@
-import Service from "../models/Service";
 import { Request, Response } from "express";
+
+// Models
+import Service from "../models/Service";
+import Unit from "../models/Unit";
+
 
 export const seedServices = async (req: Request, res: Response) => {
   try {
@@ -78,5 +82,67 @@ export const seedServices = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error creando servicios" });
+  }
+};
+
+
+export const seedUnits = async (req: Request, res: Response) => {
+  try {
+    const units = [
+      // ⚠️ YA EXISTEN EN BD — SOLO REFERENCIA PARA EL EQUIPO
+      /*
+      {
+        id: 1,
+        type: "Presidencial",
+        description: "H01",
+        capacity: 2,
+        state: "Ocupada",
+        price: 100,
+      },
+      {
+        id: 2,
+        type: "Deluxe",
+        description: "H02",
+        capacity: 2,
+        state: "Disponible",
+        price: 100,
+      },
+      */
+
+      // Habitaciones
+      { type: "Deluxe", description: "H03", capacity: 4, state: "Limpieza", price: 100 },
+      { type: "Deluxe", description: "H04", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Deluxe", description: "H05", capacity: 2, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H06", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H07", capacity: 2, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H08", capacity: 3, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H09", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H10", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H11", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H12", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H13", capacity: 3, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H14", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H15", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H16", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H17", capacity: 2, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "H18", capacity: 4, state: "Disponible", price: 100 },
+
+      // Cabañas
+      { type: "Presidencial", description: "C01", capacity: 2, state: "Ocupada", price: 100 },
+      { type: "Estandar", description: "C02", capacity: 2, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "C03", capacity: 3, state: "Disponible", price: 100 },
+      { type: "Estandar", description: "C04", capacity: 2, state: "Disponible", price: 100 },
+      { type: "Deluxe", description: "C05", capacity: 4, state: "Disponible", price: 100 },
+      { type: "Deluxe", description: "C06", capacity: 2, state: "Disponible", price: 100 },
+    ];
+
+    await Unit.bulkCreate(units, {
+      ignoreDuplicates: true, // 🔥 evita romper si ya existen
+    });
+
+    res.json({ message: "Units creadas correctamente ✅" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error creando units" });
   }
 };
