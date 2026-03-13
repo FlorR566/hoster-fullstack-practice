@@ -458,7 +458,7 @@ const DatosReservaTab: React.FC<{
 
 			{/* SECCIÓN 4: SERVICIOS ADICIONALES */}
 			<div>
-				<h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">
+				<h2 className="text-[15px] font-bold mt-4 mb-4 uppercase tracking-wide">
 					Servicios adicionales
 				</h2>
 				<div className="grid grid-cols-3 gap-x-8 items-start">
