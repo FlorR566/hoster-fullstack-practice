@@ -19,19 +19,16 @@ export interface Reserve {
 
 export const reserveApi = {
     async getReserveById(id: number | string): Promise<Reserve> {
+      const token = localStorage.getItem("example_token"); 
         const response = await fetch(`http://localhost:5000/api/reserve/get-reserve/${id}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         }
         );
 
         console.log(response)
         const data = await response.json()
         console.log(data)
-        // if (!response.ok) {
-        //   throw new Error(result.error || "Error fetching reserve");
-        // }
-
        return data;
     },
 

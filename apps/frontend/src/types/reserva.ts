@@ -27,6 +27,7 @@ export interface FormData {
 	estacionamiento: "Si" | "No";
 	patente: string;
 	precioPorNoche: string;
+	roomId?: string;
 }
 
 export interface EconData {

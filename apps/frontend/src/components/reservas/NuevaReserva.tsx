@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	ArrowLeft,
-	ArrowRight,
-	ChevronDown,
-	User,
-	Mail,
-	Phone,
-	Calendar,
-	Clock,
-	Users,
-	Car,
-	DollarSign,
-	CreditCard,
-	StickyNote,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, StickyNote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { DisponibilidadModal } from "../reservas/DisponibilidadModal";
 
@@ -193,6 +179,22 @@ const DatosReservaTab: React.FC<{
 			})),
 		);
 	}, [form.fechaCheckin, form.fechaCheckout]);
+
+	// ────────── onSelect del modal ──────────
+	const handleSelectRoom = (room: {
+		id: string;
+		code: string;
+		type: string;
+		price: string;
+	}) => {
+		set("numeroAlojamiento", room.code);  // código visible
+		set("roomId", room.id);                // id interno
+		set("tipoAlojamiento", room.type);
+		set("precioPorNoche", room.price);    // precio por noche
+		setDisponible(true);
+	};
+
+
 	return (
 		<form className="text-(--light-text)">
 			{/* SECCIÓN 1: DATOS DE LA ESTADÍA */}
@@ -244,11 +246,13 @@ const DatosReservaTab: React.FC<{
 				<DisponibilidadModal
 					onClose={() => setShowDisponibilidad(false)}
 					onSelect={(room) => {
-						// Ahora room.id (que es un número) entrará sin quejas
 						set("numeroAlojamiento", room.id);
+						set("roomId", room.code);
 						set("tipoAlojamiento", room.type);
+						set("precioPorNoche", room.price);
 						setDisponible(true);
 					}}
+					onNoAvailable={() => setDisponible(false)}
 				/>
 			)}
 		</form>
@@ -496,11 +500,10 @@ const NuevaReserva: React.FC = () => {
 							key={tab}
 							type="button"
 							onClick={() => setActiveTab(tab)}
-							className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${
-								activeTab === tab
-									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm"
-									: "text-[var(--light-text)] hover:bg-white/10"
-							}`}
+							className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${activeTab === tab
+								? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm"
+								: "text-[var(--light-text)] hover:bg-white/10"
+								}`}
 						>
 							{tab}
 						</button>
