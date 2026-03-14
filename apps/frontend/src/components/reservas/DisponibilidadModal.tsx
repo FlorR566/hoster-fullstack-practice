@@ -7,9 +7,10 @@ import { API_ENDPOINTS } from "../../constants/routes";
 interface Props {
 	onClose: () => void;
 	onSelect: (room: RoomProps) => void;
+	onNoAvailable: () => void;
 }
 
-export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
+export const DisponibilidadModal = ({ onClose, onSelect, onNoAvailable }: Props) => {
 	const [rooms, setRooms] = useState<RoomProps[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [selected, setSelected] = useState<RoomProps | null>(null);
@@ -19,8 +20,8 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 		const fetchRooms = async () => {
 			try {
 				const response = await fetch(
-					// "http://localhost:5000/api/unit/get-units",
-					 `${API_ENDPOINTS.BASE}${API_ENDPOINTS.UNITS.GET_ALL}`,
+					"http://localhost:5000/api/unit/get-units",
+					//`${API_ENDPOINTS.BASE}${API_ENDPOINTS.UNITS.GET_ALL}`,
 				);
 				const data = await response.json();
 
@@ -44,6 +45,12 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 
 	// 2. Filtrar solo las disponibles
 	const available = rooms.filter((r) => r.status === "Disponible");
+
+	useEffect(() => {
+	if (!loading && available.length === 0) {
+		onNoAvailable();
+	}
+}, [loading, available]);
 
 	return (
 		<div

@@ -36,7 +36,6 @@ export const DatosEstadiaSection: React.FC<Props> = ({
 
 		return fechaOut >= fechaIn;
 	};
-
 	return (
 		<>
 			<div className="grid grid-cols-4 gap-x-8 gap-y-6">
@@ -150,11 +149,10 @@ export const DatosEstadiaSection: React.FC<Props> = ({
 						onClick={() => setShowDisponibilidad(true)}
 						disabled={!fechasSeleccionadas}
 						className={`text-[15px] font-medium underline mt-2 pl-1
-						${
-							!fechasSeleccionadas
+						${!fechasSeleccionadas
 								? "opacity-40 cursor-not-allowed"
 								: "text-[var(--light-accent)] hover:opacity-70"
-						}`}
+							}`}
 					>
 						Ver disponibilidad
 					</button>
