@@ -1,36 +1,36 @@
 export const mapReservePayload = (form: any, econ: any) => {
+	const user = JSON.parse(localStorage.getItem("example_user") || "{}");
 
-  const user = JSON.parse(localStorage.getItem("example_user") || "{}");
+	// Esta función convierte "2026-03-13" (del input) a "13-03-2026" (lo que pide tu backend)
+	const formatDateForBackend = (date: string) => {
+		if (!date) return "";
+		const [year, month, day] = date.split("-");
+		return `${day}-${month}-${year}`;
+	};
 
-  const formatDate = (date: string) => {
-    const [year, month, day] = date.split("-");
-    return `${day}-${month}-${year}`;
-  };
+	return {
+		unitId: Number(form.numeroAlojamiento),
+		userId: Number(user.id),
+		guestId: Number(form.guestId || 1),
 
-  return {
-    unitId: Number(form.numeroAlojamiento),
+		currencyId: 1,
+		originId: 1,
 
-    userId: Number(user.id),
+		// 1. Aplicamos el formato que el popup exige
+		estimatedCheckIn: formatDateForBackend(form.fechaCheckin),
+		estimatedCheckOut: formatDateForBackend(form.fechaCheckout),
 
-    guestId: Number(form.guestId || 1), // ajustar luego
+		estimatedCheckInTime: form.horaLlegada,
+		estimatedCheckOutTime: form.horaCheckout,
 
-    currencyId: 1, // USD por ahora
-    originId: Number(form.canalReserva || 1),
+		// 2. IMPORTANTÍSIMO: Asegúrate de que estos sean Number
+		guestAdult: Number(form.adultos),
+		guestChild: Number(form.ninos || 0),
 
-    estimatedCheckIn: formatDate(form.fechaCheckin),
-    estimatedCheckOut: formatDate(form.fechaCheckout),
+		//observation: econ.nota || "",
+		observation: (econ.nota || "").substring(0, 20),
 
-    estimatedCheckInTime: form.horaLlegada,
-    estimatedCheckOutTime: form.horaCheckout,
-
-    guestAdult: String(form.adultos),
-    guestChild: String(form.ninos || 0),
-
-    observation: econ.nota || "",
-
-    serviceIds: form.serviciosAgregados.map((s: any) =>
-      Number(s.id || 1)
-    ),
-    numberDocument: form.documentoIdentidad,
-  };
+		serviceIds: form.serviciosAgregados.map((s: any) => Number(s.id || 1)),
+		numberDocument: form.documentoIdentidad,
+	};
 };
