@@ -1,4 +1,4 @@
-export const mapReservePayload = (form: any, econ: any) => {
+export const mapReservePayload = (form: any, econ: any, guestId?: number) => {
 	const user = JSON.parse(localStorage.getItem("example_user") || "{}");
 
 	// Esta función convierte "2026-03-13" (del input) a "13-03-2026" (lo que pide tu backend)
@@ -11,7 +11,7 @@ export const mapReservePayload = (form: any, econ: any) => {
 	return {
 		unitId: Number(form.numeroAlojamiento),
 		userId: Number(user.id),
-		guestId: Number(form.guestId || 1),
+		guestId: guestId ?? Number(form.guestId || 1),
 
 		currencyId: 1,
 		originId: 1,

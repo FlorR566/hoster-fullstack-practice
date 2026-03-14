@@ -22,6 +22,7 @@ import FormaPagoConfirmacion from "./Nueva/FormaPagoConfirmacion";
 
 import { reserveApi } from "../../services/reserve";
 import { mapReservePayload } from "../../utils/mapReservePayload";
+import { guestApi } from "@/src/services/guestsApi";
 
 const initialForm: FormData = {
 	recepcionista: "",
@@ -69,8 +70,7 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 	</label>
 );
 
-const inputBase =
-	"w-full bg-[var(--light-main2)] border border-transparent rounded-lg px-3 py-2 text-[14px] text-[var(--light-text)] focus:border-[var(--light-accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none transition-all placeholder:text-[var(--light-placeholder)]";
+const inputBase = "w-full bg-[var(--light-main2)] border border-transparent rounded-lg px-3 py-2 text-[14px] text-[var(--light-text)] focus:border-[var(--light-accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none transition-all placeholder:text-[var(--light-placeholder)]";
 
 const DateInput = ({
 	value,
@@ -193,7 +193,6 @@ const DatosReservaTab: React.FC<{
 		set("precioPorNoche", room.price);    // precio por noche
 		setDisponible(true);
 	};
-
 
 	return (
 		<form className="text-(--light-text)">
@@ -449,7 +448,26 @@ const NuevaReserva: React.FC = () => {
 
 	const handleConfirmReserve = async () => {
 		try {
-			const payload = mapReservePayload(form, econ);
+			let guestId: number | undefined;
+
+			// Primero busco el huésped por documento
+			const guest = await guestApi.getGuestByDocument(form.documentoIdentidad);
+
+			if (guest) {
+				guestId = guest.id;
+			} else {
+				// Si no existe, lo creo
+				const newGuest = await guestApi.createGuest({
+					name: form.nombreCompleto,
+					numberDocument: form.documentoIdentidad,
+					typeDocument: form.tipoDocumento,
+					country: form.pais,
+					email: form.email,
+					phone: form.telefono,
+				});
+				guestId = newGuest.id;
+			}
+			const payload = mapReservePayload(form, econ, guestId);
 			console.log("Payload enviado:", payload);
 
 			console.log("ESTRUCTURA DEL PAYLOAD:", JSON.stringify(payload, null, 2)); // ***----- BORRAR -----
