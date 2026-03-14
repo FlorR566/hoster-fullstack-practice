@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, ChevronDown, User, Mail, Phone, Calendar, Clock, Users, Car, DollarSign, CreditCard, StickyNote } from "lucide-react";
+import {
+	ArrowLeft,
+	ArrowRight,
+	ChevronDown,
+	User,
+	Mail,
+	Phone,
+	Calendar,
+	Clock,
+	Users,
+	Car,
+	DollarSign,
+	CreditCard,
+	StickyNote,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { DisponibilidadModal } from "../reservas/DisponibilidadModal";
 
@@ -69,7 +83,8 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 	</label>
 );
 
-const inputBase = "w-full bg-[var(--light-main2)] border border-transparent rounded-lg px-3 py-2 text-[14px] text-[var(--light-text)] focus:border-[var(--light-accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none transition-all placeholder:text-[var(--light-placeholder)]";
+const inputBase =
+	"w-full bg-[var(--light-main2)] border border-transparent rounded-lg px-3 py-2 text-[14px] text-[var(--light-text)] focus:border-[var(--light-accent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--light-accent)_25%,transparent)] outline-none transition-all placeholder:text-[var(--light-placeholder)]";
 
 const DateInput = ({
 	value,
@@ -167,10 +182,7 @@ const DatosReservaTab: React.FC<{
 		setDisponible(null);
 
 		// recalcula noches
-		set(
-			"cantidadNoches",
-			calcNights(form.fechaCheckin, form.fechaCheckout)
-		);
+		set("cantidadNoches", calcNights(form.fechaCheckin, form.fechaCheckout));
 
 		// sincroniza fecha de servicios con check-in
 		set(
@@ -178,15 +190,13 @@ const DatosReservaTab: React.FC<{
 			form.serviciosAgregados.map((s) => ({
 				...s,
 				fecha: form.fechaCheckin,
-			}))
+			})),
 		);
-
 	}, [form.fechaCheckin, form.fechaCheckout]);
 	return (
 		<form className="text-(--light-text)">
 			{/* SECCIÓN 1: DATOS DE LA ESTADÍA */}
 			<div>
-
 				<h2 className="text-[15px] font-bold mb-4 uppercase tracking-wide">
 					Datos de la estadía
 				</h2>
@@ -234,7 +244,8 @@ const DatosReservaTab: React.FC<{
 				<DisponibilidadModal
 					onClose={() => setShowDisponibilidad(false)}
 					onSelect={(room) => {
-						set("numeroAlojamiento", room.code);
+						// Ahora room.id (que es un número) entrará sin quejas
+						set("numeroAlojamiento", room.id);
 						set("tipoAlojamiento", room.type);
 						setDisponible(true);
 					}}
@@ -342,7 +353,8 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({
 	form,
 	econ,
 }) => {
-	const { totalNoches, totalServicios, totalEstadia, saldoPendiente } = calcReservaTotals(form, econ);
+	const { totalNoches, totalServicios, totalEstadia, saldoPendiente } =
+		calcReservaTotals(form, econ);
 	const precioPorNoche = parseFloat(form.precioPorNoche) || 0;
 
 	return (
@@ -359,10 +371,7 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({
 
 			{/* ── Datos del huésped ── */}
 			<ConfirmSectionTitle>Datos del huésped</ConfirmSectionTitle>
-			<DatosHuespedConfirmacion
-				form={form}
-				ConfirmRow={ConfirmRow}
-			/>
+			<DatosHuespedConfirmacion form={form} ConfirmRow={ConfirmRow} />
 
 			{/* ── Datos de la estadía ── */}
 			<ConfirmSectionTitle>Datos de la estadía</ConfirmSectionTitle>
@@ -374,10 +383,7 @@ const ConfirmacionTab: React.FC<{ form: FormData; econ: EconData }> = ({
 			{/* ── Servicios adicionales ── */}
 			<div className="mt-2">
 				<ConfirmSectionTitle>Servicios adicionales</ConfirmSectionTitle>
-				<ServiciosConfirmacion
-					form={form}
-					ConfirmRow={ConfirmRow}
-				/>
+				<ServiciosConfirmacion form={form} ConfirmRow={ConfirmRow} />
 			</div>
 
 			{/* ── Datos económicos ── */}
@@ -441,6 +447,9 @@ const NuevaReserva: React.FC = () => {
 		try {
 			const payload = mapReservePayload(form, econ);
 			console.log("Payload enviado:", payload);
+
+			console.log("ESTRUCTURA DEL PAYLOAD:", JSON.stringify(payload, null, 2)); // ***----- BORRAR -----
+
 			const reserve = await reserveApi.createReserve(payload);
 			console.log("Reserva creada:", reserve);
 
@@ -487,10 +496,11 @@ const NuevaReserva: React.FC = () => {
 							key={tab}
 							type="button"
 							onClick={() => setActiveTab(tab)}
-							className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${activeTab === tab
-								? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm"
-								: "text-[var(--light-text)] hover:bg-white/10"
-								}`}
+							className={`px-6 py-2 text-[14px] font-medium rounded-md transition-all font-poppins ${
+								activeTab === tab
+									? "bg-[var(--light-accent)] text-[var(--icono-navbar-selected)] shadow-sm"
+									: "text-[var(--light-text)] hover:bg-white/10"
+							}`}
 						>
 							{tab}
 						</button>

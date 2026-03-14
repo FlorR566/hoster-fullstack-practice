@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { X, User } from "lucide-react";
-import { roomsData } from "../../data/roomsData";
 import type { RoomProps } from "../../types/room";
 import { TYPE_BORDER, STATUS_STYLES } from "../../types/room";
+import { API_ENDPOINTS } from "../../constants/routes";
 
 interface Props {
 	onClose: () => void;
@@ -10,8 +10,40 @@ interface Props {
 }
 
 export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
-	const available = roomsData.filter((r) => r.status === "Disponible");
-	const [selected, setSelected] = React.useState<RoomProps | null>(null);
+	const [rooms, setRooms] = useState<RoomProps[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [selected, setSelected] = useState<RoomProps | null>(null);
+
+	// 1. Cargar datos del Backend
+	useEffect(() => {
+		const fetchRooms = async () => {
+			try {
+				const response = await fetch(
+					//"http://localhost:5000/api/unit/get-units",
+					`${API_ENDPOINTS.BASE}${API_ENDPOINTS.UNITS.GET_ALL}`,
+				);
+				const data = await response.json();
+
+				// Mapeamos sin alterar tus interfaces de React
+				const mappedRooms = data.map((unit: any) => ({
+					...unit, // Mantenemos id, type, capacity, price tal cual vienen
+					status: unit.state, // Traducimos 'state' (back) a 'status' (front)
+					code: unit.description, // 'description' del back se convierte en 'code'
+				}));
+
+				setRooms(mappedRooms);
+			} catch (error) {
+				console.error("Error:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchRooms();
+	}, []);
+
+	// 2. Filtrar solo las disponibles
+	const available = rooms.filter((r) => r.status === "Disponible");
 
 	return (
 		<div
@@ -29,7 +61,7 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 				onClick={(e) => e.stopPropagation()}
 			>
 				{/* Header */}
-				<div className="font-['Poppins'] flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0">
+				<div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0">
 					<h2 className="text-[35px] font-medium text-[var(--light-text)]">
 						Disponibilidad de alojamiento
 					</h2>
@@ -41,11 +73,13 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 					</button>
 				</div>
 
-				{/* Grid */}
+				{/* Grid / Content */}
 				<div className="overflow-y-auto px-6 pb-4 pt-1" style={{ flex: 1 }}>
-					{available.length === 0 ? (
+					{loading ? (
+						<p className="text-center py-10">Cargando habitaciones...</p>
+					) : available.length === 0 ? (
 						<p className="text-center text-[14px] text-[var(--light-text)] opacity-60 py-10">
-							No hay alojamientos disponibles.
+							No hay alojamientos disponibles en este momento.
 						</p>
 					) : (
 						<div className="grid grid-cols-3 gap-4">
@@ -56,19 +90,14 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 										key={room.id}
 										onClick={() => setSelected(room)}
 										className={`
-                      group relative cursor-pointer
-                      text-[var(--light-text)]
+                      group relative cursor-pointer text-[var(--light-text)]
                       rounded-2xl p-4 h-[250px] w-full flex flex-col justify-between
-                      border-l-[6px] ${TYPE_BORDER[room.type]}
+                      border-l-[6px] ${TYPE_BORDER[room.type] || "border-gray-400"}
                       transition-all duration-150
-                      ${
-												isSelected
-													? "bg-[var(--light-main2)] outline outline-2 outline-[var(--light-accent)]"
-													: "bg-[var(--light-card)] hover:bg-[var(--light-main2)] hover:outline hover:outline-2 hover:outline-[var(--light-accent)]"
-											}
+                      ${isSelected ? "bg-[var(--light-main2)] outline outline-2 outline-[var(--light-accent)]" : "bg-[var(--light-card)] hover:bg-[var(--light-main2)]"}
                     `}
 									>
-										{/* Mismo SVG de RoomCard */}
+										{/* SVG Decorativo */}
 										<svg
 											className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
 											preserveAspectRatio="none"
@@ -83,20 +112,15 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 												stroke="currentColor"
 												strokeWidth="1.5"
 												strokeDasharray="10, 10"
-												className="text-[var(--light-text)]"
+												className="opacity-20"
 											/>
 										</svg>
 
 										<div className="relative z-10 h-full flex flex-col justify-between pointer-events-none">
-											{/* Capacidad + Badge */}
 											<div className="flex flex-col gap-2">
 												<div className="flex gap-0.5">
 													{Array.from({ length: room.capacity }).map((_, i) => (
-														<User
-															key={i}
-															size={16}
-															className="text-[var(--light-text)]"
-														/>
+														<User key={i} size={16} />
 													))}
 												</div>
 												<span
@@ -106,11 +130,8 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 												</span>
 											</div>
 
-											{/* ID */}
 											<div className="absolute inset-0 flex justify-center items-center">
-												<h3 className="font-bold text-[32px]">
-													{room.code}-{room.type.charAt(0).toUpperCase()}
-												</h3>
+												<h3 className="font-bold text-[32px]">{room.code}</h3>
 											</div>
 										</div>
 									</div>
@@ -120,29 +141,23 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 					)}
 				</div>
 
-				{/* Butons */}
+				{/* Footer Buttons */}
 				<div className="flex justify-end gap-3 px-6 py-4 flex-shrink-0">
 					<button
-						type="button"
 						onClick={onClose}
-						className="px-6 py-2 rounded-full text-[13px] font-medium bg-[var(--light-input)] text-[var(--light-text)] hover:opacity-80 transition"
+						className="px-6 py-2 rounded-full text-[13px] bg-[var(--light-input)]"
 					>
 						Cancelar
 					</button>
 					<button
-						type="button"
 						disabled={!selected}
 						onClick={() => {
 							if (selected) {
-								// Enviamos solo el id numérico para backend, pero seguimos mostrando el code
-								onSelect({
-									...selected,
-									id: selected.id, // ⚡ aquí id numérico
-								});
+								onSelect(selected);
 								onClose();
 							}
 						}}
-						className="px-6 py-2 rounded-full text-[13px] font-medium bg-[var(--light-accent)] text-white hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed"
+						className="px-6 py-2 rounded-full text-[13px] bg-[var(--light-accent)] text-white disabled:opacity-40"
 					>
 						Confirmar
 					</button>

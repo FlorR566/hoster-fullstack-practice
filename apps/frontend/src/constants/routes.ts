@@ -7,12 +7,17 @@ export const ROUTES = {
 } as const;
 
 export const API_ENDPOINTS = {
-  BASE: import.meta.env.VITE_API_URL,
-  AUTH: {
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/create-account',
-  },
-  HEALTH: '/health',
+	BASE: import.meta.env.VITE_API_URL,
+	AUTH: {
+		LOGIN: "/auth/login",
+		REGISTER: "/auth/create-account",
+	},
+	UNITS: {
+		GET_ALL: "/unit/get-units",
+		UPDATE: (id: number) => `/unit/update-unit/${id}`,
+		CREATE: "/unit/create-unit",
+	},
+	HEALTH: "/health",
 } as const;
 
 export const STORAGE_KEYS = {
