@@ -13,6 +13,7 @@ import originRouter from './routes/originRouter'
 import paymentRouter from './routes/paymentRouter'
 import reserveRouter from './routes/reserveRouter'
 import serviceRouter from './routes/serviceRouter'
+import incidentReportRouter from './routes/incidentReportRouter'
 import unitRouter from './routes/unitRouter'
 import job from './config/cron'
 
@@ -70,5 +71,7 @@ app.use('/api/service', serviceRouter)
 app.use('/api/unit', unitRouter)
 
 app.use('/api/maintenance-report', maintenanceReportRouter)
+
+app.use('/api/incident-report', incidentReportRouter)
 
 export default app

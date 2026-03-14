@@ -42,7 +42,7 @@ const ReportarIncidenteModal: React.FC<ReportarIncidenteModalProps> = ({
   nombreHuesped = "Juan Perez",
   onConfirm,
 }) => {
-  const [form, setForm] = useState<NuevoIncidente>({
+  const [form, setForm] = useState<NuevoIncidente & { receptionistId?: number }>({
     numeroReserva,
     nombreHuesped,
     nombreRecepcionista: "",
@@ -52,6 +52,7 @@ const ReportarIncidenteModal: React.FC<ReportarIncidenteModalProps> = ({
     descripcion: "",
     recibeCompensacion: "",
     compensacion: "",
+    receptionistId: undefined,
   });
 
   React.useEffect(() => {
@@ -90,9 +91,10 @@ const ReportarIncidenteModal: React.FC<ReportarIncidenteModalProps> = ({
     >
 
       <FormField
-        label="Número de reserva"
+        label="Número de reserva (ID real de reserva)"
         value={form.numeroReserva}
-        readOnly
+        onChange={set("numeroReserva")}
+        placeholder="Ej: 7 (ID de la reserva)"
       />
 
       <FormField
@@ -104,7 +106,18 @@ const ReportarIncidenteModal: React.FC<ReportarIncidenteModalProps> = ({
       <FormSelect
         label="Nombre del recepcionista"
         value={form.nombreRecepcionista}
-        onChange={set("nombreRecepcionista")}
+        onChange={(val) => {
+          const selected = [
+            { id: 1, name: "Laura Martinez" },
+            { id: 2, name: "Carlos Ruiz" },
+            { id: 3, name: "Ana Torres" },
+          ].find(opt => opt.name === val);
+          setForm(prev => ({
+            ...prev,
+            nombreRecepcionista: val,
+            receptionistId: selected?.id,
+          }));
+        }}
         options={[
           { value: "Laura Martinez", label: "Laura Martinez" },
           { value: "Carlos Ruiz", label: "Carlos Ruiz" },
