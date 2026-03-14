@@ -6,6 +6,7 @@ import Reserve from "../models/Reserve"
 import ReserveService from "../models/ReserveService"
 import Service from "../models/Service"
 import Unit from "../models/Unit"
+import Guest from '../models/Guest'
 
 export class ReserveController {
 
@@ -468,7 +469,15 @@ export class ReserveController {
     static getReserveById = async (req: Request, res: Response) => {
         const { id } = req.params
         try {
-            const reserve = await Reserve.findByPk(id)
+            const reserve = await Reserve.findByPk(id, {
+            include: [
+                {
+                    model: Guest,        
+                    as: 'guest',    
+                    attributes: ['id', 'name', 'email', 'phone', 'numberDocument']
+                }
+            ]
+        })
             if (!reserve) {
                 const error = new Error('Reserva no encontrada')
                 return res.status(404).json({ error: error.message })

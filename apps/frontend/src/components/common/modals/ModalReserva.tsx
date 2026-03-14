@@ -27,8 +27,16 @@ export interface Reserva {
   pago: string;
   serviciosAdicionales: number;
   nota: string;
-}
 
+  guestId?: number;
+  guest?: {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    numberDocument: string;
+  };
+}
 interface ModalReservaProps {
   reserva: Reserva;
   onClose: () => void;

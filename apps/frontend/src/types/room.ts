@@ -44,4 +44,5 @@ export interface RoomProps {
 	type: RoomType;
 	status: RoomStatus;
 	capacity: number;
+	price: number;
 }

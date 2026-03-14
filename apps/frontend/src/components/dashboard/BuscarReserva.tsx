@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import ModalReserva, { Reserva } from "../common/modals/ModalReserva";
+import { reserveApi } from "@/src/services/reserve";
+
+import { mapReserve } from "@/src/utils/mapReserve";
 
 /* ─────────────────────────────────────────────
    Datos mock — reemplazá por tu llamada a API
@@ -31,11 +34,22 @@ type Props = {
    BuscarReserva
 ───────────────────────────────────────────── */
 const BuscarReserva: React.FC<Props> = ({ placeholder = "Buscar" }) => {
-  const [query, setQuery]       = useState("");
+  const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [reserva, setReserva] = useState<Reserva | null>(null);
 
-  const handleSearch = useCallback(() => {
-    if (query.trim()) setModalOpen(true);
+  const handleSearch = useCallback(async () => {
+    if (query.trim()) {
+      try {
+        const result = await reserveApi.getReserveById(query);
+        console.log(result)
+        const reservaMapped = mapReserve(result);
+        setReserva(reservaMapped);
+        setModalOpen(true)
+      } catch (error) {
+        console.error("Error al traer los datos de la reserva")
+      }
+    };
   }, [query]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -95,7 +109,7 @@ const BuscarReserva: React.FC<Props> = ({ placeholder = "Buscar" }) => {
       {/* ── Modal ── */}
       {modalOpen && (
         <ModalReserva
-          reserva={MOCK_RESERVA}
+          reserva={reserva}
           onClose={() => setModalOpen(false)}
         />
       )}
