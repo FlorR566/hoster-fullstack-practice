@@ -17,14 +17,27 @@ const Mantenimiento: React.FC = () => {
   useEffect(() => {
     getAllMaintenanceReports()
       .then((reports) => {
-        const mapped: MaintenanceItem[] = reports.map((r: any) => ({
-          id: r.id,
-          lugar: r.roomId,
-          tipo: r.type || "Mantenimiento",
-          estado: r.status,
-          duracionEstimada: r.duration,
-          responsable: r.owner,
-        }));
+        const mapped: MaintenanceItem[] = reports.map((r: any) => {
+          const idStr = String(r.id || "");
+          let tipoReal = "Mantenimiento";
+
+          if (idStr.startsWith("L")) {
+            tipoReal = "Limpieza";
+          } else if (idStr.startsWith("M")) {
+            tipoReal = "Mantenimiento";
+          }
+          // si no tiene prefijo → se queda como Mantenimiento (o puedes poner "Desconocido")
+
+          return {
+            id: idStr,
+            lugar: r.roomId,
+            tipo: tipoReal,
+            estado: r.status,
+            duracionEstimada: r.duration,
+            responsable: r.owner,
+          };
+        });
+
         setItems(mapped);
       })
       .catch(console.error)
