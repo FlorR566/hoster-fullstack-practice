@@ -33,8 +33,6 @@ const MantenimientoModal: React.FC<Props> = ({ open, onClose, items }) => {
     }, [items, activeTab]);
 
     const filteredByTabAndDate = useMemo(() => {
-        // cuando tengas el campo real:
-        // return filteredByTab.filter(x => x.fecha === date)
         return filteredByTab;
     }, [filteredByTab, date]);
 

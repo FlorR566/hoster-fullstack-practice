@@ -1,71 +1,72 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MaintenanceReport } from "../types/maintenance";
-// Importamos el JSON
-import dataRaw from "../data/datamaintenance.json";
+import { getAllMaintenanceReports } from "../api/maintenanceApi";
 
 export const useMaintenanceData = () => {
-	// 1. Inicializamos con el JSON casteado para evitar el error de TS
-	const [reports, setReports] = useState<MaintenanceReport[]>(
-		dataRaw as MaintenanceReport[],
-	);
-	const [loading, setLoading] = useState(true);
-	const [filters, setFilters] = useState({
-		date: "",
-		status: "Todo",
-		category: "Vista global",
-	});
+  const [reports, setReports] = useState<MaintenanceReport[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		// Simulamos una carga de API
-		const loadData = async () => {
-			setLoading(true);
-			// Aquí iría tu fetch real. Por ahora usamos el JSON
-			// const response = await fetch('api/mantenimiento');
-			// const result = await response.json();
+  const [filters, setFilters] = useState({
+    date: "",
+    status: "Todo",
+    category: "Vista global",
+  });
 
-			setReports(dataRaw as MaintenanceReport[]);
-			setLoading(false);
-		};
+  const fetchReports = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAllMaintenanceReports();
+      setReports(data);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "No se pudieron cargar los reportes");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-		loadData();
-	}, []);
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
-	// 2. Lógica de filtrado
-	const filteredReports = useMemo(() => {
-		return reports.filter((r) => {
-			// 1. Lógica para las Pestañas (Buttons)
-			// Si es Vista global, pasan todos. Si no, comparamos con un criterio de ID o Tipo
-			const matchCategory =
-				filters.category === "Vista global" ||
-				(filters.category === "Mantenimiento" && r.id.startsWith("M-")) ||
-				(filters.category === "Limpieza" && r.id.startsWith("L-"));
+  // Función para refrescar manualmente
+  const refresh = () => {
+    fetchReports();
+  };
 
-			// Filtro por Estado
-			const matchStatus =
-				filters.status === "Todo" || r.status === filters.status;
+  const filteredReports = reports.filter((r) => {
+  let matchCategory = true;
 
-			// Filtro por Fecha (si el usuario seleccionó una)
-			const matchDate =
-				filters.date === "" || r.reportDate === formatDate(filters.date);
+  if (filters.category !== "Vista global") {
+    const prefix = filters.category === "Mantenimiento" ? "M" : "L";
+    matchCategory = r.id.startsWith(prefix);
+  }
 
-			return matchCategory && matchStatus && matchDate;
-		});
-	}, [reports, filters]);
+  const matchStatus =
+    filters.status === "Todo" || r.status === filters.status;
 
-	return {
-		reports: filteredReports,
-		loading,
-		filters,
-		setFilters,
-	};
+  const matchDate =
+    !filters.date ||
+    r.reportDate === formatDate(filters.date);
+  return matchCategory && matchStatus && matchDate;
+});
+
+  return {
+    reports: filteredReports,
+    allReports: reports,
+    loading,
+    error,
+    filters,
+    setFilters,
+    refresh,
+  };
 };
 
-/**
- * Función auxiliar para convertir la fecha del input (YYYY-MM-DD)
- * al formato de tu JSON (DD/MM/YYYY)
- */
-const formatDate = (dateStr: string) => {
-	if (!dateStr) return "";
-	const [year, month, day] = dateStr.split("-");
-	return `${day}/${month}/${year}`;
+const formatDate = (inputDate: string): string => {
+  if (!inputDate) return "";
+  // inputDate viene del <input type="date"> → YYYY-MM-DD
+  const [year, month, day] = inputDate.split("-");
+  return `${day}/${month}/${year}`;
 };
