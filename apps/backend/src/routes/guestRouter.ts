@@ -34,6 +34,8 @@ router.get('/get-guest/:id',
     GuestController.getGuestById
 )
 
+router.get("/document/:numberDocument", GuestController.getGuestByDocument);
+
 router.put('/update-guest/:id',
     param('id')
         .isInt().withMessage('ID debe ser un número entero'),
