@@ -1,54 +1,57 @@
 import { useState } from "react";
-import { MaintenanceTable } from "../components/reporteMtto/MaintenanceTable";
-import { MaintenanceHeader } from "../components/reporteMtto/MaintenanceHeader";
-import { ReportModal } from "../components/reporteMtto/ReporteModal";
+import { MaintenanceTable } from "../components/ReporteMtto/MaintenanceTable";
+import { MaintenanceHeader } from "../components/ReporteMtto/MaintenanceHeader";
+import { ReportModal } from "../components/ReporteMtto/ReporteModal";
+import { DetailModal } from "../components/ReporteMtto/DetailModal";
+import { MaintenanceFilters } from "../components/ReporteMtto/MaintenanceFilter";
 import { useMaintenanceData } from "../hooks/useMaintenanceData";
-import { DetailModal } from "../components/reporteMtto/DetailModal";
-import { MaintenanceFilters } from "../components/reporteMtto/MaintenanceFilter";
 
 const Mantenimiento = () => {
-	const { reports, filters, setFilters } = useMaintenanceData();
-	const [isNewReportOpen, setIsNewReportOpen] = useState(false);
-	const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
+  const { reports, loading, error, filters, setFilters, refresh } = useMaintenanceData();
 
-	// Buscamos el objeto completo del reporte seleccionado para pasárselo al modal
-	const selectedReport = reports.find((r) => r.id === selectedReportId);
+  const [isNewReportOpen, setIsNewReportOpen] = useState(false);
+  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
 
-	return (
-		<div className="min-h-screen bg-[var(--light-bg)] p-8">
-			{/* Encabezado y Navegación (Vista Global, Limpieza, etc.) */}
-			<MaintenanceHeader
-				activeTab={filters.category} // Le pasamos la categoría actual
-				onTabChange={(tab) => setFilters({ ...filters, category: tab })} // Actualizamos el filtro
-				onNewReport={() => setIsNewReportOpen(true)}
-			/>
+  const selectedReport = reports.find((r) => r.id === selectedReportId);
 
-			{/* Filtros */}
-			<MaintenanceFilters
-				filters={filters}
-				onChange={(key, value) => setFilters({ ...filters, [key]: value })}
-			/>
+  const handleNewReportClose = () => {
+  setIsNewReportOpen(false);
+  setTimeout(() => {
+    refresh();
+  }, 500);
+};
 
-			{/* Tabla pasándole la data del hook */}
-			<MaintenanceTable
-				data={reports}
-				onViewMore={(id) => setSelectedReportId(id)}
-			/>
+  if (loading) return <div className="p-8 text-center">Cargando reportes...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">Error: {error}</div>;
 
-			{/* Modal Nuevo Reporte */}
-			{isNewReportOpen && (
-				<ReportModal onClose={() => setIsNewReportOpen(false)} />
-			)}
+  return (
+    <div className="min-h-screen bg-[var(--light-bg)] p-8 font-poppins">
+      <MaintenanceHeader
+        activeTab={filters.category}
+        onTabChange={(tab) => setFilters({ ...filters, category: tab })}
+        onNewReport={() => setIsNewReportOpen(true)}
+      />
 
-			{/* Modal detalle del Reporte: pasamos el objeto encontrado */}
-			{selectedReport && (
-				<DetailModal
-					report={selectedReport} // Pasamos el objeto completo
-					onClose={() => setSelectedReportId(null)}
-				/>
-			)}
-		</div>
-	);
+      <MaintenanceFilters
+        filters={filters}
+        onChange={(key, value) => setFilters({ ...filters, [key]: value })}
+      />
+
+      <MaintenanceTable
+        data={reports}
+        onViewMore={(id) => setSelectedReportId(id)}
+      />
+
+      {isNewReportOpen && <ReportModal onClose={handleNewReportClose} />}
+
+      {selectedReport && (
+        <DetailModal
+          report={selectedReport}
+          onClose={() => setSelectedReportId(null)}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Mantenimiento;
