@@ -19,8 +19,8 @@ export const DisponibilidadModal = ({ onClose, onSelect }: Props) => {
 		const fetchRooms = async () => {
 			try {
 				const response = await fetch(
-					//"http://localhost:5000/api/unit/get-units",
-					`${API_ENDPOINTS.BASE}${API_ENDPOINTS.UNITS.GET_ALL}`,
+					// "http://localhost:5000/api/unit/get-units",
+					 `${API_ENDPOINTS.BASE}${API_ENDPOINTS.UNITS.GET_ALL}`,
 				);
 				const data = await response.json();
 
