@@ -257,9 +257,15 @@ export class ReserveController {
     static getAllReserves = async (req: Request, res: Response) => {
         try {
             const reserves = await Reserve.findAll({
-                where: {
-                    isCancelled: false
-                }
+                where: { isCancelled: false },
+                include: [
+                    {
+                        model: Guest,
+                        as: 'guest',
+                        attributes: ['id', 'name', 'email', 'phone', 'numberDocument']
+                    }
+                ]
+
             })
             res.json(reserves.map(reserve => this.formatReserve(reserve)))
         } catch (error) {
@@ -470,14 +476,14 @@ export class ReserveController {
         const { id } = req.params
         try {
             const reserve = await Reserve.findByPk(id, {
-            include: [
-                {
-                    model: Guest,        
-                    as: 'guest',    
-                    attributes: ['id', 'name', 'email', 'phone', 'numberDocument']
-                }
-            ]
-        })
+                include: [
+                    {
+                        model: Guest,
+                        as: 'guest',
+                        attributes: ['id', 'name', 'email', 'phone', 'numberDocument']
+                    }
+                ]
+            })
             if (!reserve) {
                 const error = new Error('Reserva no encontrada')
                 return res.status(404).json({ error: error.message })
