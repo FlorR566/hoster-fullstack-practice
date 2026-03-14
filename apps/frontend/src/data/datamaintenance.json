@@ -1,0 +1,122 @@
+[
+	{
+		"id": "M-0000000145",
+		"roomId": "H04-D",
+		"status": "Completado",
+		"reportDate": "25/01/2026",
+		"description": "Se atendió reporte de falla en el sistema de aire acondicionado (Split). Al llegar, se detectó una obstrucción en la manguera de desagüe y filtros saturados de polvo. Se procedió a la limpieza profunda de filtros y purga del sistema de drenaje. El equipo vuelve a enfriar a la temperatura de consigna (24°C), pero se recomienda cambio de termostato en la próxima revisión preventiva.",
+		"time": "14:30",
+		"duration": "1h",
+		"owner": "Ing. Laura Méndez"
+	},
+	{
+		"id": "M-0000000146",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "25/01/2026",
+		"description": "Revisión de fuga de agua en el baño principal. Se requiere plomero.",
+		"time": "16:00",
+		"duration": "2h",
+		"owner": "Plomero Carlos Ruiz"
+	},
+	{
+		"id": "M-0000000147",
+		"roomId": "H12-E",
+		"status": "Completado",
+		"reportDate": "26/01/2026",
+		"description": "Reparación de cerradura electrónica en la entrada principal.",
+		"time": "09:15",
+		"duration": "45m",
+		"owner": "Ing. Laura Méndez"
+	},
+	{
+		"id": "M-0000000148",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "27/01/2026",
+		"description": "Falla en el sistema de iluminación LED de la cocina.",
+		"time": "11:30",
+		"duration": "30m",
+		"owner": "Téc. Ricardo Gómez"
+	},
+	{
+		"id": "M-0000000149",
+		"roomId": "C05-D",
+		"status": "Completado",
+		"reportDate": "28/01/2026",
+		"description": "Mantenimiento preventivo de caldera y radiadores.",
+		"time": "08:00",
+		"duration": "3h",
+		"owner": "Téc. Ricardo Gómez"
+	},
+	{
+		"id": "M-0000000150",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "29/01/2026",
+		"description": "Se atendió reporte de falla en el sistema de WiFi. Router reiniciado.",
+		"time": "10:00",
+		"duration": "15m",
+		"owner": "Soporte IT - Juan Sosa"
+	},
+	{
+		"id": "L-0000000151",
+		"roomId": "C02-E",
+		"status": "Completado",
+		"reportDate": "30/01/2026",
+		"description": "Limpieza del pasillo.",
+		"time": "07:30",
+		"duration": "1h",
+		"owner": "Mucama Rosa Díaz"
+	},
+	{
+		"id": "L-0000000152",
+		"roomId": "H04-D",
+		"status": "Pendiente",
+		"reportDate": "31/01/2026",
+		"description": "Limpieza ventanas y baño.",
+		"time": "14:00",
+		"duration": "1h 30m",
+		"owner": "Mucama Rosa Díaz"
+	},
+	{
+		"id": "L-0000000153",
+		"roomId": "H02-D",
+		"status": "Completado",
+		"reportDate": "01/02/2026",
+		"description": "Limpieza colchon.",
+		"time": "15:45",
+		"duration": "1h",
+		"owner": "Supervisor Limpieza"
+	},
+	{
+		"id": "L-0000000154",
+		"roomId": "H04-D",
+		"status": "Completado",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
+		"time": "12:00",
+		"duration": "2h",
+		"owner": "Mucama Rosa Díaz"
+	},
+	{
+		"id": "L-0000000155",
+		"roomId": "H06-D",
+		"status": "Completado",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
+		"time": "12:00",
+		"duration": "2h",
+		"owner": "Mucama Juana Perez"
+	},
+	{
+		"id": "L-0000000156",
+		"roomId": "H08-D",
+		"status": "Pendiente",
+		"reportDate": "02/02/2026",
+		"description": "Limpieza profunda de acolchado por derrame de líquidos.",
+		"time": "12:00",
+		"duration": "2h",
+		"owner": "Mucama Juana Perez"
+	}
+]

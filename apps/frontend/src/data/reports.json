@@ -1,0 +1,241 @@
+[
+  {
+    "idReporte": "R-0000000145",
+    "fecha": "01/02/2026",
+    "periodoAnalizado": "Enero 2026",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Durante el mes de enero de 2026, el alojamiento presentó un nivel de actividad elevado, consistente con el período de vacaciones de verano. La ocupación se concentró principalmente en fines de semana y fechas asociadas a recambios turísticos, mientras que los días de semana mostraron una demanda más moderada. La operación se desarrolló de forma continua, con registros completos de reservas, estadías y servicios adicionales.",
+    "insights": [
+      "Ocupación promedio mensual: 78 %",
+      "Fines de semana con ocupación superior al promedio mensual",
+      "Mayor concentración de check-ins los días viernes",
+      "Mayor volumen de check-outs los días domingo",
+      "Estadías predominantemente cortas, de 2 y 3 noches"
+    ],
+    "observaciones": [
+      "Alto nivel de contratación del servicio de desayuno durante el período",
+      "Uso del estacionamiento concentrado en estadías de fin de semana",
+      "Servicios adicionales registrados de forma consistente durante la estadía",
+      "Incremento sostenido de la ocupación a partir del primer viernes del mes",
+      "Picos recurrentes de ocupación entre viernes y domingo",
+      "Descenso relativo de la ocupación entre lunes y miércoles",
+      "Comportamiento estable entre la segunda y tercera semana del mes"
+    ],
+    "incidencias": [
+      "Retrasos ocasionales en el proceso de check-in durante fines de semana",
+      "Solicitudes adicionales de limpieza en estadías prolongadas",
+      "Consultas frecuentes relacionadas con disponibilidad de estacionamiento",
+      "Incremento de reclamos menores vinculados a horarios de desayuno"
+    ],
+    "cierre": "El mes refleja un patrón operativo estacional típico del verano, con alta rotación de huéspedes y demanda sostenida."
+  },
+  {
+    "idReporte": "R-0000000144",
+    "fecha": "01/01/2026",
+    "periodoAnalizado": "Diciembre 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Diciembre presentó un incremento progresivo de reservas hacia las celebraciones de fin de año, con estadías más prolongadas y mayor contratación de servicios adicionales.",
+    "insights": [
+      "Ocupación promedio mensual: 72 %",
+      "Incremento de reservas durante la última semana del mes",
+      "Mayor duración promedio de estadía: 4 noches",
+      "Alta demanda en habitaciones familiares",
+      "Aumento del uso del servicio de desayuno"
+    ],
+    "observaciones": [
+      "Reservas anticipadas superiores al promedio anual",
+      "Mayor utilización del estacionamiento",
+      "Incremento de consultas previas al check-in",
+      "Demanda sostenida durante fechas festivas"
+    ],
+    "incidencias": [
+      "Demoras puntuales en housekeeping por alta rotación",
+      "Consultas reiteradas sobre horarios especiales",
+      "Sobrecarga operativa durante fechas festivas"
+    ],
+    "cierre": "El comportamiento del mes confirmó el inicio de la temporada alta con crecimiento sostenido de la demanda."
+  },
+  {
+    "idReporte": "R-0000000143",
+    "fecha": "01/12/2025",
+    "periodoAnalizado": "Noviembre 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Noviembre evidenció una recuperación progresiva de la ocupación anticipando la temporada de verano.",
+    "insights": [
+      "Ocupación promedio mensual: 64 %",
+      "Incremento gradual de reservas hacia fin de mes",
+      "Mayor volumen de reservas online",
+      "Check-ins concentrados jueves y viernes"
+    ],
+    "observaciones": [
+      "Mayor planificación anticipada de huéspedes",
+      "Uso moderado de servicios adicionales",
+      "Incremento de estadías cortas"
+    ],
+    "incidencias": [
+      "Consultas frecuentes sobre disponibilidad futura",
+      "Ajustes operativos en turnos de recepción"
+    ],
+    "cierre": "El mes marcó una transición hacia la temporada alta con indicadores positivos."
+  },
+  {
+    "idReporte": "R-0000000142",
+    "fecha": "01/11/2025",
+    "periodoAnalizado": "Octubre 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Octubre mostró estabilidad operativa con demanda moderada y ocupación equilibrada.",
+    "insights": [
+      "Ocupación promedio mensual: 59 %",
+      "Distribución homogénea de reservas",
+      "Estadías mayormente corporativas"
+    ],
+    "observaciones": [
+      "Uso frecuente de WiFi corporativo",
+      "Menor contratación de desayuno",
+      "Reservas realizadas con poca anticipación"
+    ],
+    "incidencias": [
+      "Solicitudes técnicas menores en habitaciones",
+      "Cambios de horario en check-in"
+    ],
+    "cierre": "El período mantuvo un comportamiento estable previo al incremento estacional."
+  },
+  {
+    "idReporte": "R-0000000141",
+    "fecha": "01/10/2025",
+    "periodoAnalizado": "Septiembre 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Septiembre reflejó una leve recuperación tras el período invernal.",
+    "insights": [
+      "Ocupación promedio mensual: 54 %",
+      "Incremento de reservas de fin de semana",
+      "Mayor presencia de turismo regional"
+    ],
+    "observaciones": [
+      "Incremento gradual del desayuno",
+      "Uso reducido del estacionamiento"
+    ],
+    "incidencias": [
+      "Consultas sobre promociones",
+      "Cancelaciones de último momento"
+    ],
+    "cierre": "Se observa tendencia ascendente hacia la primavera."
+  },
+  {
+    "idReporte": "R-0000000140",
+    "fecha": "01/09/2025",
+    "periodoAnalizado": "Agosto 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Agosto presentó niveles bajos de ocupación propios de temporada baja.",
+    "insights": [
+      "Ocupación promedio mensual: 48 %",
+      "Estadías cortas predominantes",
+      "Mayor actividad fines de semana"
+    ],
+    "observaciones": [
+      "Baja contratación de servicios adicionales",
+      "Incremento de promociones activas"
+    ],
+    "incidencias": [
+      "Cancelaciones anticipadas",
+      "Consultas sobre tarifas promocionales"
+    ],
+    "cierre": "Mes caracterizado por demanda reducida y estabilidad operativa."
+  },
+  {
+    "idReporte": "R-0000000139",
+    "fecha": "01/08/2025",
+    "periodoAnalizado": "Julio 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Julio mantuvo ocupación moderada impulsada por vacaciones de invierno.",
+    "insights": [
+      "Ocupación promedio mensual: 52 %",
+      "Incremento familiar durante vacaciones",
+      "Mayor duración promedio de estadía"
+    ],
+    "observaciones": [
+      "Mayor uso del desayuno",
+      "Incremento del servicio de limpieza"
+    ],
+    "incidencias": [
+      "Demoras leves en check-out grupales"
+    ],
+    "cierre": "El mes sostuvo actividad moderada dentro del período invernal."
+  },
+  {
+    "idReporte": "R-0000000138",
+    "fecha": "01/07/2025",
+    "periodoAnalizado": "Junio 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Junio presentó niveles bajos de actividad con predominio corporativo.",
+    "insights": [
+      "Ocupación promedio mensual: 45 %",
+      "Reservas mayormente laborales",
+      "Estadías breves de 1 a 2 noches"
+    ],
+    "observaciones": [
+      "Uso limitado de servicios adicionales"
+    ],
+    "incidencias": [
+      "Reprogramaciones frecuentes"
+    ],
+    "cierre": "Mes representativo de temporada baja."
+  },
+  {
+    "idReporte": "R-0000000137",
+    "fecha": "01/06/2025",
+    "periodoAnalizado": "Mayo 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Mayo evidenció una desaceleración progresiva tras el otoño.",
+    "insights": [
+      "Ocupación promedio mensual: 50 %",
+      "Mayor presencia corporativa",
+      "Reservas de corta anticipación"
+    ],
+    "observaciones": [
+      "Reducción del consumo gastronómico"
+    ],
+    "incidencias": [
+      "Cancelaciones por cambios climáticos"
+    ],
+    "cierre": "Inicio de descenso hacia temporada baja."
+  },
+  {
+    "idReporte": "R-0000000136",
+    "fecha": "01/05/2025",
+    "periodoAnalizado": "Abril 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Abril mantuvo actividad moderada posterior a Semana Santa.",
+    "insights": [
+      "Ocupación promedio mensual: 60 %",
+      "Alta demanda durante feriados",
+      "Estadías de turismo regional"
+    ],
+    "observaciones": [
+      "Incremento temporal del desayuno"
+    ],
+    "incidencias": [
+      "Demoras puntuales en recepción"
+    ],
+    "cierre": "Mes estable con picos asociados a feriados."
+  },
+  {
+    "idReporte": "R-0000000135",
+    "fecha": "01/04/2025",
+    "periodoAnalizado": "Marzo 2025",
+    "descripcion": "Análisis mensual de reservas y comportamiento operativo del hotel",
+    "resumen": "Marzo mostró transición desde temporada alta hacia actividad regular.",
+    "insights": [
+      "Ocupación promedio mensual: 68 %",
+      "Descenso progresivo tras verano",
+      "Mayor presencia corporativa"
+    ],
+    "observaciones": [
+      "Reducción gradual de servicios adicionales"
+    ],
+    "incidencias": [
+      "Ajustes operativos en turnos"
+    ],
+    "cierre": "Mes de transición hacia demanda estable anual."
+  }
+]

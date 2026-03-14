@@ -2,7 +2,7 @@ import colors from 'colors'
 import server from './server'
 import {db} from './config/db'
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
 async function startServer() {
   try {

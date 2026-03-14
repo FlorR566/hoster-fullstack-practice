@@ -13,6 +13,7 @@ import originRouter from './routes/originRouter'
 import paymentRouter from './routes/paymentRouter'
 import reserveRouter from './routes/reserveRouter'
 import serviceRouter from './routes/serviceRouter'
+import incidentReportRouter from './routes/incidentReportRouter'
 import unitRouter from './routes/unitRouter'
 import job from './config/cron'
 
@@ -20,19 +21,17 @@ async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
-        console.log(colors.blue.bold('Conexion exitosa con la BD'))
-      
+        console.log( colors.blue.bold('Conexion exitosa con la BD'))
     } catch (error) {
-        console.log(colors.red.bold('Fallo la Conexion con la BD'))
         console.log(error)
-       
-
+        console.log( colors.red.bold('Fallo la Conexion con la BD'))
     }
 }
 
 connectDB()
 
 const app = express()
+app.use(cors()); 
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -72,5 +71,7 @@ app.use('/api/service', serviceRouter)
 app.use('/api/unit', unitRouter)
 
 app.use('/api/maintenance-report', maintenanceReportRouter)
+
+app.use('/api/incident-report', incidentReportRouter)
 
 export default app

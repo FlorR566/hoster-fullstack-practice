@@ -37,6 +37,22 @@ services:
       backend:
         condition: service_healthy
 
+
+  ai-backend:
+    build:
+      context: ./apps/ai-backend
+    ports:
+      - "8000:8000"                    # FastAPI corre en el puerto 8000
+    env_file:
+      - ./apps/ai-backend/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]  # verifica que Swagger cargue
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s      
+
   # Production services (uncomment for production)
   # backend-prod:
   #   build:

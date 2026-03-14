@@ -1,24 +1,15 @@
 import React, { useState } from "react";
-import {
-	House,
-	Hotel,
-	FileText,
-	LogOut,
-	ChevronLeft,
-	Sun,
-	Moon,
-} from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { House, Hotel, FileText, LogOut, ChevronLeft, Sun, Moon } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 // modo
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../../store/themeSlice";
 import type { RootState, AppDispatch } from "../../store/store";
 
-const baseBtn =
-	"flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
-const iconWrapper =
-	"w-[40px] h-[40px] flex items-center justify-center rounded-lg";
+const baseBtn = "flex items-center gap-3 rounded-lg transition px-2 py-2 w-full";
+const iconWrapper = "w-[40px] h-[40px] flex items-center justify-center rounded-lg";
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +17,13 @@ const Navbar: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const mode = useSelector((s: RootState) => s.theme.mode);
 
+	const { logout } = useAuth();
+	const navigate = useNavigate();
+
 	const handleLogout = () => {
-		console.log("logout");
+		logout(); // limpia contexto y storage
+		navigate("/login"); // redirige al login
+		//console.log("logout");
 	};
 
 	return (
@@ -123,10 +119,7 @@ const Navbar: React.FC = () => {
 				<button
 					type="button"
 					onClick={() => dispatch(toggleTheme())}
-					className={`
-      w-full flex items-center gap-3 rounded-lg px-2 py-2 transition
-      text-[var(--light-text)] hover:bg-black/5
-    `}
+					className={`w-full flex items-center gap-3 rounded-lg px-2 py-2 transition text-[var(--light-text)] hover:bg-black/5`}
 					title="Cambiar tema"
 				>
 					{/* Toggle visual */}

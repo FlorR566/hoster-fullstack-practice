@@ -1,49 +1,8 @@
 import React, { useState } from "react";
 import RoomCard from "../components/roomsOverview/RoomCard";
 import ServiciosAdicionales from "../components/roomsOverview/Servicios/ServiceCard";
-import type { RoomProps } from "../types/room";
-
-// Dentro de RoomsOverview.tsx
-const roomsData: RoomProps[] = [
-	// Habitaciones
-	{ id: "H1", type: "Presidencial", status: "Ocupada", capacity: 4 },
-	{ id: "H2", type: "Deluxe", status: "Ocupada", capacity: 2 },
-	{ id: "H3", type: "Deluxe", status: "Limpieza", capacity: 4 },
-	{ id: "H4", type: "Deluxe", status: "Disponible", capacity: 4 },
-	{ id: "H5", type: "Deluxe", status: "Disponible", capacity: 4 },
-	{ id: "H6", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H7", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H8", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H9", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H10", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H11", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H12", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H13", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H14", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H15", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H16", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H17", type: "Estandar", status: "Disponible", capacity: 4 },
-	{ id: "H18", type: "Estandar", status: "Disponible", capacity: 4 },
-	// Cabañas
-	{ id: "C1", type: "Presidencial", status: "Ocupada", capacity: 2 },
-	{ id: "C2", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C3", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C4", type: "Estandar", status: "Disponible", capacity: 2 },
-	{ id: "C5", type: "Deluxe", status: "Disponible", capacity: 2 },
-	{ id: "C6", type: "Deluxe", status: "Disponible", capacity: 2 },
-];
-
-const ROOM_TYPES_LEGEND = [
-	{ label: "Estándar", color: "bg-[var(--light-chart1)]" },
-	{ label: "Deluxe", color: "bg-[var(--light-chart2)]" },
-	{ label: "Presidencial", color: "bg-[var(--light-chart3)]" },
-];
-
-const STATUS_LEGEND = [
-	{ label: "Ocupado", color: "bg-[var(--light-status-ocupied)]" },
-	{ label: "En limpieza", color: "bg-[var(--light-status-pending)]" },
-	{ label: "Disponible", color: "bg-[var(--light-status-completed)]" },
-];
+import { roomsData } from "../data/roomsData";
+import { ROOM_TYPES_LEGEND, STATUS_LEGEND } from "../types/room";
 
 const LegendItem = ({ color, label }: { color: string; label: string }) => (
 	<div className="flex items-center gap-2 w-[180px] text-[var(--light-text)]">
@@ -58,15 +17,14 @@ const RoomsOverview: React.FC = () => {
 		useState<(typeof tabs)[number]>("Habitaciones");
 
 	const filteredRooms = roomsData.filter((room) => {
-		if (activeTab === "Habitaciones") return room.id.startsWith("H");
-		return room.id.startsWith("C");
+		if (activeTab === "Habitaciones") return room.code.startsWith("H");
+		return room.code.startsWith("C");
 	});
 
 	const isServicios = activeTab === "Servicios Adicionales";
-	const isHabitaciones = activeTab === "Habitaciones";
 
 	return (
-		<div className="h-[100vh] overflow-y-auto p-6 font-['Poppins']">
+		<div className="h-[100vh] overflow-y-auto scroll-y-auto p-6 font-['Poppins']">
 			<h1 className="font-medium text-[var(--light-text)] text-[35px] px-6">
 				Unidades de Alojamiento
 			</h1>
@@ -106,7 +64,7 @@ const RoomsOverview: React.FC = () => {
 
 					<div className="flex-col">
 						<h2 className="font-semibold text-[20px]">Estado</h2>
-						<div className="flex flex-wrap  gap-3 pt-5">
+						<div className="flex flex-wrap gap-3 pt-5">
 							{STATUS_LEGEND.map((item) => (
 								<LegendItem key={item.label} {...item} />
 							))}
@@ -117,14 +75,16 @@ const RoomsOverview: React.FC = () => {
 
 			<div
 				className={`grid gap-6 pt-4 pb-[20dvh] text-[var(--light-text)] ${isServicios
-					? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
-					: " grid-cols-[repeat(auto-fill,250px)] justify-center"
+						? "w-full grid-cols-[repeat(auto-fill,372px)] justify-start px-6"
+						: "p-2 grid-cols-[repeat(auto-fill,250px)] justify-center"
 					}`}
 			>
 				{activeTab === "Servicios Adicionales" ? (
 					<ServiciosAdicionales />
 				) : (
-					filteredRooms.map((room) => <RoomCard key={room.id} {...room} />)
+					filteredRooms.map((room) => (
+						<RoomCard key={room.id} {...room} id={String(room.id)} />
+					))
 				)}
 			</div>
 		</div>

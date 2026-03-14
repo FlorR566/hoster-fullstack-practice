@@ -1,7 +1,38 @@
-import React, { useState } from "react";
-import { X, UserRound, IdCard, BedDouble, UsersRound, DollarSign, Printer } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, UserRound, IdCard, UsersRound, DollarSign, Printer } from "lucide-react";
 import { Reserva } from "./ModalReserva";
 import ModalConfirmacion from "./ModalConfirmacion";
+
+function useTheme(): "light" | "dark" {
+  const getTheme = (): "light" | "dark" => {
+    if (typeof document === "undefined") return "light";
+    if (
+      document.documentElement.classList.contains("dark") ||
+      document.body.classList.contains("dark")
+    )
+      return "dark";
+    return "light";
+  };
+  const [theme, setTheme] = useState<"light" | "dark">(getTheme);
+  useEffect(() => {
+    const update = () => setTheme(getTheme());
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+  return theme;
+}
+
+const SvgIcon: React.FC<{ name: string; alt: string; theme: "light" | "dark" }> = ({
+  name, alt, theme,
+}) => {
+  const suffix = theme === "dark" ? "light" : "dark";
+  return (
+    <img src={`/icons/${name}-${suffix}.svg`} alt={alt} width={14} height={14}
+      style={{ display: "block" }} />
+  );
+};
 
 interface Servicio {
   nombre: string;
@@ -30,72 +61,9 @@ const MOCK_TOTAL_POR_NOCHE   = 1150;
 const MOCK_PRECIO_TOTAL_FINAL = 7950;
 const MOCK_ID_TRANSACCION    = "314789012345";
 const MOCK_SERVICIOS: Servicio[] = [
-  { nombre: "Servicio 1", fechaPedido: "25/01/26", cantidadNoches: 7, precioPorNoche: 100, precioTotal: 700 },
-  { nombre: "Servicio 2", fechaPedido: "27/01/26", cantidadNoches: 5, precioPorNoche: 50,  precioTotal: 250 },
+  { nombre: "Tour", fechaPedido: "25/01/26", cantidadNoches: 7, precioPorNoche: 100, precioTotal: 700 },
+  { nombre: "Masaje", fechaPedido: "27/01/26", cantidadNoches: 5, precioPorNoche: 50,  precioTotal: 250 },
 ];
-
-
-const IcoServicio: React.FC = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3.5 10.5C3.5 7.5 5 5.5 8 5.5C11 5.5 12.5 7.5 12.5 10.5" />
-    <line x1="8" y1="3" x2="8" y2="5.5" />
-    <circle cx="8" cy="2.5" r="0.5" fill="currentColor" stroke="none" />
-    <line x1="2" y1="10.5" x2="14" y2="10.5" />
-    <path d="M2 10.5 Q2 12 3.5 12 H12.5 Q14 12 14 10.5" />
-    <line x1="8" y1="12" x2="8" y2="13.5" />
-    <circle cx="8" cy="13.8" r="0.6" fill="currentColor" stroke="none" />
-  </svg>
-);
-
-
-const IcoCalendario: React.FC = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="1.5" y="2.5" width="13" height="12" rx="1.5" />
-    <line x1="1.5" y1="6" x2="14.5" y2="6" />
-    <line x1="5" y1="1" x2="5" y2="4" />
-    <line x1="11" y1="1" x2="11" y2="4" />
-    <line x1="5.5" y1="6" x2="5.5" y2="14.5" />
-    <line x1="10.5" y1="6" x2="10.5" y2="14.5" />
-    <line x1="1.5" y1="9.5" x2="14.5" y2="9.5" />
-  </svg>
-);
-
-/** Tarjeta de pago */
-const IcoPago: React.FC = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="1" y="3.5" width="14" height="9" rx="1.5" />
-    <line x1="1" y1="6.5" x2="15" y2="6.5" />
-    <line x1="3" y1="9.5" x2="7" y2="9.5" />
-    <line x1="3" y1="11" x2="5.5" y2="11" />
-  </svg>
-);
-
-const IcoPrecioTotal: React.FC = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="1.5" y="1.5" width="13" height="13" rx="1.5" />
-    <line x1="1.5" y1="6.5"  x2="14.5" y2="6.5" />
-    <line x1="1.5" y1="11"   x2="14.5" y2="11" />
-    <line x1="6.5" y1="1.5"  x2="6.5"  y2="14.5" />
-    <line x1="11"  y1="1.5"  x2="11"   y2="14.5" />
-  </svg>
-);
-
-const IcoBarcode: React.FC = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
-       stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-    <line x1="1"  y1="3" x2="1"  y2="13" strokeWidth="2" />
-    <line x1="3.5" y1="3" x2="3.5" y2="13" />
-    <line x1="5.5" y1="3" x2="5.5" y2="13" strokeWidth="2" />
-    <line x1="8"  y1="3" x2="8"  y2="13" />
-    <line x1="10" y1="3" x2="10" y2="13" strokeWidth="2" />
-    <line x1="12" y1="3" x2="12" y2="13" />
-    <line x1="14.5" y1="3" x2="14.5" y2="13" strokeWidth="2" />
-  </svg>
-);
 
 const InfoRow: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (
   <div className="flex items-center gap-[9px] text-[13px] text-[var(--light-text)]">
@@ -123,6 +91,7 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
   metodoPago = "Tarjeta",
 }) => {
   const [confirmando, setConfirmando] = useState(false);
+  const theme = useTheme();
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
@@ -183,11 +152,11 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
         {/* Card */}
         <div
           className="ip-card relative w-full max-w-[460px] rounded-[20px]
-                     bg-[var(--light-card)]
-                     shadow-[0_24px_64px_rgba(84,81,255,0.18)]
-                     dark:shadow-[0_24px_64px_rgba(0,0,0,0.6)]
-                     text-[var(--light-text)]
-                     flex flex-col max-h-[90vh]"
+                      bg-[var(--light-card)]
+                      shadow-[0_24px_64px_rgba(84,81,255,0.18)]
+                      dark:shadow-[0_24px_64px_rgba(0,0,0,0.6)]
+                      text-[var(--light-text)]
+                      flex flex-col max-h-[calc(100vh-32px)]"
           role="dialog"
           aria-modal="true"
           onClick={(e) => e.stopPropagation()}
@@ -210,20 +179,18 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
             </button>
           </div>
 
-          {/* ── Contenido scrolleable ── */}
-          <div className="ip-scroll px-7 pb-3 flex-1">
-
+          <div className="ip-scroll px-7 pb-3 flex-1 min-h-0">
             {/* Bloque 1: datos del huésped */}
             <div className="flex flex-col gap-[11px] mb-1">
-              <InfoRow icon={<IcoServicio />}  text={`Reserva #${reserva.id}`} />
+              <InfoRow icon={<SvgIcon name="reserva" alt="Reserva" theme={theme} />} text={`Reserva #${reserva.id}`} />
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-[11px]">
                 <InfoRow icon={<UserRound size={14} />} text={reserva.nombre} />
                 <InfoRow icon={<IdCard size={14} />}    text={reserva.documento} />
               </div>
 
-              <InfoRow icon={<IcoPago />} text={`Metodo de Pago: ${metodoPago}`} />
-              <InfoRow icon={<IcoPago />} text={`Número de tarjeta: ${MOCK_NUMERO_TARJETA}`} />
+              <InfoRow icon={<SvgIcon name="metodo-pago" alt="Método de pago" theme={theme} />} text={`Metodo de Pago: ${metodoPago}`} />
+              <InfoRow icon={<SvgIcon name="metodo-pago" alt="Número de tarjeta" theme={theme} />} text={`Número de tarjeta: ${MOCK_NUMERO_TARJETA}`} />
             </div>
 
             <Divider />
@@ -231,12 +198,12 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
             {/* Bloque 2: detalle de pago */}
             <SectionTitle>Detalle de pago</SectionTitle>
             <div className="grid grid-cols-2 gap-x-6 gap-y-[11px] mb-1">
-              <InfoRow icon={<BedDouble size={14} />}   text={`Habitación: ${reserva.habitacion}`} />
+              <InfoRow icon={<SvgIcon name="alojamiento" alt="Alojamiento" theme={theme} />} text={`Alojamiento: ${reserva.habitacion}`} />
               <InfoRow icon={<UsersRound size={14} />}  text={`${reserva.personas} Personas`} />
-              <InfoRow icon={<IcoCalendario />}         text={`Fecha Check-In: ${MOCK_FECHA_CHECKIN}`} />
-              <InfoRow icon={<IcoCalendario />}         text={`Fecha Check-Out: ${MOCK_FECHA_CHECKOUT}`} />
+              <InfoRow icon={<SvgIcon name="fecha-llegada" alt="Fecha Check-In" theme={theme} />} text={`Fecha Check-In: ${MOCK_FECHA_CHECKIN}`} />
+              <InfoRow icon={<SvgIcon name="fecha-salida" alt="Fecha Check-Out" theme={theme} />} text={`Fecha Check-Out: ${MOCK_FECHA_CHECKOUT}`} />
               <InfoRow icon={<DollarSign size={14} />}  text={`Precio por noche: $${MOCK_PRECIO_NOCHE}`} />
-              <InfoRow icon={<IcoPrecioTotal />}        text={`Precio total: $${MOCK_PRECIO_TOTAL_EST}`} />
+              <InfoRow icon={<SvgIcon name="total" alt="Precio total" theme={theme} />} text={`Precio total: $${MOCK_PRECIO_TOTAL_EST}`} />
             </div>
 
             <Divider />
@@ -246,14 +213,12 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
             <div className="flex flex-col gap-[11px] mb-1">
               {MOCK_SERVICIOS.map((srv, i) => (
                 <React.Fragment key={i}>
-                  <InfoRow icon={<IcoServicio />} text={srv.nombre} />
-
-                  {/* Detalle del servicio en grid */}
+                  <InfoRow icon={<SvgIcon name="servicios" alt="Servicio" theme={theme} />} text={srv.nombre} />
                   <div className="grid grid-cols-2 gap-x-6 gap-y-[11px]">
-                    <InfoRow icon={<IcoCalendario />}        text={`Fecha Pedido: ${srv.fechaPedido}`} />
-                    <InfoRow icon={<UsersRound size={14} />} text={`Cantidad de noches: ${srv.cantidadNoches}`} />
+                    <InfoRow icon={<SvgIcon name="fecha-pedido" alt="Fecha Pedido" theme={theme} />} text={`Fecha Pedido: ${srv.fechaPedido}`} />
+                    <InfoRow icon={<SvgIcon name="cantidad-noches" alt="Cantidad de noches" theme={theme} />} text={`Cantidad de noches: ${srv.cantidadNoches}`} />
                     <InfoRow icon={<DollarSign size={14} />} text={`Precio por noche: $${srv.precioPorNoche}`} />
-                    <InfoRow icon={<IcoPrecioTotal />}       text={`Precio total: $${srv.precioTotal}`} />
+                    <InfoRow icon={<SvgIcon name="total" alt="Precio total" theme={theme} />} text={`Precio total: $${srv.precioTotal}`} />
                   </div>
                 </React.Fragment>
               ))}
@@ -264,8 +229,8 @@ const ModalInfoPago: React.FC<ModalInfoPagoProps> = ({
             {/* Bloque 4: totales finales */}
             <div className="flex flex-col gap-[11px] mb-2">
               <InfoRow icon={<DollarSign size={14} />} text={`Precio total por noche: $${MOCK_TOTAL_POR_NOCHE}`} />
-              <InfoRow icon={<IcoPrecioTotal />}        text={`Precio total: $${MOCK_PRECIO_TOTAL_FINAL}`} />
-              <InfoRow icon={<IcoBarcode />}            text={`ID de Transacción: ${MOCK_ID_TRANSACCION}`} />
+              <InfoRow icon={<SvgIcon name="total" alt="Precio total" theme={theme} />} text={`Precio total: $${MOCK_PRECIO_TOTAL_FINAL}`} />
+              <InfoRow icon={<SvgIcon name="barcode" alt="ID de Transacción" theme={theme} />} text={`ID de Transacción: ${MOCK_ID_TRANSACCION}`} />
             </div>
 
           </div>

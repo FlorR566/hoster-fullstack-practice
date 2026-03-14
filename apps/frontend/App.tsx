@@ -6,6 +6,8 @@ import { LoadingSpinner } from "./src/components/layout/LoadingSpinner";
 import { AppRoutes } from "./src/routes/AppRoutes";
 import { useAuth } from "./src/hooks/useAuth";
 
+import { UnitSyncer } from "./src/pages/UnitSyncer";
+
 const AppContent: React.FC = () => {
   const { loading } = useAuth();
 
@@ -15,6 +17,7 @@ const AppContent: React.FC = () => {
 
   return (
     <Layout>
+       {/* <UnitSyncer />  */}
       <AppRoutes />
     </Layout>
   );
