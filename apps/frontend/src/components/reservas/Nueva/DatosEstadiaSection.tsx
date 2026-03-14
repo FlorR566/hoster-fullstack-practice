@@ -25,26 +25,57 @@ export const DatosEstadiaSection: React.FC<Props> = ({
 	TimeInput,
 	CounterField,
 }) => {
+	const fechasSeleccionadas = !!(form.fechaCheckin && form.fechaCheckout);
+
+	// ✅ helper para comparar fechas
+	const esCheckoutValido = (checkin: string, checkout: string) => {
+		if (!checkin || !checkout) return true;
+
+		const fechaIn = new Date(checkin);
+		const fechaOut = new Date(checkout);
+
+		return fechaOut >= fechaIn;
+	};
+
 	return (
 		<>
 			<div className="grid grid-cols-4 gap-x-8 gap-y-6">
+				{/* CHECKIN */}
 				<div>
 					<Label>Fecha estimada de check-in</Label>
+
 					<DateInput
 						value={form.fechaCheckin}
 						onChange={(v: string) => {
 							set("fechaCheckin", v);
 							setDisponible(null);
+
+							// si el checkout quedó inválido → lo limpiamos
+							if (
+								form.fechaCheckout &&
+								!esCheckoutValido(v, form.fechaCheckout)
+							) {
+								set("fechaCheckout", "");
+							}
 						}}
 						placeholder="DD/MM/AAAA"
 					/>
 				</div>
 
+				{/* CHECKOUT */}
 				<div>
 					<Label>Fecha estimada de check-out</Label>
+
 					<DateInput
 						value={form.fechaCheckout}
 						onChange={(v: string) => {
+							if (!esCheckoutValido(form.fechaCheckin, v)) {
+								alert(
+									"La fecha de check-out no puede ser menor al check-in",
+								);
+								return;
+							}
+
 							set("fechaCheckout", v);
 							setDisponible(null);
 						}}
@@ -52,22 +83,21 @@ export const DatosEstadiaSection: React.FC<Props> = ({
 					/>
 				</div>
 
+				{/* NOCHES */}
 				<div>
 					<Label>Cantidad de noches</Label>
-					<InputField
-						value={form.cantidadNoches}
-						placeholder="00"
-						readOnly
-					/>
+					<InputField value={form.cantidadNoches} placeholder="00" readOnly />
 				</div>
 
+				{/* PERSONAS */}
 				<div className="row-span-2">
 					<Label>Cantidad de personas</Label>
+
 					<div
 						className="space-y-2 mt-1"
 						style={{
-							opacity: disponible ? 1 : 0.4,
-							pointerEvents: disponible ? "auto" : "none",
+							opacity: fechasSeleccionadas ? 1 : 0.4,
+							pointerEvents: fechasSeleccionadas ? "auto" : "none",
 						}}
 					>
 						<CounterField
@@ -78,56 +108,68 @@ export const DatosEstadiaSection: React.FC<Props> = ({
 					</div>
 				</div>
 
+				{/* HORA LLEGADA */}
 				<div>
 					<Label>Hora estimada de llegada</Label>
+
 					<TimeInput
 						value={form.horaLlegada}
 						onChange={(v: string) => set("horaLlegada", v)}
 						placeholder="14:00"
-						disabled={!disponible}
+						disabled={!fechasSeleccionadas}
 					/>
 				</div>
 
+				{/* HORA CHECKOUT */}
 				<div>
 					<Label>Hora estimada de check-out</Label>
+
 					<TimeInput
 						value={form.horaCheckout}
 						onChange={(v: string) => set("horaCheckout", v)}
 						placeholder="10:00"
-						disabled={!disponible}
+						disabled={!fechasSeleccionadas}
 					/>
 				</div>
 
 				<div />
 
+				{/* TIPO */}
 				<div>
 					<Label>Tipo de alojamiento</Label>
+
 					<InputField
 						value={form.tipoAlojamiento}
 						placeholder="—"
 						readOnly
-						disabled={!disponible}
+						disabled={!fechasSeleccionadas}
 					/>
 
 					<button
 						type="button"
 						onClick={() => setShowDisponibilidad(true)}
-						className="text-[15px] font-medium text-[var(--light-accent)] underline cursor-pointer hover:opacity-70 mt-2 pl-1"
+						disabled={!fechasSeleccionadas}
+						className={`text-[15px] font-medium underline mt-2 pl-1
+						${
+							!fechasSeleccionadas
+								? "opacity-40 cursor-not-allowed"
+								: "text-[var(--light-accent)] hover:opacity-70"
+						}`}
 					>
 						Ver disponibilidad
 					</button>
 				</div>
 
+				{/* NUMERO */}
 				<div>
 					<Label>Número de alojamiento</Label>
+
 					<InputField
 						placeholder="H03-D"
 						value={form.numeroAlojamiento}
-						onChange={(e) =>
-							set("numeroAlojamiento", e.target.value)
-						}
-						disabled={!disponible}
+						onChange={(e) => set("numeroAlojamiento", e.target.value)}
 						readOnly
+						disabled={!fechasSeleccionadas}
 					/>
 				</div>
 			</div>

@@ -234,7 +234,7 @@ const DatosReservaTab: React.FC<{
 				<DisponibilidadModal
 					onClose={() => setShowDisponibilidad(false)}
 					onSelect={(room) => {
-						set("numeroAlojamiento", room.id);
+						set("numeroAlojamiento", room.code);
 						set("tipoAlojamiento", room.type);
 						setDisponible(true);
 					}}

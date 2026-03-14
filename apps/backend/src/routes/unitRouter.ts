@@ -3,6 +3,7 @@ import { body, param } from 'express-validator';
 import { handleInputErrors } from '../middleware/validation';
 import { UnitController } from '../controllers/UnitController';
 import Unit from '../models/Unit';
+import { seedUnits } from '../controllers/seed';
 
 const router = Router();
 
@@ -55,4 +56,7 @@ router.delete("/debug/clear-units", async (req, res) => {
     res.status(500).json({ error: "Error borrando units" });
   }
 });
+
+router.post("/seed-units", seedUnits);
+
 export default router;
