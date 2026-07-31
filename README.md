@@ -1,255 +1,89 @@
-# 🚀 Template Fullstack: React + Node.js
+# Hoster Fullstack
 
-¡Bienvenido! Este es un proyecto template fullstack diseñado para desarrolladores junior que quieren aprender cómo construir aplicaciones web modernas con React y Node.js.
+Plataforma fullstack de gestión hotelera (PMS): reservas, huéspedes, habitaciones, pagos, mantenimiento, incidentes y reportes potenciados con IA. Proyecto desarrollado en equipo durante un programa de formación, donde participé como desarrolladora frontend.
 
-## 📋 Descripción del Proyecto
+> Este repositorio es un fork personal del proyecto original ([IgrowkerTraining/i006-hoster-fullstack](https://github.com/IgrowkerTraining/i006-hoster-fullstack)), donde terminé de pulir algunos detalles pendientes tras la finalización del entrenamiento.
 
-Esta es una aplicación de autenticación completa con:
+## Descripción del Proyecto
 
-- **Frontend**: React + TypeScript + Vite + Tailwind CSS
-- **Backend**: Node.js + Express + JavaScript
-- **Autenticación**: Sistema de login y registro
-- **UI/UX**: Diseño moderno y responsivo
+Hoster es un sistema de gestión operativa para hoteles que centraliza:
 
-## 🗂️ Estructura del Proyecto
+- **Reservas**: alta, edición, check-in/check-out, búsqueda y disponibilidad de unidades
+- **Huéspedes y pagos**: datos del huésped, métodos de pago, monedas, orígenes de reserva
+- **Habitaciones / Unidades**: vista general de ocupación, servicios adicionales por unidad
+- **Mantenimiento e incidentes**: reporte y seguimiento de incidentes y tareas de mantenimiento
+- **Dashboard**: gráficos de ocupación, actividad diaria, últimas actividades y acciones rápidas
+- **Reportes con IA**: un servicio independiente que genera reportes y chat asistido usando un LLM
+
+## Arquitectura del Proyecto
+
+Proyecto compuesto por **tres servicios independientes**, cada uno con su propio `Dockerfile`, orquestados desde el `docker-compose.yml` de la raíz:
 
 ```
-template-react-node-fullstack/
+hoster-fullstack/
 ├── apps/
-│   ├── backend/          # Servidor Node.js
-│   │   ├── src/
-│   │   │   ├── controllers/
-│   │   │   ├── services/
-│   │   │   ├── routes/
-│   │   │   └── middleware/
-│   │   ├── server.js     # Punto de entrada
-│   │   └── package.json
-│   └── frontend/         # Aplicación React
-│       ├── src/
-│       │   ├── components/
-│       │   ├── pages/
-│       │   ├── hooks/
-│       │   ├── context/
-│       │   └── services/
-│       ├── index.html
-│       └── package.json
-└── README.md
+│   ├── backend/                # API principal - Node.js + TypeScript + Express
+│   │   └── src/
+│   │       ├── controllers/    # Auth, Reserve, Guest, Payment, Unit, Service,
+│   │       │                   # MaintenanceReport, IncidentReport, Currency, Origin, Method
+│   │       ├── models/         # Modelos (Sequelize/TS)
+│   │       ├── routes/
+│   │       ├── middleware/     # auth, validation
+│   │       └── config/         # db, cron, mailer, rate limiter
+│   │
+│   ├── ai-backend/             # Servicio de IA - Python + FastAPI
+│   │   ├── app/
+│   │   │   ├── api/v1/         # chat.py, reports.py, health.py
+│   │   │   ├── services/       # ai_service.py, llm_client.py
+│   │   │   └── db/             # modelos + migraciones (Alembic)
+│   │   └── migrations/
+│   │
+│   └── frontend/               # React + TypeScript + Vite
+│       └── src/
+│           ├── pages/          # Dashboard, RoomsOverview, Mantenimiento, Reports, Login...
+│           ├── components/     # dashboard, reservas, reportes, modals, charts
+│           ├── hooks/, services/, store/  # Redux + theming (dark/light)
+│           └── routes/         # rutas públicas/protegidas
+│
+├── docker-compose.yml
+└── package.json
 ```
 
 ## 🛠️ Tecnologías Utilizadas
 
 ### Frontend
 
-- **React 19**: Biblioteca principal de UI
-- **TypeScript**: Tipado estático
-- **Vite**: Herramienta de build y desarrollo
-- **React Router**: Manejo de rutas
-- **Tailwind CSS**: Framework de CSS
-- **pnpm**: Gestor de paquetes
+- **React 19** + **TypeScript** + **Vite**
+- **Redux** (store, theme slice) para estado global
+- **React Router** (rutas públicas/protegidas)
+- Gráficos de ocupación (donut charts)
+- Theming claro/oscuro
+- Nginx para servir el build en producción
 
-### Backend
+### Backend (API principal)
 
-- **Node.js**: Runtime de JavaScript
-- **Express**: Framework web
-- **CORS**: Middleware para cross-origin
-- **body-parser**: Middleware para parsear JSON
+- **Node.js** + **Express** + **TypeScript**
+- Autenticación con JWT + middleware de auth/validación
+- Cron jobs, rate limiting, envío de emails (nodemailer)
+- Colecciones de Postman incluidas para probar la API (`Hoster.postman_collection.json`, `Reserve.postman_collection.json`)
 
-## � Docker (Opcional)
+### AI Backend
 
-### Usar Docker Compose para Desarrollo
+- **Python** + **FastAPI**
+- **Alembic** para migraciones de base de datos
+- Cliente LLM propio (`llm_client.py`) para generación de reportes y chat asistido
 
-```bash
-# Iniciar ambos servicios con Docker
-docker-compose up --build
+### Infraestructura
 
-# Detener los servicios
-docker-compose down
-
-# Reconstruir y empezar
-docker-compose up --build --force-recreate
-```
-
-### Construir Imágenes Individuales
-
-```bash
-# Backend
-cd apps/backend
-docker build -t example-auth-backend .
-
-# Frontend
-cd apps/frontend
-docker build -t example-auth-frontend .
-```
-
-### Docker para Producción
-
-```bash
-# Usar el stage de producción
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
-```
-
-## �🚀 Instalación y Ejecución
+- **Docker** (un `Dockerfile` por servicio) + **Docker Compose** para orquestar los tres servicios juntos
 
 ### Prerrequisitos
 
-- Node.js (v18 o superior)
-- pnpm (recomendado) o npm
-- Docker y Docker Compose (opcional)
+- Node.js (v18+)
+- Python 3.11+
+- pnpm / npm
+- Docker y Docker Compose (opcional, ver sección de abajo)
 
-### 1. Instalar Dependencias
+## Sobre este fork
 
-```bash
-# Backend
-cd apps/backend
-npm install
-
-# Frontend
-cd apps/frontend
-pnpm install
-```
-
-### 2. Ejecutar las Aplicaciones
-
-```bash
-# Backend (en una terminal)
-cd apps/backend
-npm run dev
-# → Corre en http://localhost:3000
-
-# Frontend (en otra terminal)
-cd apps/frontend
-pnpm run dev
-# → Corre en http://localhost:5173
-```
-
-## 📚 Guía para Desarrolladores Junior
-
-### ¿Cómo funciona la aplicación?
-
-1. **Registro**: Los usuarios crean una cuenta con email y contraseña
-2. **Login**: Los usuarios inician sesión y reciben un token mock
-3. **Dashboard**: Vista protegida que muestra información del usuario
-
-### Flujo de Autenticación
-
-```
-Usuario → Frontend → Backend → Base de datos (mock) → Backend → Frontend → Usuario
-```
-
-### Componentes Principales del Frontend
-
-- **AuthProvider**: Contexto de React para manejar el estado de autenticación
-- **Login/Register**: Formularios de autenticación
-- **Dashboard**: Página protegida
-- **Routes**: Configuración de rutas públicas y privadas
-
-### Endpoints del Backend
-
-- `POST /api/auth/register` - Registrar nuevo usuario
-- `POST /api/auth/login` - Iniciar sesión
-- `GET /api/health` - Verificar estado del servidor
-
-## ⚠️ **IMPORTANTE: Esto es solo una base**
-
-Este proyecto es un **template educativo**. Para producción necesitas implementar:
-
-### 🔐 Seguridad Real
-
-- [ ] **Base de datos real** (PostgreSQL, MongoDB, etc.)
-- [ ] **JWT tokens** válidos con expiración
-- [ ] **Hashing de contraseñas** (bcrypt)
-- [ ] **Variables de entorno** para secrets
-- [ ] **Validación de inputs** más robusta
-- [ ] **Rate limiting** para prevenir ataques
-
-### 🗄️ Base de Datos
-
-```javascript
-// Ejemplo de lo que necesitarías implementar:
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { Pool } = require("pg");
-
-// Servicio de usuario real
-class UserService {
-  async create(userData) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    // Guardar en base de datos real
-  }
-
-  async authenticate(email, password) {
-    const user = await this.findByEmail(email);
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) throw new Error("Invalid credentials");
-    return user;
-  }
-}
-```
-
-### 🚀 Características Faltantes
-
-- [ ] **Recuperación de contraseña**
-- [ ] **Verificación de email**
-- [ ] **Perfil de usuario editable**
-- [ ] **Logout real** (invalidar tokens)
-- [ ] **Roles y permisos**
-- [ ] **Logs y auditoría**
-- [ ] **Tests unitarios y de integración**
-- [ ] **Dockerización**
-- [ ] **CI/CD pipeline**
-
-### 📊 Mejoras de Performance
-
-- [ ] **Caching** (Redis)
-- [ ] **CDN** para assets estáticos
-- [ ] **Lazy loading** de componentes
-- [ ] **Optimización de bundle**
-- [ ] **Service Worker** para PWA
-
-## 🐛 Problemas Comunes y Soluciones
-
-### "Port already in use"
-
-```bash
-# Matar proceso en puerto 3000
-lsof -ti:3000 | xargs kill -9
-```
-
-### "pnpm command not found"
-
-```bash
-# Instalar pnpm
-npm install -g pnpm
-```
-
-### Error de CORS
-
-Asegúrate que el backend tenga el middleware CORS configurado.
-
-## 🎯 Próximos Pasos Recomendados
-
-1. **Aprender sobre bases de datos SQL/NoSQL**
-2. **Estudiar JWT y autenticación moderna**
-3. **Implementar validación con Joi/Zod**
-4. **Agregar tests con Jest/Vitest**
-5. **Configurar Docker**
-6. **Desplegar en producción (Vercel, Railway, etc.)**
-
-## 📖 Recursos de Aprendizaje
-
-- [React Documentation](https://react.dev/)
-- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
-- [Express.js Guide](https://expressjs.com/en/guide/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-
-## 🤝 Contribuciones
-
-¡Este es un proyecto educativo! Si encuentras errores o tienes sugerencias, siéntete libre de abrir un issue o hacer un pull request.
-
-## 📄 Licencia
-
-MIT License - puedes usar este proyecto para aprender y construir tus propias aplicaciones.
-
----
-
-**Recuerda**: Este es solo el comienzo. La programación web es un campo vasto y emocionante. ¡Sigue aprendiendo y construyendo! 🚀
+Proyecto original desarrollado en equipo durante el programa de formación de **Igrowker**. Este fork contiene ajustes personales posteriores a la finalización del programa, enfocados en pulir detalles pendientes para portfolio.
